@@ -72,7 +72,7 @@ const Header = () => {
                 </li>
               </ul>
               <div onClick={handleBtnMenuToggle} className="wrap-btn-close">
-                <span class="material-symbols-outlined text-white font-weight-bold">
+                <span className="material-symbols-outlined text-white font-weight-bold">
                   close
                 </span>
               </div>
@@ -80,7 +80,7 @@ const Header = () => {
             <div className="col-xl-2 col-lg-3 col-sm-8 col-7 d-flex align-items-center gap-10">
               <span
                 onClick={handleBtnMenuToggle}
-                class="material-symbols-outlined text-white font-weight-bold fs-2 d-lg-none button-menu"
+                className="material-symbols-outlined text-white font-weight-bold fs-2 d-lg-none button-menu"
               >
                 menu
               </span>

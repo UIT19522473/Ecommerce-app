@@ -49,9 +49,9 @@ const Home = () => {
                     alt="main banner"
                   />
                   <div className="small-banner-content position-absolute">
-                    <h4>NEW ARRIVAL</h4>
-                    <h5>But IPad Air</h5>
-                    <p>
+                    <h4 className="small-banner-textnote">NEW ARRIVAL</h4>
+                    <h5 className="small-banner-textname">But IPad Air</h5>
+                    <p className="small-banner-textdes">
                       From $999.00 <br /> or $41.62/mo.
                     </p>
                   </div>

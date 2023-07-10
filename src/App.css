@@ -328,13 +328,41 @@ a {
   /* home page  */
 
   /* home page 1 */
-  .small-banner-content h5,
+
+  .small-banner-textnote {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  .small-banner-textdes {
+    font-size: 1em;
+    display: hiden;
+  }
+  /* home page 1 ends here */
+
   .small-banner-content h4 {
     font-size: 16px;
-    margin: 0;
+    font-weight: 400;
+    line-height: 12px;
+    color: var(--color-bf4800);
+    margin: 0 0 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .small-banner-content h5 {
+    font-size: 22px;
+    line-height: 24px;
+    letter-spacing: -2px;
+    font-weight: 500;
+    text-transform: none;
   }
 
-  /* home page 1 ends here */
+  .small-banner-content p {
+    font-size: 14px;
+    line-height: 12px;
+    letter-spacing: 0.4;
+    color: var(--color-131921);
+  }
 
   /* home page ends here */
 }
@@ -346,6 +374,29 @@ a {
   }
   .input-group-text {
     background-color: var(--color-febd69);
+  }
+  .small-banner-content h4 {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--color-bf4800);
+    margin: 0 0 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .small-banner-content h5 {
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: -2px;
+    font-weight: 500;
+    text-transform: none;
+  }
+
+  .small-banner-content p {
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: 0.4;
+    color: var(--color-131921);
   }
 }
 
@@ -414,10 +465,29 @@ a {
   /* home page  */
 
   /* home page 1 */
-  .small-banner-content h5,
+
   .small-banner-content h4 {
-    font-size: 16px;
-    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: var(--color-bf4800);
+    margin: 0 0 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .small-banner-content h5 {
+    font-size: 20px;
+    line-height: 30px;
+    letter-spacing: -2px;
+    font-weight: 500;
+    text-transform: none;
+  }
+
+  .small-banner-content p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.4;
+    color: var(--color-131921);
   }
 
   /* home page 1 ends here */
