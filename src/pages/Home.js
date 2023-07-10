@@ -4,7 +4,52 @@ import Marquee from "react-fast-marquee";
 import BlogCard from "../components/BlogCard";
 import ProductCard from "../components/ProductCard";
 
+import Slider from "react-slick";
+
 const Home = () => {
+  var settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
   return (
     <>
       <section className="home-wrapper-1 py-5">
@@ -97,35 +142,35 @@ const Home = () => {
               <div className="services d-flex align-items-center justify-content-between">
                 <div className="d-flex align-items-center gap-10">
                   <img src="images/service.png" alt="services" />
-                  <div>
+                  <div className="d-md-block d-none">
                     <h6>Fee Shipping</h6>
                     <p className="p-0 mb-0">From all orders over $100</p>
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
                   <img src="images/service-02.png" alt="services" />
-                  <div>
+                  <div className="d-md-block d-none">
                     <h6>Daily Surprise Offers</h6>
                     <p className="p-0 mb-0">Save up to 25% off</p>
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
                   <img src="images/service-03.png" alt="services" />
-                  <div>
+                  <div className="d-md-block d-none">
                     <h6>Support 24/7</h6>
                     <p className="p-0 mb-0">Shop with an expert</p>
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
                   <img src="images/service-04.png" alt="services" />
-                  <div>
+                  <div className="d-md-block d-none">
                     <h6>Affordable Prices</h6>
                     <p className="p-0 mb-0">Get Factory direct price</p>
                   </div>
                 </div>
                 <div className="d-flex align-items-center gap-15">
                   <img src="images/service-05.png" alt="services" />
-                  <div>
+                  <div className="d-md-block d-none">
                     <h6>Secure Payments</h6>
                     <p className="p-0 mb-0">100% Protected Payments</p>
                   </div>
@@ -139,7 +184,7 @@ const Home = () => {
       <section className="home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-12">
+            <div className="col-12 wrap-categories">
               <div className="categories d-flex justify-content-between align-items-center flex-wrap">
                 <div className="d-flex align-items-center gap-30">
                   <div>
@@ -204,6 +249,45 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* test */}
+      <div className="home-wrapper-2">
+        <div className="container-xxl bg-white">
+          <h2> Single Item</h2>
+          <Slider {...settings}>
+            <div className="d-flex align-items-center gap-30">
+              <div>
+                <h6>Cameras</h6>
+                <p className="mb-0">10 Items</p>
+              </div>
+              <img src="images/camera.jpg" alt="camera" />
+            </div>
+            <div className="d-flex align-items-center gap-30">
+              <div>
+                <h6>Cameras</h6>
+                <p className="mb-0">10 Items</p>
+              </div>
+              <img src="images/camera.jpg" alt="camera" />
+            </div>
+            <div className="d-flex align-items-center gap-30">
+              <div>
+                <h6>Cameras</h6>
+                <p className="mb-0">10 Items</p>
+              </div>
+              <img src="images/camera.jpg" alt="camera" />
+            </div>
+            <div className="d-flex align-items-center gap-30">
+              <div>
+                <h6>Cameras</h6>
+                <p className="mb-0">10 Items</p>
+              </div>
+              <img src="images/camera.jpg" alt="camera" />
+            </div>
+          </Slider>
+        </div>
+      </div>
+
+      {/* ----- */}
       <section className="featured-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">

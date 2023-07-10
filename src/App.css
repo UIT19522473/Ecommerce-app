@@ -262,6 +262,35 @@ a {
 }
 /* home page 1 ends here */
 
+/* home page 2 */
+
+.categories {
+  background-color: white;
+  box-shadow: 0 0 10px #0000001a;
+  padding: 15px;
+  overflow-x: scroll;
+  width: fit-content;
+}
+
+.categories > div > div {
+  width: 50%;
+}
+
+.categories > div {
+  width: 25%;
+  padding: 10px;
+}
+
+.categories > div:not(:last-child, :nth-child(4)) {
+  border-right: 1px solid var(--color-ededed);
+}
+
+.categories
+  > div:not(:nth-child(5), :nth-child(6), :nth-child(7), :nth-child(8)) {
+  border-bottom: 1px solid var(--color-ededed);
+}
+/* home page 2 ends here */
+
 /* home page ends here */
 
 @keyframes sideMenuOpen {
@@ -340,8 +369,32 @@ a {
   }
   /* home page 1 ends here */
 
-  .small-banner-content h4 {
+  .main-banner-content h4 {
     font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--color-bf4800);
+    margin: 0 0 12px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .main-banner-content h5 {
+    font-size: 38px;
+    line-height: 54px;
+    letter-spacing: -2px;
+    font-weight: 500;
+    text-transform: none;
+  }
+
+  .main-banner-content p {
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0.4;
+    color: var(--color-131921);
+  }
+
+  .small-banner-content h4 {
+    font-size: 15px;
     font-weight: 400;
     line-height: 12px;
     color: var(--color-bf4800);
@@ -350,7 +403,7 @@ a {
     text-transform: uppercase;
   }
   .small-banner-content h5 {
-    font-size: 22px;
+    font-size: 18px;
     line-height: 24px;
     letter-spacing: -2px;
     font-weight: 500;
@@ -358,7 +411,7 @@ a {
   }
 
   .small-banner-content p {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 12px;
     letter-spacing: 0.4;
     color: var(--color-131921);
@@ -375,6 +428,7 @@ a {
   .input-group-text {
     background-color: var(--color-febd69);
   }
+
   .small-banner-content h4 {
     font-size: 18px;
     font-weight: 400;
@@ -794,4 +848,8 @@ a {
   }
 
   /* Product Cart Ends Here */
+}
+
+.categories-test {
+  overflow-x: scroll;
 }
