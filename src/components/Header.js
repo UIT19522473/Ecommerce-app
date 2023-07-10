@@ -1,20 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 
 const Header = () => {
+  //open menu large screen
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleDropdownToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  //open menu responsive
+  const [isOpenSm, setIsOpenSm] = useState(false);
+
+  const handleBtnMenuToggle = () => {
+    setIsOpenSm(!isOpenSm);
+  };
   return (
     <>
       <header className="header-top-strip py-3">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-6">
-              <p className="text-white mb-0">
+            <div className="col-lg-6 d-lg-block d-none">
+              <p className="text-white mb-0 ">
                 Free Shipping Over $100 & Free Returns
               </p>
             </div>
-            <div className="col-6">
-              <p className="text-end text-white mb-0">
+            <div className="col-lg-6 col-12">
+              <p className="text-lg-end text-center text-white mb-0">
                 Hotline:
                 <a className="ms-1 text-white" href="tel:+91 000000000">
                   (000) 012 345 xxx
@@ -27,14 +40,56 @@ const Header = () => {
 
       <header className="header-upper py-3">
         <div className="container-xxl">
-          <div className="row align-items-center">
-            <div className="col-2 ">
-              <h2>
+          <div className="row align-items-center wrap-header-upper">
+            <div
+              className={`menu-responsive ${isOpenSm ? "opensm" : "closesm"}`}
+            >
+              <ul className="text-white">
+                <li>
+                  <Link className=" text-white" to="#">
+                    Action
+                  </Link>
+                </li>
+                <li>
+                  <Link className=" text-white" to="#">
+                    Another action
+                  </Link>
+                </li>
+                <li>
+                  <Link className="text-white" to="#">
+                    Something else here
+                  </Link>
+                </li>
+                <li>
+                  <Link className=" text-white" to="#">
+                    Something else here
+                  </Link>
+                </li>
+                <li>
+                  <Link className=" text-white" to="#">
+                    Something else here
+                  </Link>
+                </li>
+              </ul>
+              <div onClick={handleBtnMenuToggle} className="wrap-btn-close">
+                <span class="material-symbols-outlined text-white font-weight-bold">
+                  close
+                </span>
+              </div>
+            </div>
+            <div className="col-xl-2 col-lg-3 col-sm-8 col-7 d-flex align-items-center gap-10">
+              <span
+                onClick={handleBtnMenuToggle}
+                class="material-symbols-outlined text-white font-weight-bold fs-2 d-lg-none button-menu"
+              >
+                menu
+              </span>
+              <h2 className="text-name mb-0">
                 <Link className="text-white">TuanNguyen</Link>
               </h2>
             </div>
-            <div className="col-5">
-              <div className="input-group">
+            <div className="col-xl-5 col-lg-6 d-none d-lg-block">
+              <div className="input-group ">
                 <input
                   type="text"
                   className="form-control py-2"
@@ -42,17 +97,21 @@ const Header = () => {
                   aria-label="Search product here..."
                   aria-describedby="basic-addon2"
                 />
-                <span className="input-group-text p-3" id="basic-addon2">
-                  <BsSearch className="fs-6" />
+                <span className="input-group-text px-3" id="basic-addon2">
+                  <BsSearch className="fs-10" />
                 </span>
               </div>
             </div>
-            <div className="col-5">
+            <div className="col-xl-5 col-lg-3 col-sm-4 col-5">
               <div className="header-upper-link d-flex align-items-center justify-content-between">
                 <div>
                   <Link className="d-flex align-items-center gap-10 text-white">
-                    <img src="images/compare.svg" alt="compare" />
-                    <p className="mb-0 d-none d-md-block">
+                    <img
+                      className="img-item"
+                      src="images/compare.svg"
+                      alt="compare"
+                    />
+                    <p className="text-item mb-0">
                       Compare <br />
                       Products
                     </p>
@@ -61,8 +120,12 @@ const Header = () => {
 
                 <div>
                   <Link className="d-flex align-items-center gap-10 text-white">
-                    <img src="images/wishlist.svg" alt="" />
-                    <p className="mb-0 d-none d-md-block">
+                    <img
+                      className="img-item"
+                      src="images/wishlist.svg"
+                      alt=""
+                    />
+                    <p className="text-item mb-0">
                       Favorite <br />
                       Wishlists
                     </p>
@@ -71,20 +134,30 @@ const Header = () => {
 
                 <div>
                   <Link className="d-flex align-items-center gap-10 text-white">
-                    <img src="images/user.svg" alt="account" />
-                    <p className="mb-0 d-none d-md-block">
+                    <img
+                      className="img-item"
+                      src="images/user.svg"
+                      alt="account"
+                    />
+                    <p className="text-item mb-0">
                       Login <br />
                       My Account
                     </p>
                   </Link>
                 </div>
 
-                <div>
+                <div className="wrap-cart">
                   <Link className="d-flex align-items-center gap-10 text-white">
-                    <img src="images/cart.svg" alt="cart" />
-                    <div className="d-flex flex-column">
-                      <span className="badge bg-white text-dark">0</span>
-                      <p className="mb-0">$ 5000</p>
+                    <img
+                      className="img-item"
+                      src="images/cart.svg"
+                      alt="cart"
+                    />
+                    <div className="d-flex flex-column box-cost">
+                      <span className="icon-badge badge bg-white text-dark">
+                        0
+                      </span>
+                      <p className="text-cost mb-0">$ 5000</p>
                     </div>
                   </Link>
                 </div>
@@ -96,21 +169,37 @@ const Header = () => {
 
       <header className="header-bottom py-3">
         <div className="container-xxl">
-          <div className="row">
-            <div className="col-12">
+          <div className="row d-flex justify-content-center item-center">
+            <div className="col-8 d-lg-none">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control py-2"
+                  placeholder="Search product here..."
+                  aria-label="Search product here..."
+                  aria-describedby="basic-addon2"
+                />
+                <span className="input-group-text px-3" id="basic-addon2">
+                  <BsSearch className="fs-10" />
+                </span>
+              </div>
+            </div>
+            <div className="d-none d-lg-block col-12">
               <div className="menu-bottom d-flex align-items-center gap-30">
                 <div>
-                  <div className="dropdown">
+                  <div className={`dropdown ${isOpen ? "open" : "close"}`}>
                     <button
+                      onClick={handleDropdownToggle}
                       className="btn btn-secondary dropdown-toggle bg-transparent border-0 d-flex gap-15 align-items-center"
                       type="button"
-                      data-bs-toggle="dropdown"
+                      // data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <img src="images/menu.svg" alt="menu" />{" "}
+                      <img src="images/menu.svg" alt="menu" />
                       <span>Shop Categories</span>
                     </button>
-                    <ul className="dropdown-menu">
+
+                    <ul className="menu">
                       <li>
                         <Link className="dropdown-item text-white" to="#">
                           Action
@@ -119,6 +208,16 @@ const Header = () => {
                       <li>
                         <Link className="dropdown-item text-white" to="#">
                           Another action
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item text-white" to="#">
+                          Something else here
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item text-white" to="#">
+                          Something else here
                         </Link>
                       </li>
                       <li>

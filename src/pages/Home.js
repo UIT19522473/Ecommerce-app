@@ -10,11 +10,11 @@ const Home = () => {
       <section className="home-wrapper-1 py-5">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-6">
-              <div className="main-banner position-relative  p-2">
+            <div className="col-lg-6 col-12 mb-2">
+              <div className="main-banner position-relative">
                 <img
                   src="images/main-banner.jpg"
-                  className="img-fluid rounded-3"
+                  className="img-fluid rounded-3 img-main"
                   alt="main-banner"
                 />
 
@@ -26,12 +26,12 @@ const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="col-6">
-              <div className="d-flex flex-wrap gap-10 justify-content-between align-items-center">
-                <div className="small-banner position-relative">
+            <div className="col-lg-6 col-12">
+              <div className="d-flex flex-wrap justify-content-between align-items-center">
+                <div className="small-banner position-relative mb-2">
                   <img
                     src="images/catbanner-01.jpg"
-                    className="img-fluid rounded-3"
+                    className="img-fluid rounded-3 img-main"
                     alt="main banner"
                   />
                   <div className="small-banner-content position-absolute">
@@ -42,10 +42,10 @@ const Home = () => {
                     </p>
                   </div>
                 </div>
-                <div className="small-banner position-relative">
+                <div className="small-banner position-relative mb-2">
                   <img
                     src="images/catbanner-02.jpg"
-                    className="img-fluid rounded-3"
+                    className="img-fluid rounded-3 img-main"
                     alt="main banner"
                   />
                   <div className="small-banner-content position-absolute">
@@ -59,7 +59,7 @@ const Home = () => {
                 <div className="small-banner position-relative ">
                   <img
                     src="images/catbanner-03.jpg"
-                    className="img-fluid rounded-3"
+                    className="img-fluid rounded-3 img-main"
                     alt="main banner"
                   />
                   <div className="small-banner-content position-absolute">
@@ -73,7 +73,7 @@ const Home = () => {
                 <div className="small-banner position-relative ">
                   <img
                     src="images/catbanner-04.jpg"
-                    className="img-fluid rounded-3"
+                    className="img-fluid rounded-3 img-main"
                     alt="main banner"
                   />
                   <div className="small-banner-content position-absolute">

@@ -36,7 +36,7 @@ const ProductCard = () => {
             onChange={ratingChanged}
             size={24}
             activeColor="#ffd700"
-            value="3"
+            value={3}
             edit={false}
           />
           <p className="price">$100.000</p>
