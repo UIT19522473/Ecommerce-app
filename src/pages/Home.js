@@ -8,8 +8,8 @@ import Slider from "react-slick";
 
 const Home = () => {
   var settings = {
-    dots: true,
-    infinite: false,
+    dots: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
@@ -21,7 +21,7 @@ const Home = () => {
           slidesToShow: 3,
           slidesToScroll: 3,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -30,7 +30,7 @@ const Home = () => {
           slidesToShow: 2,
           slidesToScroll: 2,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -38,6 +38,7 @@ const Home = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
+          infinite: true,
           initialSlide: 2,
         },
       },
@@ -45,6 +46,7 @@ const Home = () => {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
+          infinite: true,
           slidesToScroll: 1,
         },
       },
@@ -181,7 +183,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="home-wrapper-2 py-5">
+      {/* <section className="home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
             <div className="col-12 wrap-categories">
@@ -248,44 +250,82 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* test */}
-      <div className="home-wrapper-2">
-        <div className="container-xxl bg-white">
-          <h2> Single Item</h2>
-          <Slider {...settings}>
-            <div className="d-flex align-items-center gap-30">
-              <div>
-                <h6>Cameras</h6>
-                <p className="mb-0">10 Items</p>
+      <section className="home-wrapper-2 py-5">
+        <div className="container-xxl ">
+          <div className="bg-white categories-test">
+            <Slider {...settings}>
+              <div className="categories-part">
+                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/tv.jpg" alt="camera" />
+                </div>
+                <div className="d-flex align-items-center justify-content-between px-3 ">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/camera.jpg" alt="camera" />
+                </div>
               </div>
-              <img src="images/camera.jpg" alt="camera" />
-            </div>
-            <div className="d-flex align-items-center gap-30">
-              <div>
-                <h6>Cameras</h6>
-                <p className="mb-0">10 Items</p>
+              <div className="categories-part">
+                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/homeapp.jpg" alt="camera" />
+                </div>
+                <div className="d-flex align-items-center justify-content-between px-3 ">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/headphone.jpg" alt="camera" />
+                </div>
               </div>
-              <img src="images/camera.jpg" alt="camera" />
-            </div>
-            <div className="d-flex align-items-center gap-30">
-              <div>
-                <h6>Cameras</h6>
-                <p className="mb-0">10 Items</p>
+
+              <div className="categories-part">
+                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/tv.jpg" alt="camera" />
+                </div>
+                <div className="d-flex align-items-center justify-content-between px-3">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/camera.jpg" alt="camera" />
+                </div>
               </div>
-              <img src="images/camera.jpg" alt="camera" />
-            </div>
-            <div className="d-flex align-items-center gap-30">
-              <div>
-                <h6>Cameras</h6>
-                <p className="mb-0">10 Items</p>
+              <div className="categories-part">
+                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/homeapp.jpg" alt="camera" />
+                </div>
+                <div className="d-flex align-items-center justify-content-between px-3 ">
+                  <div>
+                    <h6>Cameras</h6>
+                    <p className="mb-0">10 Items</p>
+                  </div>
+                  <img src="images/headphone.jpg" alt="camera" />
+                </div>
               </div>
-              <img src="images/camera.jpg" alt="camera" />
-            </div>
-          </Slider>
+            </Slider>
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* ----- */}
       <section className="featured-wrapper home-wrapper-2 py-5">
