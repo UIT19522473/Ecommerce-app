@@ -1,0 +1,57 @@
+.container {
+  margin-bottom: 72px;
+}
+
+.signup-form {
+  width: 40%;
+  min-width: 300px;
+  padding: 32px;
+  -webkit-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 24px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+}
+.input-signup {
+  background-color: #f7f7f7;
+  border: none;
+}
+
+.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+  border: none;
+}
+
+.wrap-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px;
+}
+
+.btn-form {
+  padding: 4px 18px;
+  border-radius: 16px;
+  min-width: 80px;
+  margin-top: 12px;
+  font-weight: 500;
+  color: black;
+  border: 3px solid #3b4149;
+}
+
+.btn-form--create {
+  background: #3b4149;
+  color: white;
+  border-color: transparent;
+}
+
+.text-link {
+  color: rgb(95, 95, 95);
+}
+
+.name-content {
+  background-color: whitesmoke;
+}
+
+.link-forgot {
+  font-size: 14px;
+}
