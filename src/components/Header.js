@@ -133,7 +133,10 @@ const Header = () => {
                 </div>
 
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white">
+                  <NavLink
+                    to={"/account/login"}
+                    className="d-flex align-items-center gap-10 text-white"
+                  >
                     <img
                       className="img-item"
                       src="images/user.svg"
@@ -143,7 +146,7 @@ const Header = () => {
                       Login <br />
                       My Account
                     </p>
-                  </Link>
+                  </NavLink>
                 </div>
 
                 <div className="wrap-cart">
