@@ -6,11 +6,15 @@ const ProductCard = () => {
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };
+
   return (
-    <div className="col-3">
-      <Link className="product-card position-relative">
+    <div
+      // className="col-3"
+      className="wrap-product-cart"
+    >
+      <div className="product-card position-relative">
         <div className="wishlist-icon position-absolute">
-          <Link>
+          <Link to={"#"}>
             <img src="images/wish.svg" alt="wishlist" />
           </Link>
         </div>
@@ -44,18 +48,18 @@ const ProductCard = () => {
 
         <div className="action-bar position-absolute">
           <div className="d-flex flex-column gap-15">
-            <Link>
+            <Link to="#">
               <img src="images/view.svg" alt="view" />
             </Link>
-            <Link>
+            <Link to="#">
               <img src="images/prodcompare.svg" alt="compare" />
             </Link>
-            <Link>
+            <Link to="#">
               <img src="images/add-cart.svg" alt="add-card" />
             </Link>
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 };

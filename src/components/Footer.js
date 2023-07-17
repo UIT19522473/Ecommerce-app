@@ -36,7 +36,7 @@ const Footer = () => {
       <footer className="py-4">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-sm-4 col-6 mb-3">
+            <div className="col-sm-4 col-6 mb-3 col-middle-footer">
               <h4 className="text-white mb-4">Contact Us</h4>
               <div>
                 <address className="text-white fs-6">
@@ -73,7 +73,7 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div className="col-sm-3 col-6 mb-3">
+            <div className="col-sm-3 col-6 mb-3 col-middle-footer">
               <h4 className="text-white mb-4">Information</h4>
               <div className="footer-links d-flex flex-column">
                 <Link className="text-white py-2 mb-1">Privacy Policy</Link>
@@ -83,7 +83,7 @@ const Footer = () => {
                 <Link className="text-white py-2 mb-1">Blogs</Link>
               </div>
             </div>
-            <div className="col-sm-3 col-6 mb-3">
+            <div className="col-sm-3 col-6 mb-3 col-middle-footer">
               <h4 className="text-white mb-4">Account</h4>
               <div className="footer-links d-flex flex-column">
                 <Link className="text-white py-2 mb-1">About us</Link>
@@ -91,7 +91,7 @@ const Footer = () => {
                 <Link className="text-white py-2 mb-1">Contact</Link>
               </div>
             </div>
-            <div className="col-sm-2 col-6 mb-3">
+            <div className="col-sm-2 col-6 mb-3 col-middle-footer">
               <h4 className="text-white mb-4">Quick Links</h4>
               <div className="footer-links d-flex flex-column">
                 <Link className="text-white py-2 mb-1">Laptop</Link>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from "../components/BlogCard";
@@ -7,6 +7,7 @@ import ProductCard from "../components/ProductCard";
 import Slider from "react-slick";
 
 const Home = () => {
+  // setting categories part
   var settings = {
     dots: false,
     infinite: true,
@@ -52,6 +53,74 @@ const Home = () => {
       },
     ],
   };
+
+  //setting product cards
+
+  const sliderRef = useRef(null);
+  const sliderRefNews = useRef(null);
+
+  const next = () => {
+    sliderRef.current.slickNext();
+  };
+
+  const previous = () => {
+    sliderRef.current.slickPrev();
+  };
+
+  const nextNews = () => {
+    sliderRefNews.current.slickNext();
+  };
+
+  const previousNews = () => {
+    sliderRefNews.current.slickPrev();
+  };
+
+  var settingProductCards = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          infinite: true,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <section className="home-wrapper-1 py-5">
@@ -331,13 +400,29 @@ const Home = () => {
       <section className="featured-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-12">
-              <h3 className="section-heading">Featured Collection</h3>
+            <div className="col-12 d-flex justify-content-between align-items-center mb-4">
+              <h3 className="section-heading mb-0">Featured Collection</h3>
+              <div className="" style={{ textAlign: "right" }}>
+                <button className="btn-pre" onClick={previous}>
+                  <span class="material-symbols-outlined fw-bold fs-5 ">
+                    arrow_back_ios
+                  </span>
+                </button>
+
+                <button className="btn-next" onClick={next}>
+                  <span class="material-symbols-outlined fw-bold fs-5">
+                    arrow_forward_ios
+                  </span>
+                </button>
+              </div>
             </div>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
+
+            <Slider ref={sliderRef} {...settingProductCards}>
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+            </Slider>
           </div>
         </div>
       </section>
@@ -382,13 +467,28 @@ const Home = () => {
       <section className="blog-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
-            <div className="col-12">
-              <h3 className="section-heading">Our latest Blogs</h3>
+            <div className="col-12 d-flex justify-content-between align-items-center mb-4">
+              <h3 className="section-heading mb-0">Our Latest News</h3>
+              <div className="" style={{ textAlign: "right" }}>
+                <button className="btn-pre" onClick={previousNews}>
+                  <span class="material-symbols-outlined fw-bold fs-5 ">
+                    arrow_back_ios
+                  </span>
+                </button>
+
+                <button className="btn-next" onClick={nextNews}>
+                  <span class="material-symbols-outlined fw-bold fs-5">
+                    arrow_forward_ios
+                  </span>
+                </button>
+              </div>
             </div>
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
-            <BlogCard />
+            <Slider ref={sliderRefNews} {...settingProductCards}>
+              <BlogCard />
+              <BlogCard />
+              <BlogCard />
+              <BlogCard />
+            </Slider>
           </div>
         </div>
       </section>

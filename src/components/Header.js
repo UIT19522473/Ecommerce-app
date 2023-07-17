@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   //open menu large screen
@@ -16,6 +17,8 @@ const Header = () => {
   const handleBtnMenuToggle = () => {
     setIsOpenSm(!isOpenSm);
   };
+
+  const user = useSelector((state) => state.user);
   return (
     <>
       <header className="header-top-strip py-3">
@@ -142,10 +145,16 @@ const Header = () => {
                       src="images/user.svg"
                       alt="account"
                     />
-                    <p className="text-item mb-0">
-                      Login <br />
-                      My Account
-                    </p>
+                    {user.currentUser ? (
+                      <p className="mb-0 mt-3 text-item">
+                        {user.currentUser?.firstname}
+                      </p>
+                    ) : (
+                      <p className="text-item mb-0">
+                        Login <br />
+                        My Account
+                      </p>
+                    )}
                   </NavLink>
                 </div>
 
