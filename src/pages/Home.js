@@ -58,6 +58,7 @@ const Home = () => {
 
   const sliderRef = useRef(null);
   const sliderRefNews = useRef(null);
+  const sliderRefPopular = useRef(null);
 
   const next = () => {
     sliderRef.current.slickNext();
@@ -73,6 +74,14 @@ const Home = () => {
 
   const previousNews = () => {
     sliderRefNews.current.slickPrev();
+  };
+
+  const nextPopular = () => {
+    sliderRefPopular.current.slickNext();
+  };
+
+  const previousPopular = () => {
+    sliderRefPopular.current.slickPrev();
   };
 
   var settingProductCards = {
@@ -116,6 +125,45 @@ const Home = () => {
           slidesToShow: 1,
           infinite: true,
           slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
+  // setting popular
+  var settingPopular = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 991,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          initialSlide: 2,
         },
       },
     ],
@@ -423,6 +471,77 @@ const Home = () => {
               <ProductCard />
               <ProductCard />
             </Slider>
+          </div>
+        </div>
+      </section>
+
+      <section className="popular-wrapper home-wrapper-2 py-5">
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-12 d-flex justify-content-between align-items-center mb-4">
+              <h3 className="section-heading mb-0">Our Popular Products</h3>
+              <div className="" style={{ textAlign: "right" }}>
+                <button className="btn-pre" onClick={previousPopular}>
+                  <span class="material-symbols-outlined fw-bold fs-5 ">
+                    arrow_back_ios
+                  </span>
+                </button>
+
+                <button className="btn-next" onClick={nextPopular}>
+                  <span class="material-symbols-outlined fw-bold fs-5">
+                    arrow_forward_ios
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div className="col-12">
+              <div className="row">
+                <div className="col-lg-3 d-flex flex-lg-column gap-30 mb-2 option-popular">
+                  <div className="d-flex align-items-center gap-15">
+                    <div>
+                      <img
+                        src="https://demo-digitic.myshopify.com/cdn/shop/files/cat-icon-03.png?v=1655700532"
+                        alt="logo"
+                      />
+                    </div>
+                    <p className="mb-0 fw-medium">Smart Watch</p>
+                  </div>
+                  <div className="d-flex align-items-center gap-15">
+                    <div>
+                      <img
+                        src="https://demo-digitic.myshopify.com/cdn/shop/files/cat-icon-01.png?v=1655699946"
+                        alt="logo"
+                      />
+                    </div>
+                    <p className="mb-0 fw-medium">Speaker</p>
+                  </div>
+                  <div className="d-flex align-items-center gap-15">
+                    <div>
+                      <img
+                        src="https://demo-digitic.myshopify.com/cdn/shop/files/cat-icon-02.png?v=1655700520"
+                        alt="logo"
+                      />
+                    </div>
+                    <p className="mb-0 fw-medium">Laptops</p>
+                  </div>
+                </div>
+                <div className="col-lg-3 col-md-4 col-sm-6 col-5 img-discount">
+                  <img
+                    src="https://demo-digitic.myshopify.com/cdn/shop/files/cat-product-banner.jpg?v=1655367105"
+                    alt="img"
+                  />
+                </div>
+                <div className="col-lg-6 col-md-8 col-sm-6 col-7">
+                  <Slider ref={sliderRefPopular} {...settingPopular}>
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                  </Slider>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
