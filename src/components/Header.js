@@ -111,7 +111,7 @@ const Header = () => {
                   <Link className="d-flex align-items-center gap-10 text-white">
                     <img
                       className="img-item"
-                      src="images/compare.svg"
+                      src="/images/compare.svg"
                       alt="compare"
                     />
                     <p className="text-item mb-0">
@@ -125,7 +125,7 @@ const Header = () => {
                   <Link className="d-flex align-items-center gap-10 text-white">
                     <img
                       className="img-item"
-                      src="images/wishlist.svg"
+                      src="/images/wishlist.svg"
                       alt=""
                     />
                     <p className="text-item mb-0">
@@ -142,7 +142,7 @@ const Header = () => {
                   >
                     <img
                       className="img-item"
-                      src="images/user.svg"
+                      src="/images/user.svg"
                       alt="account"
                     />
                     {user.currentUser ? (
@@ -162,7 +162,7 @@ const Header = () => {
                   <Link className="d-flex align-items-center gap-10 text-white">
                     <img
                       className="img-item"
-                      src="images/cart.svg"
+                      src="/images/cart.svg"
                       alt="cart"
                     />
                     <div className="d-flex flex-column box-cost">
@@ -207,7 +207,7 @@ const Header = () => {
                       // data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <img src="images/menu.svg" alt="menu" />
+                      <img src="/images/menu.svg" alt="menu" />
                       <span>Shop Categories</span>
                     </button>
 

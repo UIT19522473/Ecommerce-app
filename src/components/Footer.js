@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="row align-items-center">
             <div className="col-lg-5 col-1">
               <div className="footer-top-data d-flex gap-30 align-items-center">
-                <img src="images/newsletter.png" alt="newsletter" />
+                <img src="/images/newsletter.png" alt="newsletter" />
                 <h2 className="mb-0 text-white d-none d-lg-block">
                   Sign Up for Newsletter
                 </h2>
