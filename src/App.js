@@ -12,7 +12,7 @@ import Login from "./pages/Login";
 function App() {
   return (
     <>
-      <BrowserRouter basename="/my-app">
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
