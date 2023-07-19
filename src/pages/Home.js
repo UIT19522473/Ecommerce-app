@@ -534,7 +534,9 @@ const Home = () => {
                 </div>
                 <div className="col-lg-6 col-md-8 col-sm-6 col-7">
                   <Slider ref={sliderRefPopular} {...settingPopular}>
-                    <ProductCard />
+                    <div className="">
+                      <ProductCard />
+                    </div>
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
