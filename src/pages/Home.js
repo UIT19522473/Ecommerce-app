@@ -5,61 +5,17 @@ import BlogCard from "../components/BlogCard";
 import ProductCard from "../components/ProductCard";
 
 import Slider from "react-slick";
+import * as SettingSlick from "./settingSlick";
+import SmBanner from "../components/SmBanner";
+import SpecialProduct from "../components/SpecialProduct";
 
 const Home = () => {
-  // setting categories part
-  var settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          infinite: true,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
-  //setting product cards
-
   const sliderRef = useRef(null);
   const sliderRefNews = useRef(null);
   const sliderRefPopular = useRef(null);
-
+  const sliderRefSpecial = useRef(null);
+  const sliderRefSpecial2 = useRef(null);
+  //categories
   const next = () => {
     sliderRef.current.slickNext();
   };
@@ -67,6 +23,8 @@ const Home = () => {
   const previous = () => {
     sliderRef.current.slickPrev();
   };
+
+  // blogs
 
   const nextNews = () => {
     sliderRefNews.current.slickNext();
@@ -76,6 +34,7 @@ const Home = () => {
     sliderRefNews.current.slickPrev();
   };
 
+  //populars
   const nextPopular = () => {
     sliderRefPopular.current.slickNext();
   };
@@ -84,93 +43,20 @@ const Home = () => {
     sliderRefPopular.current.slickPrev();
   };
 
-  var settingProductCards = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          infinite: true,
-          slidesToScroll: 1,
-        },
-      },
-    ],
+  //Special Products
+  const nextSpecial = () => {
+    sliderRefSpecial.current.slickNext();
+    sliderRefSpecial2.current.slickNext();
   };
 
-  // setting popular
-  var settingPopular = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 2,
-    slidesToScroll: 2,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 991,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 767,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          initialSlide: 2,
-        },
-      },
-    ],
+  const previousSpecial = () => {
+    sliderRefSpecial.current.slickPrev();
+    sliderRefSpecial2.current.slickPrev();
   };
 
   return (
     <>
+      {/* big banner */}
       <section className="home-wrapper-1 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -254,6 +140,7 @@ const Home = () => {
         </div>
       </section>
 
+      {/* services */}
       <section className="home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -300,80 +187,11 @@ const Home = () => {
         </div>
       </section>
 
-      {/* <section className="home-wrapper-2 py-5">
-        <div className="container-xxl">
-          <div className="row">
-            <div className="col-12 wrap-categories">
-              <div className="categories d-flex justify-content-between align-items-center flex-wrap">
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/camera.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Smart TV</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/tv.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Smart Watches</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/headphone.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Music & Gaming</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/homeapp.jpg" alt="camera" />
-                </div>
-
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Smart TV</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/tv.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/camera.jpg" alt="camera" />
-                </div>
-
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Music & Gaming</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/homeapp.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center gap-30">
-                  <div>
-                    <h6>Smart Watches</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/headphone.jpg" alt="camera" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* test */}
+      {/* categories */}
       <section className="home-wrapper-2 py-5">
         <div className="container-xxl ">
           <div className="bg-white categories-test">
-            <Slider {...settings}>
+            <Slider {...SettingSlick.settingCategories}>
               <div className="categories-part">
                 <div className="d-flex align-items-center justify-content-between px-3 categories-item">
                   <div>
@@ -444,7 +262,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ----- */}
+      {/* Featured Collection */}
       <section className="featured-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -452,20 +270,24 @@ const Home = () => {
               <h3 className="section-heading mb-0">Featured Collection</h3>
               <div className="" style={{ textAlign: "right" }}>
                 <button className="btn-pre" onClick={previous}>
-                  <span class="material-symbols-outlined fw-bold fs-5 ">
+                  <span className="material-symbols-outlined fw-bold fs-5 ">
                     arrow_back_ios
                   </span>
                 </button>
 
                 <button className="btn-next" onClick={next}>
-                  <span class="material-symbols-outlined fw-bold fs-5">
+                  <span className="material-symbols-outlined fw-bold fs-5">
                     arrow_forward_ios
                   </span>
                 </button>
               </div>
             </div>
 
-            <Slider ref={sliderRef} {...settingProductCards}>
+            <Slider ref={sliderRef} {...SettingSlick.settingProductCards}>
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
+              <ProductCard />
               <ProductCard />
               <ProductCard />
               <ProductCard />
@@ -475,6 +297,83 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Small banners */}
+      <section className="smbanner-wrapper home-wrapper-2 py-5">
+        <div className="container-xxl">
+          <Slider {...SettingSlick.settingSmbanner}>
+            <SmBanner
+              category="Big Screen"
+              name="Smart Watch Series 7"
+              title="from $399 pr $16/mo for 24 mo.*"
+              img="https://demo-digitic.myshopify.com/cdn/shop/files/subbanner-01.jpg?v=1655701528"
+              color={true}
+            />
+            <SmBanner
+              category="Big Screen"
+              name="Smart Watch Series 7"
+              title="from $399 pr $16/mo for 24 mo.*"
+              img="https://demo-digitic.myshopify.com/cdn/shop/files/subbanner-02.jpg?v=1654920168"
+            />
+            <SmBanner
+              category="Big Screen"
+              name="Smart Watch Series 7"
+              title="from $399 pr $16/mo for 24 mo.*"
+              img="https://demo-digitic.myshopify.com/cdn/shop/files/subbanner-03.jpg?v=1654920181"
+            />
+            <SmBanner
+              category="Big Screen"
+              name="Smart Watch Series 7"
+              title="from $399 pr $16/mo for 24 mo.*"
+              img="https://demo-digitic.myshopify.com/cdn/shop/files/subbanner-04.jpg?v=1654920192"
+            />
+          </Slider>
+        </div>
+      </section>
+
+      {/* Special Products */}
+      <section className="special-wrapper home-wrapper-2 py-5">
+        <div className="container-xxl">
+          <div className="row">
+            <div className="col-12 d-flex justify-content-between align-items-center mb-4">
+              <h3 className="section-heading mb-0">Special Products</h3>
+              <div className="" style={{ textAlign: "right" }}>
+                <button className="btn-pre" onClick={previousSpecial}>
+                  <span className="material-symbols-outlined fw-bold fs-5 ">
+                    arrow_back_ios
+                  </span>
+                </button>
+
+                <button className="btn-next" onClick={nextSpecial}>
+                  <span className="material-symbols-outlined fw-bold fs-5">
+                    arrow_forward_ios
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <Slider
+              ref={sliderRefSpecial}
+              {...SettingSlick.settingSpecialProducts}
+            >
+              <SpecialProduct />
+              <SpecialProduct />
+              <SpecialProduct />
+              <SpecialProduct />
+            </Slider>
+            <Slider
+              ref={sliderRefSpecial2}
+              {...SettingSlick.settingSpecialProducts}
+            >
+              <SpecialProduct />
+              <SpecialProduct />
+              <SpecialProduct />
+              <SpecialProduct />
+            </Slider>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Popular Products */}
       <section className="popular-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -482,13 +381,13 @@ const Home = () => {
               <h3 className="section-heading mb-0">Our Popular Products</h3>
               <div className="" style={{ textAlign: "right" }}>
                 <button className="btn-pre" onClick={previousPopular}>
-                  <span class="material-symbols-outlined fw-bold fs-5 ">
+                  <span className="material-symbols-outlined fw-bold fs-5 ">
                     arrow_back_ios
                   </span>
                 </button>
 
                 <button className="btn-next" onClick={nextPopular}>
-                  <span class="material-symbols-outlined fw-bold fs-5">
+                  <span className="material-symbols-outlined fw-bold fs-5">
                     arrow_forward_ios
                   </span>
                 </button>
@@ -533,7 +432,10 @@ const Home = () => {
                   />
                 </div>
                 <div className="col-lg-6 col-md-8 col-sm-6 col-7">
-                  <Slider ref={sliderRefPopular} {...settingPopular}>
+                  <Slider
+                    ref={sliderRefPopular}
+                    {...SettingSlick.settingPopular}
+                  >
                     <div className="">
                       <ProductCard />
                     </div>
@@ -548,6 +450,7 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Marquee */}
       <section className="marquee-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -585,6 +488,7 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Blogs */}
       <section className="blog-wrapper home-wrapper-2 py-5">
         <div className="container-xxl">
           <div className="row">
@@ -592,19 +496,19 @@ const Home = () => {
               <h3 className="section-heading mb-0">Our Latest News</h3>
               <div className="" style={{ textAlign: "right" }}>
                 <button className="btn-pre" onClick={previousNews}>
-                  <span class="material-symbols-outlined fw-bold fs-5 ">
+                  <span className="material-symbols-outlined fw-bold fs-5 ">
                     arrow_back_ios
                   </span>
                 </button>
 
                 <button className="btn-next" onClick={nextNews}>
-                  <span class="material-symbols-outlined fw-bold fs-5">
+                  <span className="material-symbols-outlined fw-bold fs-5">
                     arrow_forward_ios
                   </span>
                 </button>
               </div>
             </div>
-            <Slider ref={sliderRefNews} {...settingProductCards}>
+            <Slider ref={sliderRefNews} {...SettingSlick.settingNews}>
               <BlogCard />
               <BlogCard />
               <BlogCard />
