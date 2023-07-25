@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
@@ -29,6 +29,17 @@ const SpecialProduct = () => {
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };
+
+  const [mainImg, setMainImg] = useState(null);
+  useEffect(() => {
+    setMainImg(
+      "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+    );
+  }, []);
+
+  const changeMainImg = (url) => {
+    setMainImg(url);
+  };
   return (
     <div className="wrap-special-product">
       <div className="row special-product d-flex">
@@ -43,15 +54,13 @@ const SpecialProduct = () => {
               </div>
               <div className="product-image">
                 <img
-                  src="images/watch.jpg"
+                  src={
+                    mainImg ||
+                    "https://cdn.shopify.com/s/files/1/0620/5082/8457/products09_00_260x.jpg?v=1655095991"
+                  }
                   className="img-fluid"
                   alt="product_image"
                 />
-                {/* <img
-                  src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
-                  className="img-fluid"
-                  alt="product_image"
-                /> */}
               </div>
 
               <div className="action-bar position-absolute">
@@ -82,16 +91,29 @@ const SpecialProduct = () => {
               </span>
             </button>
             <Slider ref={sliderRef} {...settingSubImages}>
-              <div className="img-small d-flex">
+              <div
+                onClick={() =>
+                  changeMainImg(
+                    "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+                  )
+                }
+                className="img-small d-flex"
+              >
                 <img
                   src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
                   alt="logo"
                 />
               </div>
-              <div className="img-small d-flex">
+              <div
+                onClick={() => changeMainImg("images/watch.jpg")}
+                className="img-small d-flex"
+              >
                 <img src="images/watch.jpg" alt="logo" />
               </div>
-              <div className="img-small d-flex">
+              <div
+                onClick={() => changeMainImg("images/watch.jpg")}
+                className="img-small d-flex"
+              >
                 <img src="images/watch.jpg" alt="logo" />
               </div>
             </Slider>
@@ -115,19 +137,23 @@ const SpecialProduct = () => {
             <span className="content-cost-past">${1000}</span>
             <span className="content-cost-current">${900}</span>
           </div>
-          <div className="content-date-sale d-flex">
-            <p className="date-days">37</p>
-            <p className="mx-2">Days</p>
-            <div className="date-time">
-              <p>04</p>
+          <div className="content-date-sale d-sm-flex">
+            <div className="d-flex">
+              <p className="date-days">37</p>
+              <p className="mx-2">Days</p>
             </div>
-            <p className="">:</p>
-            <div className="date-time">
-              <p>29</p>
-            </div>
-            <p>:</p>
-            <div className="date-time">
-              <p>20</p>
+            <div className="d-flex">
+              <div className="date-time">
+                <p>04</p>
+              </div>
+              <p className="">:</p>
+              <div className="date-time">
+                <p>29</p>
+              </div>
+              <p>:</p>
+              <div className="date-time">
+                <p>20</p>
+              </div>
             </div>
           </div>
           <Link className="button btn-option mt-3">Option</Link>

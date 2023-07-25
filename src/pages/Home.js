@@ -436,9 +436,7 @@ const Home = () => {
                     ref={sliderRefPopular}
                     {...SettingSlick.settingPopular}
                   >
-                    <div className="">
-                      <ProductCard />
-                    </div>
+                    <ProductCard />
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
