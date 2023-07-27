@@ -90,6 +90,7 @@ const SpecialProduct = () => {
                 arrow_forward_ios
               </span>
             </button>
+
             <Slider ref={sliderRef} {...settingSubImages}>
               <div
                 onClick={() =>

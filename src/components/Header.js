@@ -3,13 +3,29 @@ import { Link, NavLink } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from "react-redux";
 
+import { useSpring, animated } from "react-spring";
+
 const Header = () => {
   //open menu large screen
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [heightMenu, setHeightMenu] = useState("height")
 
-  const handleDropdownToggle = () => {
-    setIsOpen(!isOpen);
+  // const handleDropdownToggle = () => {
+  //   setIsOpen(!isOpen);
+
+  // };
+
+  // test drop down menu
+
+  const [expanded, setExpanded] = useState(false);
+  const expandAnimation = useSpring({
+    height: expanded ? "350px" : "0px",
+  });
+
+  const handleToggle = () => {
+    setExpanded(!expanded);
   };
+  // ---------------
 
   //open menu responsive
   const [isOpenSm, setIsOpenSm] = useState(false);
@@ -198,7 +214,7 @@ const Header = () => {
             </div>
             <div className="d-none d-lg-block col-12">
               <div className="menu-bottom d-flex align-items-center gap-30">
-                <div>
+                {/* <div>
                   <div className={`dropdown ${isOpen ? "open" : "close"}`}>
                     <button
                       onClick={handleDropdownToggle}
@@ -239,6 +255,51 @@ const Header = () => {
                       </li>
                     </ul>
                   </div>
+                </div> */}
+
+                <div className="dropdown position-relative d-flex align-items-center">
+                  <button
+                    // onClick={handleDropdownToggle}
+                    onClick={handleToggle}
+                    className="btn btn-secondary dropdown-toggle bg-transparent border-0 d-flex gap-15 align-items-center"
+                    type="button"
+                    // data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img src="/images/menu.svg" alt="menu" />
+                    <span>Shop Categories</span>
+                  </button>
+                  <animated.ul
+                    style={expandAnimation}
+                    // className={`menu ${isOpen ? "menu--open" : "menu--close"}`}
+                    className="menu"
+                  >
+                    <li>
+                      <Link className="dropdown-item text-white" to="#">
+                        Action
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item text-white" to="#">
+                        Another action
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item text-white" to="#">
+                        Something else here
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item text-white" to="#">
+                        Something else here
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item text-white" to="#">
+                        Something else here
+                      </Link>
+                    </li>
+                  </animated.ul>
                 </div>
                 <div className="menu-links">
                   <div className="d-flex align-items-center gap-15">

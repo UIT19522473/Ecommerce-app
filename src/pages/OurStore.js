@@ -3,6 +3,7 @@ import ProductCard from "../components/ProductCard";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "../styles/ourstore.css";
+import NavOurStore from "../components/NavOurStore";
 
 const BtnView = ({ colType, col, setCol, children }) => {
   const fcs = colType === col ? true : false;
@@ -25,7 +26,6 @@ const OurStore = () => {
     // setWdSize(window.innerWidth);
     // console.log(window.innerWidth);
     if (window.innerWidth >= 992) {
-      console.log(1);
       setCol("col-3");
     } else if (window.innerWidth >= 768 && window.innerWidth < 992) {
       setCol("col-4");
@@ -56,7 +56,12 @@ const OurStore = () => {
         <h2 className="ms-2">Products</h2>
       </div>
       <div className="row">
-        <div className="col-lg-2">nav</div>
+        {/* nav------------- */}
+        <div className="col-lg-2">
+          <NavOurStore />
+        </div>
+
+        {/* content------- */}
         <div className="col-lg-10 col-12">
           <div className="products-filter d-sm-flex align-items-center">
             <div className="d-flex mb-sm-0 mb-3">
@@ -134,7 +139,9 @@ const OurStore = () => {
                   col={col}
                   setCol={setCol}
                   colType={"col-12"}
-                  children={<span class="material-symbols-outlined">menu</span>}
+                  children={
+                    <span className="material-symbols-outlined">menu</span>
+                  }
                 />
               </div>
             </div>

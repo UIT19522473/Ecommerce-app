@@ -81,14 +81,14 @@ const ProductCard = ({ col }) => {
       // className="col-3"
       className={`wrap-product-cart ${col ? col : ""}`}
     >
-      <div className="product-card ">
+      <div className="product-card position-relative">
+        <div className="product-card-discount position-absolute">-25%</div>
         <div className="row">
           <div
             className={`product-image ${
               col === "col-12" ? "col-3" : ""
             } position-relative`}
           >
-            <div className="product-card-discount position-absolute">-25%</div>
             <div className="wishlist-icon position-absolute">
               <Link to={"#"}>
                 <img src="images/wish.svg" alt="wishlist" />
@@ -107,16 +107,20 @@ const ProductCard = ({ col }) => {
                 </Link>
               </div>
             </div>
-            <img
-              src="images/watch.jpg"
-              className="img-fluid"
-              alt="product_image"
-            />
-            <img
-              src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
-              className="img-fluid"
-              alt="product_image"
-            />
+
+            <div className="wrap-img">
+              <img
+                src="images/watch.jpg"
+                className="img-fluid "
+                alt="product_image"
+              />
+
+              <img
+                src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+                className="img-fluid"
+                alt="product_image"
+              />
+            </div>
           </div>
           <div className={`product-details ${col === "col-12" ? "col-9" : ""}`}>
             <h6 className="brand">Havels</h6>
