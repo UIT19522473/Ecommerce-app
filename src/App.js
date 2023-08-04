@@ -9,6 +9,8 @@ import Contact from "./pages/Contact";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import OurStore from "./pages/OurStore";
+import PageNotFound from "./pages/PageNotFound";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   return (
@@ -20,12 +22,14 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
             <Route path="our-store" element={<OurStore />} />
+            <Route path="product/:pid" element={<ProductDetail />} />
 
             <Route path="account">
               <Route path="register" element={<SignUp />} />
               <Route path="login" element={<Login />} />
             </Route>
           </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
     </>

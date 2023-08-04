@@ -48,7 +48,7 @@ const Login = () => {
         <p className="mb-0">/</p>
         <h2 className="ms-2">Account</h2>
       </div>
-      <div className="container d-flex justify-content-center align-items-center">
+      <div className="container-xxl d-flex justify-content-center align-items-center">
         <form
           onSubmit={formik.handleSubmit}
           className="d-flex flex-column signup-form my-4"

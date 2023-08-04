@@ -12,6 +12,7 @@
     -moz-box-shadow: 0px 0px 48px -9px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 0px 48px -9px rgba(0, 0, 0, 0.2); */
   box-shadow: 0 0 10px #0000002a;
+  cursor: pointer;
 }
 
 .product-card .product-image {

@@ -1,0 +1,22 @@
+/* PageNotFound.css
+.page-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+h1 {
+  font-size: 5rem;
+  color: #ff5722;
+  margin-bottom: 0;
+}
+
+p {
+  font-size: 1.5rem;
+  color: #333;
+  margin-top: 0;
+} */

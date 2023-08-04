@@ -6,17 +6,7 @@ import { useSelector } from "react-redux";
 import { useSpring, animated } from "react-spring";
 
 const Header = () => {
-  //open menu large screen
-  // const [isOpen, setIsOpen] = useState(false);
-  // const [heightMenu, setHeightMenu] = useState("height")
-
-  // const handleDropdownToggle = () => {
-  //   setIsOpen(!isOpen);
-
-  // };
-
-  // test drop down menu
-
+  // menu
   const [expanded, setExpanded] = useState(false);
   const expandAnimation = useSpring({
     height: expanded ? "350px" : "0px",
@@ -24,6 +14,16 @@ const Header = () => {
 
   const handleToggle = () => {
     setExpanded(!expanded);
+  };
+
+  // account
+  const [expandedAccount, setExpandedAccount] = useState(false);
+  const expandAnimationAccount = useSpring({
+    height: expandedAccount ? "70px" : "0px",
+  });
+
+  const handleToggleAccount = () => {
+    setExpandedAccount(!expandedAccount);
   };
   // ---------------
 
@@ -104,7 +104,9 @@ const Header = () => {
                 menu
               </span>
               <h2 className="text-name mb-0">
-                <Link className="text-white">TuanNguyen</Link>
+                <Link className="text-white sm:text-2xl text-lg">
+                  TuanNguyen
+                </Link>
               </h2>
             </div>
             <div className="col-xl-5 col-lg-6 d-none d-lg-block">
@@ -152,9 +154,10 @@ const Header = () => {
                 </div>
 
                 <div>
-                  <NavLink
-                    to={"/account/login"}
-                    className="d-flex align-items-center gap-10 text-white"
+                  <button
+                    // to={"/account/login"}
+                    onClick={handleToggleAccount}
+                    className="d-flex align-items-center gap-10 text-white position-relative"
                   >
                     <img
                       className="img-item"
@@ -166,12 +169,34 @@ const Header = () => {
                         {user.currentUser?.firstname}
                       </p>
                     ) : (
-                      <p className="text-item mb-0">
+                      <p className="text-item mb-0 text-left">
                         Login <br />
                         My Account
                       </p>
                     )}
-                  </NavLink>
+
+                    <animated.ul
+                      style={expandAnimationAccount}
+                      className="menu-account"
+                    >
+                      <li className="border-b-[1px] w-full pb-2">
+                        <Link
+                          className="dropdown-item text-white text-start"
+                          to="/account/login"
+                        >
+                          Login
+                        </Link>
+                      </li>
+                      <li className="mt-1">
+                        <Link
+                          className="dropdown-item text-white"
+                          to="/account/register"
+                        >
+                          Register
+                        </Link>
+                      </li>
+                    </animated.ul>
+                  </button>
                 </div>
 
                 <div className="wrap-cart">
@@ -214,52 +239,8 @@ const Header = () => {
             </div>
             <div className="d-none d-lg-block col-12">
               <div className="menu-bottom d-flex align-items-center gap-30">
-                {/* <div>
-                  <div className={`dropdown ${isOpen ? "open" : "close"}`}>
-                    <button
-                      onClick={handleDropdownToggle}
-                      className="btn btn-secondary dropdown-toggle bg-transparent border-0 d-flex gap-15 align-items-center"
-                      type="button"
-                      // data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <img src="/images/menu.svg" alt="menu" />
-                      <span>Shop Categories</span>
-                    </button>
-
-                    <ul className="menu">
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Action
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Another action
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Something else here
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Something else here
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item text-white" to="#">
-                          Something else here
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div> */}
-
                 <div className="dropdown position-relative d-flex align-items-center">
                   <button
-                    // onClick={handleDropdownToggle}
                     onClick={handleToggle}
                     className="btn btn-secondary dropdown-toggle bg-transparent border-0 d-flex gap-15 align-items-center"
                     type="button"
@@ -269,11 +250,7 @@ const Header = () => {
                     <img src="/images/menu.svg" alt="menu" />
                     <span>Shop Categories</span>
                   </button>
-                  <animated.ul
-                    style={expandAnimation}
-                    // className={`menu ${isOpen ? "menu--open" : "menu--close"}`}
-                    className="menu"
-                  >
+                  <animated.ul style={expandAnimation} className="menu">
                     <li>
                       <Link className="dropdown-item text-white" to="#">
                         Action

@@ -284,6 +284,30 @@ const settingSpecialProducts = {
   ],
 };
 
+// Sub-img Product detail
+
+const settingSubProductImg = {
+  dots: false,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 2,
+  slidesToScroll: 1,
+  initialSlide: 0,
+  arrows: false,
+  // responsive: [
+  //   {
+  //     breakpoint: 991,
+  //     settings: {
+  //       slidesToShow: 1,
+  //       slidesToScroll: 1,
+  //       infinite: true,
+  //       dots: false,
+  //       arrows: false,
+  //     },
+  //   },
+  // ],
+};
+
 module.exports = {
   settingCategories,
   settingNews,
@@ -291,4 +315,5 @@ module.exports = {
   settingProductCards,
   settingSmbanner,
   settingSpecialProducts,
+  settingSubProductImg,
 };

@@ -11,6 +11,8 @@ import { useSpring, animated } from "react-spring";
 const NavOurStore = () => {
   const [modeNavFilter, setModeNavFilter] = useState(false);
 
+  const [openResNav, setOpenResNav] = useState(false);
+
   const [expanded, setExpanded] = useState(false);
   const expandAnimation = useSpring({
     height: expanded ? `500px` : "0px",
@@ -21,13 +23,36 @@ const NavOurStore = () => {
     setExpanded(!expanded);
   };
 
+  const openResponsiveNav = () => {
+    setOpenResNav(!openResNav);
+  };
+
   return (
-    <div className="wrap-navstore">
+    <div
+      className={`wrap-navstore ${
+        openResNav ? "wrap-navstore--responsive" : ""
+      }`}
+    >
+      <button
+        onClick={openResponsiveNav}
+        className={`d-flex justify-content-center align-items-center btn-left-nav ${
+          openResNav ? "btn-left-nav--close" : ""
+        } d-sm-none d-block`}
+      >
+        {/* <p>Filter By</p> */}
+        {/* <p>1</p> */}
+        {openResNav ? (
+          <span class="material-symbols-outlined">chevron_left</span>
+        ) : (
+          <>
+            <p>Filter By</p>
+            <span class="material-symbols-outlined">chevron_right</span>
+          </>
+        )}
+      </button>
       <div className="d-flex justify-content-between align-items-center">
-        <h4 className="mb-0">Filter By</h4>
-
+        <h3 className="mb-0 text-2xl font-semibold">Filter By</h3>
         {/* Sử dụng react-measure để đo kích thước của phần tử nội dung */}
-
         {modeNavFilter ? (
           <span
             onClick={expandFilter}
@@ -45,10 +70,18 @@ const NavOurStore = () => {
         )}
       </div>
       <animated.div
-        style={window.innerWidth < 992 ? expandAnimation : {}}
-        className={`wrap-navstore-content ${
-          window.innerWidth > 991 ? "wrap-navstore-content--fit" : ""
-        }`}
+        style={
+          window.innerWidth < 992 && window.innerWidth >= 576
+            ? expandAnimation
+            : {}
+        }
+        // className={`wrap-navstore-content ${
+        //   window.innerWidth < 992 && window.innerWidth >= 576
+        //     ? "wrap-navstore-content--small custom-scroll"
+        //     : "wrap-navstore-content--fit"
+        // } ${window.innerWidth < 576 ? "wrap-navstore-content--left" : ""}`}
+
+        className={`wrap-navstore-content `}
       >
         <div className="wrap-filter-brand">
           <p className="nav-title">Brand</p>
@@ -112,7 +145,7 @@ const NavOurStore = () => {
 
           <div className="filter-size">
             <p className="nav-title">Size</p>
-            <div className="d-lg-block d-flex gap-lg-0 gap-30">
+            <div className="d-lg-block d-flex gap-lg-0 gap-30 flex-wrap">
               <CheckBoxSize size={"S"} stock={10} />
               <CheckBoxSize size={"M"} stock={7} />
               <CheckBoxSize size={"L"} stock={12} />

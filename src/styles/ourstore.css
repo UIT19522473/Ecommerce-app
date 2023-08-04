@@ -132,6 +132,7 @@
 /* Ẩn thanh cuộn mặc định trên các trình duyệt WebKit */
 .custom-scroll::-webkit-scrollbar {
   width: 6px;
+  /* height: 50%; */
 }
 
 /* Tùy chỉnh màu sắc của thanh cuộn */
@@ -150,22 +151,106 @@
 .custom-scroll::-webkit-scrollbar-track {
   background-color: transparent;
 }
-
 .wrap-navstore-content {
-  overflow-y: scroll;
+  overflow-y: hidden;
 }
+
+.wrap-navstore-content--small {
+  overflow-y: scroll;
+  display: hidden;
+}
+
+.btn-expand-filter {
+  cursor: pointer;
+}
+
+.wrap-navstore-content--fit {
+  height: fit-content;
+  z-index: 222;
+}
+
+.wrap-navstore-content--left {
+  max-width: 250px;
+}
+
+.btn-left-nav {
+  position: absolute;
+  right: -92px;
+  top: 0;
+  height: fit-content;
+  border: none;
+  padding: 6px 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: #3b4149;
+  border-radius: 0 12px 12px 0;
+}
+
+/* pagination */
+.pagination-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  box-shadow: 0 0 10px #0000002a;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.pagination-text {
+  background-color: #eeeeee;
+  padding: 2px 8px;
+  border-radius: 12px;
+  color: gray;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.number-page {
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border: 1px solid #dddddd;
+  color: black;
+  border-radius: 100%;
+}
+
+.number-page--choose {
+  background-color: #232f3e;
+  border: none;
+  color: white;
+}
+
+/* pagination ends here */
 
 /* responsive */
 
-@media only screen and (min-width: 576px) and (max-width: 991px) {
-  .wrap-navstore-content {
-    height: 0px;
+@media only screen and (max-width: 576px) {
+  .wrap-navstore {
+    position: absolute;
+    top: 0;
+    z-index: 222;
+    max-width: 270px;
+    left: -270px;
+    /* left: 0; */
+    transition: all 0.5s ease;
   }
-  .wrap-navstore-content--fit {
-    height: fit-content;
+
+  .wrap-navstore--responsive {
+    left: 0px;
+  }
+
+  .btn-left-nav--close {
+    right: -32px;
   }
 
   .btn-expand-filter {
-    cursor: pointer;
+    display: none;
   }
 }
