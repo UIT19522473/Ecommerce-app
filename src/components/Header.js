@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { useSpring, animated } from "react-spring";
+import { logOut } from "../features/user/userSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const handleLogOut = () => {
+    console.log("logout");
+    dispatch(logOut());
+  };
+
   // menu
   const [expanded, setExpanded] = useState(false);
   const expandAnimation = useSpring({
@@ -179,22 +186,45 @@ const Header = () => {
                       style={expandAnimationAccount}
                       className="menu-account"
                     >
-                      <li className="border-b-[1px] w-full pb-2">
-                        <Link
-                          className="dropdown-item text-white text-start"
-                          to="/account/login"
-                        >
-                          Login
-                        </Link>
-                      </li>
-                      <li className="mt-1">
-                        <Link
-                          className="dropdown-item text-white"
-                          to="/account/register"
-                        >
-                          Register
-                        </Link>
-                      </li>
+                      {!user.currentUser ? (
+                        <>
+                          <li className="border-b-[1px] w-full pb-2">
+                            <Link
+                              className="dropdown-item text-white text-start"
+                              to="/account/login"
+                            >
+                              Login
+                            </Link>
+                          </li>
+                          <li className="mt-1">
+                            <Link
+                              className="dropdown-item text-white text-start"
+                              to="/account/register"
+                            >
+                              Register
+                            </Link>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li className="border-b-[1px] w-full pb-2">
+                            <Link
+                              className="dropdown-item text-white text-start"
+                              to="#"
+                            >
+                              My account
+                            </Link>
+                          </li>
+                          <li onClick={handleLogOut} className="mt-1">
+                            <Link
+                              className="dropdown-item text-white text-start"
+                              to="#"
+                            >
+                              Logout
+                            </Link>
+                          </li>
+                        </>
+                      )}
                     </animated.ul>
                   </button>
                 </div>

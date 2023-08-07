@@ -8,6 +8,7 @@ import Slider from "react-slick";
 import * as SettingSlick from "./settingSlick";
 import SmBanner from "../components/SmBanner";
 import SpecialProduct from "../components/SpecialProduct";
+import { testFunc } from "../services/test";
 
 const Home = () => {
   const sliderRef = useRef(null);
@@ -56,6 +57,14 @@ const Home = () => {
 
   return (
     <>
+      <button
+        onClick={testFunc}
+        // onClick={() => console.log("test")}
+        className="button"
+      >
+        test
+      </button>
+
       {/* big banner */}
       <section className="home-wrapper-1 py-5">
         <div className="container-xxl">

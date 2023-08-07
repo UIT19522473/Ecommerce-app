@@ -1,12 +1,10 @@
-import axios from "axios";
+// import axios from "axios";
+import { apiLogin, apiRegister } from "../apis/apiUser";
 
 //register service
-export const Register = async (formik, value, toast) => {
+const checkRegister = async (formik, values, toast) => {
   try {
-    const response = await axios.post(
-      `${process.env.REACT_APP_URL_SERVER_API}/user/register`,
-      value
-    );
+    const response = await apiRegister(values);
 
     if (!response.data.success) {
       formik.setErrors({
@@ -25,15 +23,9 @@ export const Register = async (formik, value, toast) => {
 };
 
 //login service
-export const SignIn = async (formik, values, toast) => {
+const checkLogin = async (formik, values, toast) => {
   try {
-    // console.log(data.values);
-    const response = await axios.post(
-      `${process.env.REACT_APP_URL_SERVER_API}/user/login`,
-      values
-    );
-
-    // console.log("login", response);
+    const response = await apiLogin(values);
 
     if (!response.data.success) {
       const mess = response?.data?.mes;
@@ -57,3 +49,5 @@ export const SignIn = async (formik, values, toast) => {
   }
   return false;
 };
+
+export { checkRegister, checkLogin };

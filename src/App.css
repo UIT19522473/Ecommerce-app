@@ -150,7 +150,7 @@ a {
 
 .menu-account {
   top: 100%;
-  right: 0;
+  left: 0;
   z-index: 111;
   position: absolute;
   border-radius: 0 0 8px 8px;
@@ -716,6 +716,13 @@ footer .input-group-text {
     font-size: 14px;
   }
   /* smbanner ends here */
+
+  /* header here */
+  .menu-account {
+    /* display: none; */
+    left: -120px;
+  }
+  /* header ends here */
 }
 
 @media only screen and (min-width: 481px) and (max-width: 580px) {
@@ -828,6 +835,11 @@ footer .input-group-text {
     line-height: 16px;
     letter-spacing: 0.4;
     color: var(--color-131921);
+  }
+
+  .menu-account {
+    /* display: none; */
+    left: -90px;
   }
 
   /* home page ends here */

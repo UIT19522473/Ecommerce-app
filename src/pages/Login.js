@@ -5,10 +5,11 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { SignIn } from "../services/auth";
+
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { login } from "../features/user/userSlice";
+import { login } from "../features/user/userAsyncThunk";
+import { checkLogin } from "../services/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const Login = () => {
       // alert(JSON.stringify(values, null, 2));
       // SignIn(formik, values, toast);
       dispatch(login(values));
-      navigateHome(SignIn(formik, values, toast));
+      navigateHome(checkLogin(formik, values, toast));
     },
   });
 

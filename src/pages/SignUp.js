@@ -5,13 +5,13 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Register } from "../services/auth";
 
 // toastify
 
 import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { checkRegister } from "../services/auth";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const SignUp = () => {
     }),
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
-      navigateLogin(Register(formik, values, toast));
+      navigateLogin(checkRegister(formik, values, toast));
     },
   });
   return (
