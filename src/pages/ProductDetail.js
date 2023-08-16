@@ -1,13 +1,27 @@
 import React from "react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../styles/productdetail.css";
 import ProductDetailImg from "../components/ProductDetail/ProductDetailImg";
 import ProductDetailContent from "../components/ProductDetail/ProductDetailContent";
 import ProductDetailReviews from "../components/ProductDetail/ProductDetailReviews";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getOneProduct } from "../features/oneproduct/oneProductAsyncThunk";
 
 const ProductDetail = () => {
-  // const { pid } = useParams();
+  const dispatch = useDispatch();
+  const { pid } = useParams();
+  const product = useSelector((state) => state.getProduct?.data?.productData);
+
+  useEffect(() => {
+    if (pid) {
+      dispatch(getOneProduct(pid));
+
+      // Đưa trình duyệt về đầu trang
+      window.scrollTo(0, 0);
+    }
+  }, [dispatch, pid]);
 
   return (
     <div className="wrap-product-detail">
@@ -21,8 +35,8 @@ const ProductDetail = () => {
 
       <div className="container-xxl my-4">
         <div className="row product-detail-wrap">
-          <ProductDetailImg />
-          <ProductDetailContent />
+          <ProductDetailImg product={product} />
+          <ProductDetailContent product={product} />
         </div>
 
         <div className="row product-review-wrap ">

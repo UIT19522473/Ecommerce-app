@@ -5,8 +5,11 @@ import "../styles/product.css";
 import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
+  const item = props.item;
+  // console.log(item);
+  // console.log("product", props.item);
   const navigate = useNavigate();
-  const { col, link } = props;
+  const { col } = props;
   const ratingChanged = (newRating) => {
     console.log(newRating);
   };
@@ -14,7 +17,7 @@ const ProductCard = (props) => {
 
   const handleShowProduct = () => {
     // console.log("test here");
-    navigate(`/product/${link}`); // Chuyển hướng đến trang /about
+    navigate(`/product/${item._id}`); // Chuyển hướng đến trang /product/:idproduct
   };
 
   return (
@@ -23,7 +26,13 @@ const ProductCard = (props) => {
       className={`wrap-product-cart ${col ? col : ""}`}
     >
       <div className="product-card position-relative">
-        <div className="product-card-discount position-absolute">-25%</div>
+        {item?.coupon?.value ? (
+          <div className="product-card-discount position-absolute">
+            -{item?.coupon?.value}%
+          </div>
+        ) : (
+          <></>
+        )}
         <div className="row">
           <div
             className={`product-image ${
@@ -51,40 +60,31 @@ const ProductCard = (props) => {
 
             <div className="wrap-img">
               <img
-                src="images/watch.jpg"
+                src={item?.images[0]}
                 className="img-fluid "
                 alt="product_image"
               />
 
               <img
-                src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+                src={item?.images[1]}
                 className="img-fluid"
                 alt="product_image"
               />
             </div>
           </div>
           <div className={`product-details ${col === "col-12" ? "col-7" : ""}`}>
-            <h6 className="brand">Havels</h6>
-            <h5 className="product-title">
-              Kids headphones bulk 10 pack multi colored for students
-            </h5>
+            <h6 className="product-brand">{item?.brand?.title}</h6>
+            <h5 className="product-title">{item?.title}</h5>
             <ReactStars
               count={5}
               onChange={ratingChanged}
-              size={24}
+              size={22}
               activeColor="#ffd700"
               value={3}
               edit={false}
             />
-            {show ? (
-              <p className="product-desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
-                incidunt alias error omnis a.
-              </p>
-            ) : (
-              <></>
-            )}
-            <p className="price">$100.000</p>
+            {show ? <p className="product-desc">{item?.description}</p> : <></>}
+            <p className="product-price">${item?.price}</p>
           </div>
         </div>
       </div>

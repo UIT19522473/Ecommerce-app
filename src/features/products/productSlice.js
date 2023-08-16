@@ -1,63 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "./userAsyncThunk";
+import { getAllProducts } from "./productAsyncThunk";
 
 const initialState = {
   isLoading: false,
   success: false,
-  currentUser: null,
-  accessToken: "",
+  data: null,
   mes: "",
-  // errorMessage: "",
 };
 
-export const userSlice = createSlice({
-  name: "user",
+export const productsSlice = createSlice({
+  name: "products",
   initialState,
   reducers: {
-    newAccessToken: (state, action) => {
-      state.accessToken = action.payload;
-    },
-
-    logOut: (state, action) => {
-      state.isLoading = false;
-      state.success = false;
-      state.currentUser = null;
-      state.accessToken = "";
-      state.mes = "";
-    },
+    // register: (state, action) => {},
+    // newAccessToken: (state, action) => {
+    //   state.accessToken = action.payload;
+    // },
+    // logOut: (state, action) => {
+    //   state.isLoading = false;
+    //   state.success = false;
+    //   state.currentUser = null;
+    //   state.accessToken = "";
+    //   state.mes = "";
+    // },
   },
 
   // Code logic xử lý async action
   extraReducers: (builder) => {
     // Bắt đầu thực hiện action login (Promise pending)
-    builder.addCase(login.pending, (state) => {
+    builder.addCase(getAllProducts.pending, (state) => {
       // Bật trạng thái loading
       state.isLoading = true;
     });
 
     // Khi thực hiện action login thành công (Promise fulfilled)
-    builder.addCase(login.fulfilled, (state, action) => {
+    builder.addCase(getAllProducts.fulfilled, (state, action) => {
       // Tắt trạng thái loading, lưu thông tin user vào store
       state.isLoading = false;
       state.success = action.payload.success;
-      state.currentUser = action.payload.userData || null;
-      state.accessToken = action.payload.accessToken || "";
-      state.mes = action.payload.mes || "";
+      state.data = action.payload || [];
+      state.mes = "Get products successfully";
     });
 
     // Khi thực hiện action login thất bại (Promise rejected)
-    builder.addCase(login.rejected, (state, action) => {
+    builder.addCase(getAllProducts.rejected, (state, action) => {
       // Tắt trạng thái loading, lưu thông báo lỗi vào store
       state.isLoading = false;
       state.success = false;
-      state.currentUser = null;
-      state.accessToken = "";
+      state.data = null;
       state.mes = "Server is not working";
     });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { logOut, newAccessToken } = userSlice.actions;
+// export const {} = productsSlice.actions;
 
-export default userSlice.reducer;
+export default productsSlice.reducer;

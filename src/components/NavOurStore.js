@@ -42,11 +42,11 @@ const NavOurStore = () => {
         {/* <p>Filter By</p> */}
         {/* <p>1</p> */}
         {openResNav ? (
-          <span class="material-symbols-outlined">chevron_left</span>
+          <span className="material-symbols-outlined">chevron_left</span>
         ) : (
           <>
             <p>Filter By</p>
-            <span class="material-symbols-outlined">chevron_right</span>
+            <span className="material-symbols-outlined">chevron_right</span>
           </>
         )}
       </button>

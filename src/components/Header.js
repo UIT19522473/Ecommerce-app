@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useSpring, animated } from "react-spring";
 import { logOut } from "../features/user/userSlice";
+
+import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -40,6 +42,47 @@ const Header = () => {
   const handleBtnMenuToggle = () => {
     setIsOpenSm(!isOpenSm);
   };
+
+  const [inputSearch, setInputSearch] = useState("");
+  const [showResults, setShowResults] = useState(false);
+
+  const searchContainerRef = useRef(null); // Sử dụng ref để theo dõi phần kết quả tìm kiếm
+  const searchResultsRef = useRef(null);
+
+  const listSearchProducts = useSelector((state) => state.searchProducts.data);
+
+  const handleSearch = (event) => {
+    setInputSearch(event.target.value);
+    dispatch(getSearchProducts(event.target.value));
+    setShowResults(event.target.value !== "");
+  };
+
+  // useEffect(() => {
+  //   if (showResults) {
+  //     searchContainerRef.current.focus(); // Tập trung vào container khi hiển thị kết quả tìm kiếm
+  //   }
+  // }, [showResults]);
+
+  // xu li khi click ra ngoai search input
+  const handleDocumentClick = (event) => {
+    if (
+      searchContainerRef.current &&
+      searchResultsRef.current &&
+      !searchContainerRef.current.contains(event.target) &&
+      !searchResultsRef.current.contains(event.target)
+    ) {
+      setShowResults(false);
+    }
+  };
+
+  //them su kien cho document
+  useEffect(() => {
+    document.addEventListener("click", handleDocumentClick);
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, []);
 
   const user = useSelector((state) => state.user);
   return (
@@ -111,16 +154,23 @@ const Header = () => {
                 menu
               </span>
               <h2 className="text-name mb-0">
-                <Link className="text-white sm:text-2xl text-lg">
+                <Link to="/" className="text-white sm:text-2xl text-lg">
                   TuanNguyen
                 </Link>
               </h2>
             </div>
             <div className="col-xl-5 col-lg-6 d-none d-lg-block">
-              <div className="input-group ">
+              <div
+                ref={searchContainerRef}
+                tabIndex="0"
+                className="input-group "
+              >
                 <input
+                  onClick={() => setShowResults(true)}
+                  onChange={handleSearch}
+                  value={inputSearch}
                   type="text"
-                  className="form-control py-2"
+                  className="form-control py-2 "
                   placeholder="Search product here..."
                   aria-label="Search product here..."
                   aria-describedby="basic-addon2"
@@ -128,6 +178,48 @@ const Header = () => {
                 <span className="input-group-text px-3" id="basic-addon2">
                   <BsSearch className="fs-10" />
                 </span>
+
+                {showResults && (
+                  <div ref={searchResultsRef} className="tb-result-search">
+                    <ul className="row ">
+                      {listSearchProducts?.map((item, index) => (
+                        <Link
+                          // onClick={handleClickItem}
+                          to={`/product/${item?._id}`}
+                          key={index}
+                          className="text-black col-6 d-flex justify-center items-center my-2 result-search-item"
+                        >
+                          <div className="item-search-img d-flex items-center w-20 h-20 justify-between">
+                            <img
+                              src={item?.images[0]}
+                              alt="img"
+                              className="w-full h-full"
+                            />
+                          </div>
+                          <div className="item-search-detail flex-1">
+                            <p className="item-search-title">{item?.title}</p>
+                            <p className="item-search-price">{item?.price}</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </ul>
+
+                    {inputSearch !== "" ? (
+                      <NavLink
+                        // onClick={handleClickItem}
+                        to="/our-store"
+                        className="col-12 tb-result-search-btn d-flex justify-around items-center px-5  py-2 cursor-pointer border-t-2 "
+                      >
+                        <p>Search For "{inputSearch}"</p>
+                        <span className="material-symbols-outlined fw-bold">
+                          arrow_right_alt
+                        </span>
+                      </NavLink>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <div className="col-xl-5 col-lg-3 col-sm-4 col-5">
@@ -256,6 +348,8 @@ const Header = () => {
             <div className="col-8 d-lg-none">
               <div className="input-group">
                 <input
+                  onChange={handleSearch}
+                  value={inputSearch}
                   type="text"
                   className="form-control py-2"
                   placeholder="Search product here..."

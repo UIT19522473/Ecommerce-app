@@ -1,5 +1,11 @@
 .wrap-special-product {
   padding: 12px 24px;
+  transition: all 0.2s ease;
+}
+
+.wrap-special-product:hover {
+  cursor: pointer;
+  transform: translateY(-8px);
 }
 
 .special-product {
@@ -53,6 +59,7 @@
 .content-brand {
   text-transform: capitalize;
   color: orangered;
+  font-size: 18px;
 }
 .content-name {
   font-size: 21px;
@@ -61,6 +68,7 @@
   -webkit-line-clamp: 2;
   overflow: hidden;
   margin-bottom: 12px;
+  font-weight: 500;
 }
 
 .content-cost {
@@ -99,7 +107,9 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 8px;
+  /* padding: 8px; */
+  height: 28px;
+  width: 28px;
   background-color: red;
   border-radius: 100%;
   margin: 0 4px;
@@ -164,9 +174,18 @@
     font-size: 10px;
     color: white;
   }
+
+  .content-brand {
+    font-size: 14px;
+  }
+  .content-name {
+    font-size: 16px;
+  }
   .content-cost {
     flex-wrap: wrap;
+    font-size: 16px;
   }
+
   .content-date-sale {
     flex-wrap: wrap;
   }

@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "../styles/spProduct.css";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SpecialProduct = () => {
+const SpecialProduct = (props) => {
   const sliderRef = useRef(null);
+  const navigate = useNavigate();
+
+  const { item } = props;
 
   const settingSubImages = {
     dots: false,
@@ -32,21 +36,26 @@ const SpecialProduct = () => {
 
   const [mainImg, setMainImg] = useState(null);
   useEffect(() => {
-    setMainImg(
-      "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
-    );
-  }, []);
+    setMainImg(item?.images[0]);
+  }, [item]);
 
   const changeMainImg = (url) => {
     setMainImg(url);
   };
+
+  const handleShowProduct = () => {
+    // console.log("test here");
+    navigate(`/product/${item._id}`); // Chuyển hướng đến trang /product/:idproduct
+  };
   return (
-    <div className="wrap-special-product">
+    <div onClick={handleShowProduct} className="wrap-special-product">
       <div className="row special-product d-flex">
         <div className="special-product-img col-6">
           <div className="sp-img-main">
             <div className="product-card product-card-special position-relative">
-              <div className="product-discount position-absolute">-20%</div>
+              <div className="product-discount position-absolute">
+                -{item?.coupon?.value}%
+              </div>
               <div className="wishlist-icon position-absolute">
                 <Link to={"#"}>
                   <img src="images/wish.svg" alt="wishlist" />
@@ -95,48 +104,49 @@ const SpecialProduct = () => {
               <div
                 onClick={() =>
                   changeMainImg(
-                    "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+                    // "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+                    item?.images[0]
                   )
                 }
                 className="img-small d-flex"
               >
                 <img
-                  src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+                  // src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
+                  src={item?.images[0]}
                   alt="logo"
                 />
               </div>
               <div
-                onClick={() => changeMainImg("images/watch.jpg")}
+                onClick={() => changeMainImg(item?.images[1])}
                 className="img-small d-flex"
               >
-                <img src="images/watch.jpg" alt="logo" />
+                <img src={item?.images[1]} alt="logo" />
               </div>
               <div
-                onClick={() => changeMainImg("images/watch.jpg")}
+                onClick={() => changeMainImg(item?.images[0])}
                 className="img-small d-flex"
               >
-                <img src="images/watch.jpg" alt="logo" />
+                <img src={item?.images[0]} alt="logo" />
               </div>
             </Slider>
           </div>
         </div>
         <div className="special-product-content col-6">
-          <p className="content-brand mb-2">brand</p>
-          <h3 className="content-name">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa porro
-            nisi ipsum!
-          </h3>
+          <p className="content-brand mb-2">{item?.brand?.title}</p>
+          <h3 className="content-name">{item?.title}</h3>
           <ReactStars
             count={5}
             onChange={ratingChanged}
             size={20}
             activeColor="#ffd700"
-            value={3}
+            value={item?.totalRatings}
             edit={false}
           />
           <div className="content-cost d-flex gap-10">
-            <span className="content-cost-past">${1000}</span>
-            <span className="content-cost-current">${900}</span>
+            <span className="content-cost-past">${item?.price}</span>
+            <span className="content-cost-current">
+              ${item?.price * (1 - item?.coupon?.value / 100)}
+            </span>
           </div>
           <div className="content-date-sale d-sm-flex">
             <div className="d-flex">

@@ -5,12 +5,11 @@ import { InputNumber } from "antd";
 import { ItemColor } from "../OurStore/ItemColor";
 import ReactStars from "react-rating-stars-component";
 
-const ProductDetailContent = () => {
+const ProductDetailContent = (props) => {
+  const { product } = props;
   return (
     <div className="col-6 product-detail-content">
-      <h2 className="product-detail-content-name">
-        Kids headphones Bulk 10 Pack Multi Colored For Students adkajd akdj dák
-      </h2>
+      <h2 className="product-detail-content-name">{product?.title}</h2>
 
       <div classname="product-detail-content-desc">
         <Collapsible
@@ -24,20 +23,16 @@ const ProductDetailContent = () => {
           }
         >
           <div className="mx-4 text-justify">
-            <span>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Error,
-              earum cumque. Praesentium molestias illo, at cupiditate dolorem
-              incidunt alias labore. Lorem ipsum dolor sit, amet consectetur
-              adipisicing elit. Error, earum cumque. Praesentium molestias illo,
-              at cupiditate dolorem incidunt alias labore.
-            </span>
+            <span>{product?.description}</span>
           </div>
         </Collapsible>
       </div>
 
       <div className="product-detail-content-price mt-2">
         <p className="product-detail-content-text">Price:</p>
-        <span className="product-detail-content-price-number">{"$100.00"}</span>
+        <span className="product-detail-content-price-number">
+          {product?.price}
+        </span>
       </div>
 
       <div className="d-flex product-detail-content-ratings items-center gap-1 mt-2">
@@ -47,7 +42,7 @@ const ProductDetailContent = () => {
           // onChange={ratingChanged}
           size={20}
           activeColor="#ffd700"
-          value={3}
+          value={product?.totalRatings}
           edit={false}
         />
         <p className="text-gray-500">(5 reviews)</p>
@@ -57,19 +52,19 @@ const ProductDetailContent = () => {
       </Link>
       <div className="product-detail-content-brand d-flex gap-1 mt-2">
         <p className="product-detail-content-text">Brand:</p>
-        <p className="text-gray-500">Havells</p>
+        <p className="text-gray-500">{product?.brand?.title}</p>
       </div>
       <div className="product-detail-content-tags d-flex gap-2 mt-2">
-        <p className="product-detail-content-text">Tags:</p>
+        <p className="product-detail-content-text">Category:</p>
         <Link className="text-gray-500" to={"#"}>
-          headphones
+          {product?.category?.title}
         </Link>
-        <Link className="text-gray-500" to={"#"}>
+        {/* <Link className="text-gray-500" to={"#"}>
           laptop
         </Link>
         <Link className="text-gray-500" to={"#"}>
           mobile
-        </Link>
+        </Link> */}
       </div>
 
       <div className="product-detail-content-size mt-2 d-flex gap-2">
@@ -83,7 +78,7 @@ const ProductDetailContent = () => {
               id="S"
               name="size"
             />
-            <label className="text-gray-500" htmlFor="S">
+            <label className="text-gray-500 mt-[2px]" htmlFor="S">
               S
             </label>
           </li>
@@ -95,7 +90,7 @@ const ProductDetailContent = () => {
               id="L"
               name="size"
             />
-            <label className="text-gray-500" htmlFor="L">
+            <label className="text-gray-500 mt-[2px]" htmlFor="L">
               L
             </label>
           </li>
@@ -107,7 +102,7 @@ const ProductDetailContent = () => {
               id="M"
               name="size"
             />
-            <label className="text-gray-500" htmlFor="M">
+            <label className="text-gray-500 mt-[2px]" htmlFor="M">
               M
             </label>
           </li>
@@ -130,8 +125,8 @@ const ProductDetailContent = () => {
         <p className="product-detail-content-text">Quantity:</p>
         <InputNumber
           min={1}
-          max={10}
-          defaultValue={3}
+          max={100000}
+          defaultValue={1}
           //  onChange={onChange}
         />
       </div>

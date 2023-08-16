@@ -6,6 +6,10 @@ import "../styles/ourstore.css";
 import NavOurStore from "../components/NavOurStore";
 import { Pagination } from "../components/OurStore";
 
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProducts } from "../features/products/productAsyncThunk";
+import { getAllCategories } from "../features/categories/categoryAsyncThunk";
+
 const BtnView = ({ colType, col, setCol, children }) => {
   const fcs = colType === col ? true : false;
 
@@ -20,8 +24,18 @@ const BtnView = ({ colType, col, setCol, children }) => {
 };
 
 const OurStore = () => {
+  const dispatch = useDispatch();
+
   const [col, setCol] = useState("col-3");
   // const [wdSize, setWdSize] = useState(window.innerWidth);
+  const products = useSelector((state) => state.products?.data?.products);
+
+  useEffect(() => {
+    if (!products?.data) {
+      dispatch(getAllProducts());
+      dispatch(getAllCategories());
+    }
+  }, [dispatch, products?.data]);
 
   const handleResize = () => {
     // setWdSize(window.innerWidth);
@@ -150,11 +164,20 @@ const OurStore = () => {
               </div>
             </div>
             <div className="row">
+              {/* <ProductCard col={col} />
               <ProductCard col={col} />
               <ProductCard col={col} />
               <ProductCard col={col} />
-              <ProductCard col={col} />
-              <ProductCard col={col} />
+              <ProductCard col={col} /> */}
+              {products ? (
+                <>
+                  {products?.map((item, index) => (
+                    <ProductCard col={col} item={item} index={index} />
+                  ))}
+                </>
+              ) : (
+                <></>
+              )}
             </div>
             <Pagination />
           </div>

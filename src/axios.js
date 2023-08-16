@@ -1,7 +1,6 @@
 import axios from "axios";
 import store from "./app/store";
 import jwtDecode from "jwt-decode";
-import { apiRefreshToken } from "./apis/apiUser";
 import { newAccessToken } from "./features/user/userSlice";
 
 const instance = axios.create({
@@ -31,14 +30,10 @@ instance.interceptors.request.use(
         );
 
         store.dispatch(newAccessToken(response.data.newAccessToken));
-        // console.log(
-        //   "het han xong tao gan lai ne",
-        //   response.data.newAccessToken
-        // );
 
         // config.headers.Authorization = "Bear" + response.data.newAccessToken
       } else {
-        console.log("accessToken is valided");
+        // console.log("accessToken is valided");
       }
     }
 

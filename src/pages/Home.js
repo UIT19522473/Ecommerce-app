@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from "../components/BlogCard";
@@ -9,8 +9,27 @@ import * as SettingSlick from "./settingSlick";
 import SmBanner from "../components/SmBanner";
 import SpecialProduct from "../components/SpecialProduct";
 import { testFunc } from "../services/test";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../features/products/productAsyncThunk";
+import { getAllCategories } from "../features/categories/categoryAsyncThunk";
+import Category from "../components/Category";
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const categories = useSelector((state) => state?.categories?.data);
+  const products = useSelector((state) => state?.products?.data?.products);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+    dispatch(getAllProducts());
+  }, [dispatch]);
+
+  // const productsCopy = { ...products };
+  // console.log(productsCopy);
+  // const productFeatured = productsCopy.filter((item) =>
+  //   item.tags.includes("feature")
+  // );
+
   const sliderRef = useRef(null);
   const sliderRefNews = useRef(null);
   const sliderRefPopular = useRef(null);
@@ -200,73 +219,32 @@ const Home = () => {
       <section className="home-wrapper-2 py-5">
         <div className="container-xxl ">
           <div className="bg-white categories-test">
-            <Slider {...SettingSlick.settingCategories}>
-              <div className="categories-part">
-                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/tv.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center justify-content-between px-3 ">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/camera.jpg" alt="camera" />
-                </div>
-              </div>
-              <div className="categories-part">
-                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/homeapp.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center justify-content-between px-3 ">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/headphone.jpg" alt="camera" />
-                </div>
-              </div>
+            {categories ? (
+              <>
+                <Slider {...SettingSlick.settingCategories}>
+                  {categories?.map((item, index) => (
+                    <Category item={item} key={index} />
+                  ))}
+                </Slider>
 
-              <div className="categories-part">
-                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/tv.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center justify-content-between px-3">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/camera.jpg" alt="camera" />
-                </div>
-              </div>
-              <div className="categories-part">
-                <div className="d-flex align-items-center justify-content-between px-3 categories-item">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/homeapp.jpg" alt="camera" />
-                </div>
-                <div className="d-flex align-items-center justify-content-between px-3 ">
-                  <div>
-                    <h6>Cameras</h6>
-                    <p className="mb-0">10 Items</p>
-                  </div>
-                  <img src="images/headphone.jpg" alt="camera" />
-                </div>
-              </div>
-            </Slider>
+                <Slider {...SettingSlick.settingCategories}>
+                  {categories
+                    ?.filter((item) => item)
+                    ?.reverse()
+                    ?.map((item, index) => (
+                      <Category item={item} key={index} />
+                    ))}
+                </Slider>
+
+                {/* <Slider {...SettingSlick.settingCategories}>
+                  {categories.reverse()?.map((item, index) => (
+                    <Category item={item} index={index} />
+                  ))}
+                </Slider> */}
+              </>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </section>
@@ -293,14 +271,11 @@ const Home = () => {
             </div>
 
             <Slider ref={sliderRef} {...SettingSlick.settingProductCards}>
-              <ProductCard link={"test nha"} />
-              <ProductCard link={"test nha"} />
-              <ProductCard link={"test nha"} />
-              <ProductCard link={"test nha"} />
-              <ProductCard link={"test nha"} />
-              <ProductCard link={"test nha"} />
-              <ProductCard link={"test nha"} />
-              <ProductCard link={"test nha"} />
+              {products
+                ?.filter((item) => item?.tags?.includes("feature"))
+                ?.map((item, index) => (
+                  <ProductCard item={item} key={index} />
+                ))}
             </Slider>
           </div>
         </div>
@@ -360,16 +335,36 @@ const Home = () => {
               </div>
             </div>
 
-            <Slider
-              ref={sliderRefSpecial}
-              {...SettingSlick.settingSpecialProducts}
-            >
-              <SpecialProduct />
-              <SpecialProduct />
-              <SpecialProduct />
-              <SpecialProduct />
-            </Slider>
-            <Slider
+            {products ? (
+              <>
+                <Slider
+                  ref={sliderRefSpecial}
+                  {...SettingSlick.settingSpecialProducts}
+                >
+                  {products
+                    ?.filter((item) => item?.tags?.includes("special"))
+                    ?.map((item, index) => (
+                      <SpecialProduct item={item} key={index} />
+                    ))}
+                </Slider>
+
+                <Slider
+                  ref={sliderRefSpecial2}
+                  {...SettingSlick.settingSpecialProducts}
+                >
+                  {products
+                    ?.filter((item) => item?.tags?.includes("special"))
+                    .reverse()
+                    ?.map((item, index) => (
+                      <SpecialProduct item={item} key={index} />
+                    ))}
+                </Slider>
+              </>
+            ) : (
+              <></>
+            )}
+
+            {/* <Slider
               ref={sliderRefSpecial2}
               {...SettingSlick.settingSpecialProducts}
             >
@@ -377,7 +372,7 @@ const Home = () => {
               <SpecialProduct />
               <SpecialProduct />
               <SpecialProduct />
-            </Slider>
+            </Slider> */}
           </div>
         </div>
       </section>
@@ -445,10 +440,15 @@ const Home = () => {
                     ref={sliderRefPopular}
                     {...SettingSlick.settingPopular}
                   >
+                    {products
+                      ?.filter((item) => item?.tags?.includes("popular"))
+                      ?.map((item, index) => (
+                        <ProductCard item={item} key={index} />
+                      ))}
+                    {/* <ProductCard />
                     <ProductCard />
                     <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    <ProductCard /> */}
                   </Slider>
                 </div>
               </div>
