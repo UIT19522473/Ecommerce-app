@@ -7,6 +7,7 @@ import { useSpring, animated } from "react-spring";
 import { logOut } from "../features/user/userSlice";
 
 import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
+import { updateTitleOurStore } from "../features/filterOurStore/filterOurStore";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -56,7 +57,12 @@ const Header = () => {
   const handleSearch = (event) => {
     setInputSearch(event.target.value);
     dispatch(getSearchProducts({ title: event.target.value }));
+    // dispatch(updateTitleOurStore(event.target.value));
     setShowResults(event.target.value !== "");
+  };
+
+  const handleClickSearchFor = () => {
+    dispatch(updateTitleOurStore(inputSearch));
   };
 
   // useEffect(() => {
@@ -177,28 +183,24 @@ const Header = () => {
                   aria-label="Search product here..."
                   aria-describedby="basic-addon2"
                 />
-                <span className="input-group-text px-3" id="basic-addon2">
+                <span className="input-group-text" id="basic-addon2">
                   <BsSearch className="fs-10" />
                 </span>
 
                 {showResults && (
                   <div ref={searchResultsRef} className="tb-result-search">
-                    <ul className="row ">
+                    <ul className="row p-0">
                       {listSearchProducts?.map((item, index) => (
                         <Link
                           // onClick={handleClickItem}
                           to={`/product/${item?._id}`}
                           key={index}
-                          className="text-black col-6 d-flex justify-center items-center my-2 result-search-item"
+                          className="text-black col-6 d-flex justify-content-center align-items-center my-2 result-search-item"
                         >
-                          <div className="item-search-img d-flex items-center w-20 h-20 justify-between">
-                            <img
-                              src={item?.images[0]}
-                              alt="img"
-                              className="w-full h-full"
-                            />
+                          <div className="item-search-img">
+                            <img src={item?.images[0]} alt="img" />
                           </div>
-                          <div className="item-search-detail flex-1">
+                          <div className="item-search-detail">
                             <p className="item-search-title">{item?.title}</p>
                             <p className="item-search-price">{item?.price}</p>
                           </div>
@@ -208,12 +210,12 @@ const Header = () => {
 
                     {inputSearch !== "" ? (
                       <NavLink
-                        // onClick={handleClickItem}
+                        onClick={handleClickSearchFor}
                         to="/our-store"
-                        className="col-12 tb-result-search-btn d-flex justify-around items-center px-5  py-2 cursor-pointer border-t-2 "
+                        className="col-12 tb-result-search-btn d-flex justify-content-around align-items-center px-5 py-2"
                       >
                         <p>Search For "{inputSearch}"</p>
-                        <span className="material-symbols-outlined fw-bold">
+                        <span className="material-symbols-outlined fw-bold ">
                           arrow_right_alt
                         </span>
                       </NavLink>
@@ -255,7 +257,7 @@ const Header = () => {
                 </div>
 
                 <div>
-                  <button
+                  <Link
                     // to={"/account/login"}
                     onClick={handleToggleAccount}
                     className="d-flex align-items-center gap-10 text-white position-relative"
@@ -270,7 +272,7 @@ const Header = () => {
                         {user.currentUser?.firstname}
                       </p>
                     ) : (
-                      <p className="text-item mb-0 text-left">
+                      <p className="text-item mb-0 text-right">
                         Login <br />
                         My Account
                       </p>
@@ -320,7 +322,7 @@ const Header = () => {
                         </>
                       )}
                     </animated.ul>
-                  </button>
+                  </Link>
                 </div>
 
                 <div className="wrap-cart">

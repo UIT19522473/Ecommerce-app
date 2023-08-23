@@ -1,12 +1,16 @@
 .text-lable {
   color: rgb(85, 85, 85);
 }
+.search-filter {
+  width: 350px;
+}
 
 .products-filter {
   box-shadow: 0 0 10px #0000002a;
   border-radius: 12px;
   padding: 8px 16px;
   margin-bottom: 12px;
+  flex-wrap: wrap;
 }
 
 .btn-toggle {
@@ -256,5 +260,9 @@
 
   .btn-expand-filter {
     display: none;
+  }
+
+  .search-filter {
+    width: 100%;
   }
 }

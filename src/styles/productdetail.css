@@ -57,6 +57,9 @@
   font-weight: 500;
   font-size: 16px;
 }
+.product-detail-group-color {
+  list-style: none;
+}
 
 .product-detail-content-price {
   display: flex;
@@ -107,6 +110,17 @@
 }
 
 /* review here */
+
+.btn-submit-review {
+  transition: all 0.2s ease;
+  font-size: 16px;
+  font-weight: 500;
+}
+.customers-reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
 .product-review-wrap {
   padding: 16px 8px;

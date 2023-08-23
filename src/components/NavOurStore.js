@@ -18,6 +18,7 @@ import InputPrice from "./OurStore/InputPrice";
 // import { useNavigate, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
+import { getFilterProducts } from "../features/filterOurStore/filterAsyncThunk";
 
 const NavOurStore = () => {
   const dispatch = useDispatch();
@@ -56,10 +57,11 @@ const NavOurStore = () => {
 
   useEffect(() => {
     const newQueryParams = new URLSearchParams();
-    const { categories, brands, availability, price, colors, sizes } = {
+    const { title, categories, brands, availability, price, colors, sizes } = {
       ...filterQueryRedux,
     };
 
+    if (title !== "") newQueryParams.set("title", title);
     if (categories.length > 0) newQueryParams.set("category", categories);
     if (brands.length > 0) newQueryParams.set("brand", brands);
     if (colors.length > 0) newQueryParams.set("color", colors);
@@ -72,7 +74,8 @@ const NavOurStore = () => {
     if (sizes.length > 0) newQueryParams.set("size", sizes);
 
     navigate(`?${newQueryParams.toString()}`);
-    dispatch(getSearchProducts(newQueryParams));
+    // dispatch(getSearchProducts(newQueryParams));
+    dispatch(getFilterProducts(newQueryParams));
   }, [filterQueryRedux, navigate, dispatch]);
 
   const brands = useSelector((state) => state?.brands?.data);

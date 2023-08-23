@@ -27,7 +27,7 @@ export const searchProductsSlice = createSlice({
       state.isLoading = false;
       state.success = action.payload.success;
       state.data = action.payload || [];
-      state.mes = "Get categories successfully";
+      state.mes = "Get products successfully";
     });
 
     // Khi thực hiện action login thất bại (Promise rejected)

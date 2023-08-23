@@ -142,10 +142,27 @@ a {
   transition: all 0.2s ease;
 }
 
+.tb-result-search-btn {
+  color: #777777;
+}
+
 .tb-result-search-btn:hover {
   background-color: #232f3e;
   color: white;
   transition: all 0.2s ease;
+}
+
+.item-search-img {
+  width: 80px;
+  height: 80px;
+}
+
+.item-search-img img {
+  width: 100%;
+}
+
+.item-search-detail {
+  flex: 1;
 }
 
 .header-bottom {

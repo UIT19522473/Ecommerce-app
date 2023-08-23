@@ -6,7 +6,8 @@ import "../styles/ourstore.css";
 import NavOurStore from "../components/NavOurStore";
 import { Pagination } from "../components/OurStore";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateTitleOurStore } from "../features/filterOurStore/filterOurStore";
 // import { getAllProducts } from "../features/products/productAsyncThunk";
 // import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 // import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
@@ -25,17 +26,7 @@ const BtnView = ({ colType, col, setCol, children }) => {
 };
 
 const OurStore = () => {
-  // useEffect(()=>{
-  //   apiGetAllBrands()
-  // },[])
-
-  // const testGetBrands = async () => {
-  //   const response = await apiGetAllBrands();
-  //   console.log(response);
-  // };
-  // testGetBrands();
-
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [col, setCol] = useState("col-3");
   // const [wdSize, setWdSize] = useState(window.innerWidth);
@@ -43,17 +34,15 @@ const OurStore = () => {
   // const products = useSelector((state) => state.products?.data?.products);
 
   // test -----------
-  const products = useSelector((state) => state.searchProducts?.data?.products);
+  const products = useSelector(
+    (state) => state.filterOurStore?.result?.products
+  );
 
-  // useEffect(() => {
-  //   if (!products?.data) {
-  //     dispatch(getAllProducts());
-  //     dispatch(getAllCategories());
+  const filterRedux = useSelector((state) => state.filterOurStore?.data);
 
-  //     // test------
-  //     dispatch(getSearchProducts({ title: "" }));
-  //   }
-  // }, [dispatch, products?.data]);
+  const handleFilterSearch = (e) => {
+    dispatch(updateTitleOurStore(e.target.value));
+  };
 
   const handleResize = () => {
     // setWdSize(window.innerWidth);
@@ -98,8 +87,8 @@ const OurStore = () => {
 
           {/* content------- */}
           <div className="col-lg-10 col-12 mt-sm-0 mt-5">
-            <div className="products-filter d-sm-flex align-items-center">
-              <div className="d-flex me-4 mb-sm-0 mb-3">
+            <div className="products-filter d-sm-flex  align-items-center">
+              <div className="d-flex me-4 mb-sm-0">
                 <p className="mt-1 me-4">Sort By:</p>
                 <div className="sort-by">
                   <div className="dropdown">
@@ -149,7 +138,27 @@ const OurStore = () => {
                 </div>
               </div>
 
-              <div className="ms-auto  d-flex align-items-center justify-content-between">
+              <div className="input-group search-filter my-xl-0 my-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search product here..."
+                  aria-label="Recipient's username"
+                  aria-describedby="button-addon2"
+                  value={filterRedux?.title}
+                  onChange={handleFilterSearch}
+                />
+                <button
+                  className="btn btn-outline-secondary d-flex justify-content-center align-items-center px-2"
+                  type="button"
+                  id="button-addon2"
+                  disabled={true}
+                >
+                  <span className="material-symbols-outlined fs-5">search</span>
+                </button>
+              </div>
+
+              <div className="ms-xl-auto d-flex align-items-center justify-content-between my-2">
                 <p className="mt-1 text-secondary">10 of 21 products</p>
                 <div className="d-flex justify-content-center align-items-center gap-10 ms-4">
                   <BtnView

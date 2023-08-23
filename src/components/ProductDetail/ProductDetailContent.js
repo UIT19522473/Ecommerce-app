@@ -55,7 +55,7 @@ const ProductDetailContent = (props) => {
         </span>
       </div>
 
-      <div className="d-flex product-detail-content-ratings items-center gap-1 mt-2">
+      <div className="d-flex product-detail-content-ratings align-items-center gap-2 mt-2">
         <p className="product-detail-content-text">Ratings:</p>
         <ReactStars
           count={5}
@@ -65,9 +65,9 @@ const ProductDetailContent = (props) => {
           value={product?.totalRatings}
           edit={false}
         />
-        <p className="text-gray-500">(5 reviews)</p>
+        <p className="text-secondary">(5 reviews)</p>
       </div>
-      <Link className="mt-2 text-gray-500" to={"#"}>
+      <Link className="mt-2 text-secondary" to={"#"}>
         Write a review
       </Link>
       <div className="product-detail-content-brand d-flex gap-1 mt-2">
@@ -76,7 +76,7 @@ const ProductDetailContent = (props) => {
       </div>
       <div className="product-detail-content-tags d-flex gap-2 mt-2">
         <p className="product-detail-content-text">Category:</p>
-        <Link className="text-gray-500" to={"#"}>
+        <Link className="text-secondary" to={"#"}>
           {product?.category?.title}
         </Link>
         {/* <Link className="text-gray-500" to={"#"}>
@@ -89,7 +89,7 @@ const ProductDetailContent = (props) => {
 
       <div className="product-detail-content-size mt-2 d-flex gap-2">
         <p className="product-detail-content-text">Size:</p>
-        <ul className="product-detail-group-size d-flex gap-4">
+        <ul className="product-detail-group-size d-flex gap-4 p-0">
           <li className="product-detail-box-size">
             <input
               className="cursor-pointer"
@@ -98,7 +98,7 @@ const ProductDetailContent = (props) => {
               id="S"
               name="size"
             />
-            <label className="text-gray-500 mt-[2px]" htmlFor="S">
+            <label className="text-secondary" htmlFor="S">
               S
             </label>
           </li>
@@ -110,7 +110,7 @@ const ProductDetailContent = (props) => {
               id="L"
               name="size"
             />
-            <label className="text-gray-500 mt-[2px]" htmlFor="L">
+            <label className="text-secondary " htmlFor="L">
               L
             </label>
           </li>
@@ -122,16 +122,16 @@ const ProductDetailContent = (props) => {
               id="M"
               name="size"
             />
-            <label className="text-gray-500 mt-[2px]" htmlFor="M">
+            <label className="text-secondary " htmlFor="M">
               M
             </label>
           </li>
         </ul>
       </div>
 
-      <div className="product-detail-content-color mt-2">
+      <div className="product-detail-content-color">
         <p className="product-detail-content-text">Color:</p>
-        <ul className="product-detail-group-color d-flex gap-2 mt-1">
+        <ul className="product-detail-group-color d-flex gap-2 mt-1 p-0">
           <li>
             <ItemColor color={"red"} />
           </li>

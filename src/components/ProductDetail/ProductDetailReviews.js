@@ -35,7 +35,7 @@ const ProductDetailReviews = () => {
         <div className="box-write-review">
           <Collapsible
             trigger={
-              <div className="cursor-pointer d-flex items-center">
+              <div className="cursor-pointer d-flex align-items-center">
                 <p className="text-sm font-semibold">Write your review</p>
                 <span className="material-symbols-outlined fw-bold fs-6 mt-[1px]">
                   expand_more
@@ -95,7 +95,10 @@ const ProductDetailReviews = () => {
                   />
                 </div>
 
-                <button type="submit" className="button ml-auto px-3 py-2">
+                <button
+                  type="submit"
+                  className="button ml-auto px-3 py-2 btn-submit-review"
+                >
                   Submit Review
                 </button>
               </form>
@@ -103,7 +106,7 @@ const ProductDetailReviews = () => {
           </Collapsible>
         </div>
 
-        <div className="wrap-customers-reviews mt-3">
+        <div className="wrap-customers-reviews my-5">
           <div className="wrap-total-reviews">
             <p className="text-sm font-semibold">Customer Reviews</p>
             <div className="wrap-total-stars d-flex gap-1 items-center">
@@ -121,7 +124,7 @@ const ProductDetailReviews = () => {
               </label>
             </div>
 
-            <div className="customers-reviews mt-3 d-flex gap-3 flex-col">
+            <div className="customers-reviews mt-3 ">
               <ReviewByCustomer />
               <ReviewByCustomer />
               <ReviewByCustomer />

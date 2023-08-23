@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 // import { getAllBrands } from "./brandAsyncThunk";
+import { getFilterProducts } from "./filterAsyncThunk";
 
 const initialState = {
   isLoading: false,
   success: false,
+  mes: "",
   data: {
+    title: "",
     categories: [],
     brands: [],
     availability: {
@@ -18,13 +21,26 @@ const initialState = {
     colors: [],
     sizes: [],
   },
-  mes: "",
+
+  result: [],
 };
 
 export const filterOurStoreSlice = createSlice({
   name: "filterOurStore",
   initialState,
   reducers: {
+    //title-------------
+    updateTitleOurStore: (state, action) => {
+      const titleSearch = action.payload;
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          title: titleSearch,
+        },
+      };
+    },
+
     //category-------------
     updateCategoryOurStore: (state, action) => {
       const idCategory = action.payload;
@@ -208,35 +224,37 @@ export const filterOurStoreSlice = createSlice({
   },
 
   // Code logic xử lý async action
-  //   extraReducers: (builder) => {
-  //     // Bắt đầu thực hiện action login (Promise pending)
-  //     builder.addCase(getAllBrands.pending, (state) => {
-  //       // Bật trạng thái loading
-  //       state.isLoading = true;
-  //     });
+  extraReducers: (builder) => {
+    // Bắt đầu thực hiện action login (Promise pending)
+    builder.addCase(getFilterProducts.pending, (state) => {
+      // Bật trạng thái loading
+      state.isLoading = true;
+    });
 
-  //     // Khi thực hiện action login thành công (Promise fulfilled)
-  //     builder.addCase(getAllBrands.fulfilled, (state, action) => {
-  //       // Tắt trạng thái loading, lưu thông tin user vào store
-  //       state.isLoading = false;
-  //       state.success = action.payload.success;
-  //       state.data = action.payload.getBrands || [];
-  //       state.mes = "Get Barnds successfully";
-  //     });
+    // Khi thực hiện action login thành công (Promise fulfilled)
+    builder.addCase(getFilterProducts.fulfilled, (state, action) => {
+      // Tắt trạng thái loading, lưu thông tin user vào store
+      state.isLoading = false;
+      state.success = action.payload.success;
+      state.result = action.payload || [];
+      state.mes = "Get products successfully";
+    });
 
-  //     // Khi thực hiện action login thất bại (Promise rejected)
-  //     builder.addCase(getAllBrands.rejected, (state, action) => {
-  //       // Tắt trạng thái loading, lưu thông báo lỗi vào store
-  //       state.isLoading = false;
-  //       state.success = false;
-  //       state.data = null;
-  //       state.mes = "Server is not working";
-  //     });
-  //   },
+    // Khi thực hiện action login thất bại (Promise rejected)
+    builder.addCase(getFilterProducts.rejected, (state, action) => {
+      // Tắt trạng thái loading, lưu thông báo lỗi vào store
+      state.isLoading = false;
+      state.success = false;
+      state.result = [];
+      state.mes = "Server is not working";
+    });
+  },
 });
 
 // Action creators are generated for each case reducer function
 export const {
+  //title---------
+  updateTitleOurStore,
   // categories
   updateCategoryOurStore,
   removeIdCategoryOurStore,
