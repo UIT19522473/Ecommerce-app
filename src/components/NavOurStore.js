@@ -17,7 +17,7 @@ import InputPrice from "./OurStore/InputPrice";
 
 // import { useNavigate, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
+// import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
 import { getFilterProducts } from "../features/filterOurStore/filterAsyncThunk";
 
 const NavOurStore = () => {
