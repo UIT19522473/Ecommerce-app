@@ -49,11 +49,13 @@ const Header = () => {
   const searchContainerRef = useRef(null); // Sử dụng ref để theo dõi phần kết quả tìm kiếm
   const searchResultsRef = useRef(null);
 
-  const listSearchProducts = useSelector((state) => state.searchProducts.data);
+  const listSearchProducts = useSelector(
+    (state) => state.searchProducts?.data?.products
+  );
 
   const handleSearch = (event) => {
     setInputSearch(event.target.value);
-    dispatch(getSearchProducts(event.target.value));
+    dispatch(getSearchProducts({ title: event.target.value }));
     setShowResults(event.target.value !== "");
   };
 

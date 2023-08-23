@@ -4,7 +4,7 @@ const apiSearchProduct = async (data) => {
   const response = await axios.get(
     `${process.env.REACT_APP_URL_SERVER_API}/product`,
     {
-      params: { title: data },
+      params: data,
     },
     { withCredentials: true }
   );

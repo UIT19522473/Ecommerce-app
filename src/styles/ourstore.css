@@ -95,6 +95,10 @@
   max-height: 160px;
   overflow-y: scroll;
 }
+.filter-categories {
+  max-height: 160px;
+  overflow-y: scroll;
+}
 
 .lb-dolar {
   font-size: 14px;

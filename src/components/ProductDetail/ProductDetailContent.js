@@ -4,9 +4,29 @@ import Collapsible from "react-collapsible";
 import { InputNumber } from "antd";
 import { ItemColor } from "../OurStore/ItemColor";
 import ReactStars from "react-rating-stars-component";
+import { apiCreatePayment } from "../../apis/apiPayment";
+import { useSelector } from "react-redux";
 
 const ProductDetailContent = (props) => {
   const { product } = props;
+  const accessToken = useSelector((state) => state.user?.accessToken);
+
+  const handleCheckOut = async () => {
+    // console.log("check out");
+    if (accessToken === "") {
+      alert("ban phai dang nhap");
+    } else {
+      try {
+        const response = await apiCreatePayment([{ product }], accessToken);
+        // console.log(response);
+        if (response?.data?.success) {
+          window.location.href = response.data.url;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
   return (
     <div className="col-6 product-detail-content">
       <h2 className="product-detail-content-name">{product?.title}</h2>
@@ -133,7 +153,9 @@ const ProductDetailContent = (props) => {
 
       <div className="product-detail-content-wrap-checkout mt-4">
         <button className="btn-checkout btn-checkout--cart">ADD TO CART</button>
-        <button className="btn-checkout">CHECK OUT</button>
+        <button onClick={handleCheckOut} className="btn-checkout">
+          CHECK OUT
+        </button>
       </div>
 
       <div className="product-detail-content-wishcompare d-flex gap-4 mt-4">

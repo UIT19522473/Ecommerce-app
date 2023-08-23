@@ -4,6 +4,8 @@ import productsReducer from "../features/products/productSlice";
 import categoriesReducer from "../features/categories/categoriesSlice";
 import searchProductsReducer from "../features/searchProducts/searchProductsSlice";
 import getOneProductReducer from "../features/oneproduct/oneProductSlice";
+import brandReducer from "../features/brands/brandSlice";
+import filterOurStoreReducer from "../features/filterOurStore/filterOurStore";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Chọn storage engine (local storage, AsyncStorage, ...)
@@ -20,6 +22,8 @@ export const store = configureStore({
     categories: categoriesReducer,
     searchProducts: searchProductsReducer,
     getProduct: getOneProductReducer,
+    brands: brandReducer,
+    filterOurStore: filterOurStoreReducer,
   },
 });
 

@@ -16,4 +16,13 @@ const apiGetOneProducts = async (data) => {
   return response;
 };
 
-export { apiGetAllProducts, apiGetOneProducts };
+const apiFilterProducts = async (data) => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_URL_SERVER_API}/product`,
+    { params: data },
+    { withCredentials: true }
+  );
+  return response;
+};
+
+export { apiGetAllProducts, apiGetOneProducts, apiFilterProducts };

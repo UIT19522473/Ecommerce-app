@@ -8,14 +8,88 @@ import {
 } from "./OurStore";
 import { useSpring, animated } from "react-spring";
 
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getAllBrands } from "../features/brands/brandAsyncThunk";
+import { getAllCategories } from "../features/categories/categoryAsyncThunk";
+import { CheckBoxCategory } from "./OurStore/CheckBoxCategory";
+import InputPrice from "./OurStore/InputPrice";
+
+import { useNavigate, useLocation } from "react-router-dom";
+import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
+
 const NavOurStore = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const filterQueryRedux = useSelector((state) => state.filterOurStore.data);
+
+  // const queryParams = new URLSearchParams(location.search);
+  // const categoryFilter = queryParams.get("category") || "";
+  // const brandFilter = queryParams.get("brand") || "";
+  // const availFilter = queryParams.get("avail") || "";
+  // const minPriceFilter = queryParams.get("minPrice") || "";
+  // const maxPriceFilter = queryParams.get("maxPrice") || "";
+  // const colorFilter = queryParams.get("color") || "";
+  // const sizeFilter = queryParams.get("size") || "";
+
+  //navigate when filter
+  // const filterProducts = () => {
+  //   const newQueryParams = new URLSearchParams();
+
+  //   if (categoryFilter) newQueryParams.set('category', categoryFilter);
+  //   if (colorFilter) newQueryParams.set('color', colorFilter);
+  //   if (minPriceFilter) newQueryParams.set('minPrice', minPriceFilter);
+
+  //   navigate(`?${newQueryParams.toString()}`);
+
+  //   const filteredProducts = products.filter(product => (
+  //     (!categoryFilter || product.category === categoryFilter) &&
+  //     (!colorFilter || product.color === colorFilter) &&
+  //     (!minPriceFilter || product.price > parseInt(minPriceFilter))
+  //   ));
+
+  //   setFilteredProducts(filteredProducts);
+  // };
+
+  useEffect(() => {
+    const newQueryParams = new URLSearchParams();
+    const { categories, brands, availability, price, colors, sizes } = {
+      ...filterQueryRedux,
+    };
+
+    if (categories.length > 0) newQueryParams.set("category", categories);
+    if (brands.length > 0) newQueryParams.set("brand", brands);
+    if (colors.length > 0) newQueryParams.set("color", colors);
+    if (brands.length > 0) newQueryParams.set("brand", brands);
+    if (availability.in) newQueryParams.set("avail-in", availability.in);
+    if (availability.out) newQueryParams.set("avail-out", availability.out);
+    if (price.from) newQueryParams.set("minPrice", price.from);
+    if (price.to) newQueryParams.set("maxPrice", price.to);
+    if (colors.length > 0) newQueryParams.set("color", colors);
+    if (sizes.length > 0) newQueryParams.set("size", sizes);
+
+    navigate(`?${newQueryParams.toString()}`);
+    dispatch(getSearchProducts(newQueryParams));
+  }, [filterQueryRedux, navigate, dispatch]);
+
+  const brands = useSelector((state) => state?.brands?.data);
+  const categories = useSelector((state) => state?.categories?.data);
+  useEffect(() => {
+    dispatch(getAllBrands());
+    if (categories && categories.length < 1) {
+      dispatch(getAllCategories());
+    }
+  }, [dispatch, categories]);
+
   const [modeNavFilter, setModeNavFilter] = useState(false);
 
   const [openResNav, setOpenResNav] = useState(false);
 
   const [expanded, setExpanded] = useState(false);
   const expandAnimation = useSpring({
-    height: expanded ? `500px` : "0px",
+    height: expanded ? `600px` : "0px",
   });
 
   const expandFilter = () => {
@@ -29,7 +103,7 @@ const NavOurStore = () => {
 
   return (
     <div
-      className={`wrap-navstore ${
+      className={`wrap-navstore  ${
         openResNav ? "wrap-navstore--responsive" : ""
       }`}
     >
@@ -39,8 +113,6 @@ const NavOurStore = () => {
           openResNav ? "btn-left-nav--close" : ""
         } d-sm-none d-block`}
       >
-        {/* <p>Filter By</p> */}
-        {/* <p>1</p> */}
         {openResNav ? (
           <span className="material-symbols-outlined">chevron_left</span>
         ) : (
@@ -75,48 +147,33 @@ const NavOurStore = () => {
             ? expandAnimation
             : {}
         }
-        // className={`wrap-navstore-content ${
-        //   window.innerWidth < 992 && window.innerWidth >= 576
-        //     ? "wrap-navstore-content--small custom-scroll"
-        //     : "wrap-navstore-content--fit"
-        // } ${window.innerWidth < 576 ? "wrap-navstore-content--left" : ""}`}
-
         className={`wrap-navstore-content `}
       >
+        <div className="wrap-filter-categories">
+          <p className="nav-title">Categories</p>
+          <div className="filter-categories d-flex flex-wrap gap-15 custom-scroll">
+            {categories?.map((item, index) => (
+              <CheckBoxCategory key={index} category={item} />
+            ))}
+          </div>
+        </div>
+
         <div className="wrap-filter-brand">
           <p className="nav-title">Brand</p>
           <div className="filter-brand d-flex flex-wrap gap-15 custom-scroll">
-            <CheckBoxBrand brand={"Windown"} />
-            <CheckBoxBrand brand={"Apple"} />
-            <CheckBoxBrand brand={"Sony"} />
-            <CheckBoxBrand brand={"Samsung"} />
-            <CheckBoxBrand brand={"LG"} />
+            {brands?.map((item, index) => (
+              <CheckBoxBrand key={index} brand={item} />
+            ))}
           </div>
         </div>
         <div className="wrap-filter-properties">
           <p className="nav-title">Availability</p>
           <div className="filter-available d-lg-block d-flex gap-lg-0 gap-30">
-            <CheckBoxAvailable type={"In stock"} stock={21} />
-            <CheckBoxAvailable type={"Out of stock"} stock={2} />
+            <CheckBoxAvailable type={"In"} stock={21} />
+            <CheckBoxAvailable type={"Out"} stock={2} />
           </div>
-          <div className="filter-price">
-            <p className="nav-title">Price</p>
-            <div className="d-flex gap-10 flex-wrap">
-              <div className="input-price d-flex align-items-center gap-1">
-                <label htmlFor="price-from" className="lb-dolar">
-                  $
-                </label>
-                <input type="number" placeholder="From" name="price-from" />
-              </div>
 
-              <div className="input-price d-flex align-items-center gap-1">
-                <label htmlFor="price-to" className="lb-dolar">
-                  $
-                </label>
-                <input type="number" placeholder="To" name="price-to" />
-              </div>
-            </div>
-          </div>
+          <InputPrice />
 
           <div className="wrap-filter-color">
             <p className="nav-title">Color</p>
@@ -125,21 +182,6 @@ const NavOurStore = () => {
               <ItemColor color="green" />
               <ItemColor color="yellow" />
               <ItemColor color="orange" />
-              <ItemColor color="black" />
-              <ItemColor color="yellow" />
-              <ItemColor color="orange" />
-              <ItemColor color="black" />
-              <ItemColor color="yellow" />
-              <ItemColor color="orange" />
-              <ItemColor color="black" />
-              <ItemColor color="black" />
-              <ItemColor color="yellow" />
-              <ItemColor color="orange" />
-              <ItemColor color="black" />
-              <ItemColor color="black" />
-              <ItemColor color="yellow" />
-              <ItemColor color="orange" />
-              <ItemColor color="black" />
             </div>
           </div>
 

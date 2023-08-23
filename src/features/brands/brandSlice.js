@@ -1,47 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSearchProducts } from "./searchProductsAsyncThunk";
+import { getAllBrands } from "./brandAsyncThunk";
 
 const initialState = {
   isLoading: false,
   success: false,
-  data: [],
+  data: null,
   mes: "",
 };
 
-export const searchProductsSlice = createSlice({
-  name: "searchProducts",
+export const brandSlice = createSlice({
+  name: "brand",
   initialState,
-  reducers: {},
+  reducers: {
+    // register: (state, action) => {},
+    // newAccessToken: (state, action) => {
+    //   state.accessToken = action.payload;
+    // },
+    // logOut: (state, action) => {
+    //   state.isLoading = false;
+    //   state.success = false;
+    //   state.currentUser = null;
+    //   state.accessToken = "";
+    //   state.mes = "";
+    // },
+  },
 
   // Code logic xử lý async action
   extraReducers: (builder) => {
     // Bắt đầu thực hiện action login (Promise pending)
-    builder.addCase(getSearchProducts.pending, (state) => {
+    builder.addCase(getAllBrands.pending, (state) => {
       // Bật trạng thái loading
       state.isLoading = true;
     });
 
     // Khi thực hiện action login thành công (Promise fulfilled)
-    builder.addCase(getSearchProducts.fulfilled, (state, action) => {
+    builder.addCase(getAllBrands.fulfilled, (state, action) => {
       // Tắt trạng thái loading, lưu thông tin user vào store
       state.isLoading = false;
       state.success = action.payload.success;
-      state.data = action.payload || [];
-      state.mes = "Get categories successfully";
+      state.data = action.payload.getBrands || [];
+      state.mes = "Get Barnds successfully";
     });
 
     // Khi thực hiện action login thất bại (Promise rejected)
-    builder.addCase(getSearchProducts.rejected, (state, action) => {
+    builder.addCase(getAllBrands.rejected, (state, action) => {
       // Tắt trạng thái loading, lưu thông báo lỗi vào store
       state.isLoading = false;
       state.success = false;
-      state.data = [];
+      state.data = null;
       state.mes = "Server is not working";
     });
   },
 });
 
 // Action creators are generated for each case reducer function
-// export const {} = categoriesSlice.actions;
+// export const {} = productsSlice.actions;
 
-export default searchProductsSlice.reducer;
+export default brandSlice.reducer;
