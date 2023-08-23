@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/ourstore.css";
-import { useState } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   updatePriceFrom,

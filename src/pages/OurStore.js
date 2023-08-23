@@ -6,7 +6,7 @@ import "../styles/ourstore.css";
 import NavOurStore from "../components/NavOurStore";
 import { Pagination } from "../components/OurStore";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 // import { getAllProducts } from "../features/products/productAsyncThunk";
 // import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 // import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";

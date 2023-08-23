@@ -15,13 +15,14 @@ import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 import { CheckBoxCategory } from "./OurStore/CheckBoxCategory";
 import InputPrice from "./OurStore/InputPrice";
 
-import { useNavigate, useLocation } from "react-router-dom";
+// import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
 
 const NavOurStore = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   const filterQueryRedux = useSelector((state) => state.filterOurStore.data);
 
