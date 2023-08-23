@@ -7,10 +7,12 @@ import NavOurStore from "../components/NavOurStore";
 import { Pagination } from "../components/OurStore";
 
 import { useSelector, useDispatch } from "react-redux";
-import { updateTitleOurStore } from "../features/filterOurStore/filterOurStore";
-// import { getAllProducts } from "../features/products/productAsyncThunk";
-// import { getAllCategories } from "../features/categories/categoryAsyncThunk";
-// import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
+import {
+  updateStateByURL,
+  updateTitleOurStore,
+} from "../features/filterOurStore/filterOurStore";
+import { useLocation } from "react-router-dom";
+import { getFilterProducts } from "../features/filterOurStore/filterAsyncThunk";
 
 const BtnView = ({ colType, col, setCol, children }) => {
   const fcs = colType === col ? true : false;
@@ -27,6 +29,18 @@ const BtnView = ({ colType, col, setCol, children }) => {
 
 const OurStore = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  // console.log(location.search);
+  //load products
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+
+    dispatch(getFilterProducts(searchParams));
+    // Convert searchParams to a plain object using Object.fromEntries
+    const searchObject = Object.fromEntries(searchParams.entries());
+    dispatch(updateStateByURL(searchObject));
+    // console.log(searchObject);
+  }, [dispatch, location.search]);
 
   const [col, setCol] = useState("col-3");
   // const [wdSize, setWdSize] = useState(window.innerWidth);

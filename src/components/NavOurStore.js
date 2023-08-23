@@ -15,10 +15,7 @@ import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 import { CheckBoxCategory } from "./OurStore/CheckBoxCategory";
 import InputPrice from "./OurStore/InputPrice";
 
-// import { useNavigate, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-// import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
-import { getFilterProducts } from "../features/filterOurStore/filterAsyncThunk";
 
 const NavOurStore = () => {
   const dispatch = useDispatch();
@@ -26,34 +23,6 @@ const NavOurStore = () => {
   // const location = useLocation();
 
   const filterQueryRedux = useSelector((state) => state.filterOurStore.data);
-
-  // const queryParams = new URLSearchParams(location.search);
-  // const categoryFilter = queryParams.get("category") || "";
-  // const brandFilter = queryParams.get("brand") || "";
-  // const availFilter = queryParams.get("avail") || "";
-  // const minPriceFilter = queryParams.get("minPrice") || "";
-  // const maxPriceFilter = queryParams.get("maxPrice") || "";
-  // const colorFilter = queryParams.get("color") || "";
-  // const sizeFilter = queryParams.get("size") || "";
-
-  //navigate when filter
-  // const filterProducts = () => {
-  //   const newQueryParams = new URLSearchParams();
-
-  //   if (categoryFilter) newQueryParams.set('category', categoryFilter);
-  //   if (colorFilter) newQueryParams.set('color', colorFilter);
-  //   if (minPriceFilter) newQueryParams.set('minPrice', minPriceFilter);
-
-  //   navigate(`?${newQueryParams.toString()}`);
-
-  //   const filteredProducts = products.filter(product => (
-  //     (!categoryFilter || product.category === categoryFilter) &&
-  //     (!colorFilter || product.color === colorFilter) &&
-  //     (!minPriceFilter || product.price > parseInt(minPriceFilter))
-  //   ));
-
-  //   setFilteredProducts(filteredProducts);
-  // };
 
   useEffect(() => {
     const newQueryParams = new URLSearchParams();
@@ -64,19 +33,18 @@ const NavOurStore = () => {
     if (title !== "") newQueryParams.set("title", title);
     if (categories.length > 0) newQueryParams.set("category", categories);
     if (brands.length > 0) newQueryParams.set("brand", brands);
-    if (colors.length > 0) newQueryParams.set("color", colors);
-    if (brands.length > 0) newQueryParams.set("brand", brands);
-    if (availability.in) newQueryParams.set("avail-in", availability.in);
-    if (availability.out) newQueryParams.set("avail-out", availability.out);
+    if (availability.in) newQueryParams.set("availIn", availability.in);
+    if (availability.out) newQueryParams.set("availOut", availability.out);
     if (price.from) newQueryParams.set("minPrice", price.from);
     if (price.to) newQueryParams.set("maxPrice", price.to);
     if (colors.length > 0) newQueryParams.set("color", colors);
     if (sizes.length > 0) newQueryParams.set("size", sizes);
 
     navigate(`?${newQueryParams.toString()}`);
+    // dispatch(getFilterProducts(newQueryParams));
+
     // dispatch(getSearchProducts(newQueryParams));
-    dispatch(getFilterProducts(newQueryParams));
-  }, [filterQueryRedux, navigate, dispatch]);
+  }, [filterQueryRedux, navigate]);
 
   const brands = useSelector((state) => state?.brands?.data);
   const categories = useSelector((state) => state?.categories?.data);
@@ -182,10 +150,10 @@ const NavOurStore = () => {
           <div className="wrap-filter-color">
             <p className="nav-title">Color</p>
             <div className="filter-color d-flex gap-15 flex-wrap custom-scroll">
-              <ItemColor color="red" />
-              <ItemColor color="green" />
-              <ItemColor color="yellow" />
-              <ItemColor color="orange" />
+              <ItemColor type="our-store" color="red" />
+              <ItemColor type="our-store" color="green" />
+              <ItemColor type="our-store" color="yellow" />
+              <ItemColor type="our-store" color="orange" />
             </div>
           </div>
 

@@ -29,6 +29,47 @@ export const filterOurStoreSlice = createSlice({
   name: "filterOurStore",
   initialState,
   reducers: {
+    //update state when search by url
+    updateStateByURL: (state, action) => {
+      // console.log("redux");
+      const {
+        title,
+        category,
+        brand,
+        color,
+        availIn,
+        availOut,
+        minPrice,
+        maxPrice,
+        size,
+      } = action.payload;
+      console.log({
+        title,
+        category,
+        brand,
+        color,
+        availIn,
+        availOut,
+        minPrice,
+        maxPrice,
+        size,
+      });
+      state.data = {
+        title: title ? title : "",
+        categories: category ? category.split(",") : [],
+        brands: brand ? brand.split(",") : [],
+        availability: {
+          in: availIn ? availIn : false,
+          out: availOut ? availOut : false,
+        },
+        price: {
+          from: minPrice ? minPrice : null,
+          to: maxPrice ? maxPrice : null,
+        },
+        colors: color ? color.split(",") : [],
+        sizes: size ? size.split(",") : [],
+      };
+    },
     //title-------------
     updateTitleOurStore: (state, action) => {
       const titleSearch = action.payload;
@@ -253,6 +294,8 @@ export const filterOurStoreSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+  //update state url
+  updateStateByURL,
   //title---------
   updateTitleOurStore,
   // categories

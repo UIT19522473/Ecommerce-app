@@ -235,6 +235,12 @@
   color: white;
 }
 
+.btn-pagination {
+  border: none;
+  background-color: white;
+  cursor: pointer;
+}
+
 /* pagination ends here */
 
 /* responsive */

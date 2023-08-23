@@ -23,14 +23,14 @@ export const Pagination = () => {
         <p>Showing 6 of 21</p>
       </div>
 
-      <nav className="pagination-nav-number d-flex justify-center items-center gap-4">
-        <button>{"<"}</button>
-        <ul className="d-flex gap-4">
+      <nav className="pagination-nav-number d-flex justify-content-center align-items-center gap-4">
+        <button className="btn-pagination">{"<"}</button>
+        <ul className="d-flex gap-4 p-0 m-0">
           <NumberPage number={1} page={page} setPage={setPage} />
           <NumberPage number={2} page={page} setPage={setPage} />
           <NumberPage number={3} page={page} setPage={setPage} />
         </ul>
-        <button>{">"}</button>
+        <button className="btn-pagination">{">"}</button>
       </nav>
     </div>
   );

@@ -8,17 +8,19 @@ import {
 } from "../../features/filterOurStore/filterOurStore";
 
 export const ItemColor = (props) => {
-  const { color } = props;
+  const { color, type } = props;
   const dispatch = useDispatch();
   // const colorsRedux = useSelector((state) => state.filterOurStore.data.colors);
   const [choose, setChoose] = useState(false);
 
   const handleChooseColor = () => {
     setChoose(!choose);
-    if (!choose) {
-      dispatch(updateColorsOurStore(color));
-    } else {
-      dispatch(removeColorsOurStore(color));
+    if (type === "our-store") {
+      if (!choose) {
+        dispatch(updateColorsOurStore(color));
+      } else {
+        dispatch(removeColorsOurStore(color));
+      }
     }
   };
   return (
