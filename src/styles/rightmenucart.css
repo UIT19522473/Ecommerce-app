@@ -1,0 +1,185 @@
+.wrap-right-menu-cart {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 999;
+  transition: all 0.2s ease;
+}
+
+.right-menu-cart {
+  /* width: 25%; */
+  background-color: white;
+  max-width: 0; /* Đặt giá trị ban đầu của max-width là 0 */
+  animation: rightMenuOpen 0.5s forwards;
+}
+
+@keyframes rightMenuOpen {
+  from {
+    max-width: 0;
+  }
+  to {
+    max-width: 400px; /* Đặt giá trị cuối cùng của max-width là 25% */
+  }
+}
+
+.wrap-text-cart-empty {
+  font-size: 16px;
+  font-weight: 500;
+  color: gray;
+  width: 360px;
+  margin-top: 12px;
+}
+
+.wrap-cart-item {
+  max-height: 75vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.item-cart {
+  width: 360px;
+  padding: 4px;
+  border-bottom: 1px solid rgb(235, 235, 235);
+  margin-top: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.item-cart:hover {
+  transform: translateY(-4px);
+}
+.item-cart:hover .item-cart-info {
+  background-color: rgb(245, 245, 245);
+}
+.item-cart-info {
+  padding: 4px;
+  transition: all 0.2s ease;
+}
+
+.item-cart-img {
+  width: 80px;
+  height: 80px;
+  margin: 0 8px;
+}
+
+.item-cart-info-name {
+  font-weight: 500;
+}
+.item-cart-info-price,
+.item-cart-info-total-text {
+  color: gray;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.item-cart-info-price--through {
+  text-decoration: line-through;
+}
+.item-cart-info-price--discount {
+  color: red;
+}
+
+.item-cart-info-quantity,
+.item-cart-info-size,
+.item-cart-info-color,
+.item-cart-info-total {
+  font-size: 13px;
+  color: rgb(60, 60, 60);
+  margin-top: 2px;
+}
+
+.item-cart-info {
+  flex: 1;
+}
+.item-cart-infor-delete {
+  border: none;
+  background-color: transparent;
+  color: gray;
+  transition: all 0.2s ease;
+}
+.item-cart-infor-delete:hover {
+  transform: translateY(-2px);
+  color: rgb(86, 86, 86);
+}
+
+.wrap-cart-controller {
+  background-color: rgb(245, 245, 245);
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap-cart-controller-total {
+  display: flex;
+  padding: 16px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(200, 200, 200);
+}
+
+.wrap-cart-controller-btn {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.cart-controller-btn {
+  padding: 12px 24px;
+  border-radius: 24px;
+  border: none;
+  background-color: var(--color-232f3e);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cart-controller-btn:hover {
+  transform: translateY(-2px);
+  background-color: #324357;
+}
+
+.cart-controller-btn--checkout {
+  color: black;
+  background-color: var(--color-febd69);
+}
+
+.cart-controller-btn--checkout:hover {
+  background-color: #fbc783;
+}
+
+/* custom scroll bar */
+/* custom scoll bar */
+/* Ẩn thanh cuộn mặc định trên các trình duyệt WebKit */
+.wrap-cart-item::-webkit-scrollbar {
+  width: 8px;
+  /* background-color: #f5f5f5; */
+
+  /* border-radius: 24px; */
+}
+
+/* Tùy chỉnh màu sắc của thanh cuộn */
+.wrap-cart-item::-webkit-scrollbar-thumb {
+  background-color: #c5c5c5;
+  border-radius: 24px;
+}
+
+/* Tùy chỉnh màu sắc khi di chuột vào thanh cuộn */
+.wrap-cart-item::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+  cursor: pointer;
+}
+
+/* Tùy chỉnh màu nền của khu vực thanh cuộn */
+.wrap-cart-item::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+
+/* Tùy chỉnh màu nền khi di chuột vào khu vực thanh cuộn */
+.wrap-cart-item::-webkit-scrollbar-track:hover {
+  background-color: #ddd;
+}

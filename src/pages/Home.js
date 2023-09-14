@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import * as SettingSlick from "./settingSlick";
 import SmBanner from "../components/SmBanner";
 import SpecialProduct from "../components/SpecialProduct";
-import { testFunc } from "../services/test";
+// import { testFunc } from "../services/test";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productAsyncThunk";
 import { getAllCategories } from "../features/categories/categoryAsyncThunk";
@@ -76,13 +76,13 @@ const Home = () => {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={testFunc}
         // onClick={() => console.log("test")}
         className="button"
       >
         test
-      </button>
+      </button> */}
 
       {/* big banner */}
       <section className="home-wrapper-1 py-5">

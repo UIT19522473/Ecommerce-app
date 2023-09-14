@@ -164,6 +164,29 @@ a {
 .item-search-detail {
   flex: 1;
 }
+.item-search-title {
+  font-size: 16px;
+}
+.item-search-price {
+  color: red;
+  font-weight: 450;
+}
+.icon-badge-quantity {
+  width: fit-content;
+}
+
+.img-item {
+  transition: transform 0.3s; /* Hiệu ứng chuyển đổi mượt mà */
+  transform-style: preserve-3d; /* Bật chế độ 3D */
+}
+.img-item:hover {
+  transform: rotateY(180deg) translateY(-2px); /* Xoay 3D khi hover */
+}
+
+.item-search-price-through {
+  color: black;
+  text-decoration: line-through;
+}
 
 .header-bottom {
   background-color: var(--color-232f3e);
@@ -811,6 +834,7 @@ footer .input-group-text {
   .wrap-cart {
     position: relative;
   }
+
   .text-cost {
     display: none;
   }

@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
 import "../styles/product.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, chooseItemCart } from "../features/cart/cartSlice";
+
+import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+import { apiAddToCart } from "../apis/apiCart";
 
 const ProductCard = (props) => {
+  const dispatch = useDispatch();
   const item = props.item;
+
+  const listCartRedux = useSelector((state) => state.cart.listCart);
   // console.log(item);
   // console.log("product", props.item);
   const navigate = useNavigate();
@@ -18,7 +28,45 @@ const ProductCard = (props) => {
   const handleShowProduct = () => {
     // console.log("test here");
     navigate(`/product/${item._id}`); // Chuyển hướng đến trang /product/:idproduct
+    dispatch(chooseItemCart({ item: item, type: "NEW" }));
   };
+  //wish list
+  const handleWishlist = (e) => {
+    e.stopPropagation();
+  };
+
+  //comapre
+  const handleComapre = (e) => {
+    e.stopPropagation();
+  };
+  //handle add to cart
+
+  const accessToken = useSelector((state) => state.user?.accessToken);
+  const handleAddToCart = async (e) => {
+    e.stopPropagation();
+    const newItem = { ...item, quantity: 1 };
+
+    // Dispatch action to update cart in Redux
+    dispatch(addToCart(newItem));
+
+    toast.success("Added a product to your cart !", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 700,
+    });
+  };
+
+  useEffect(() => {
+    if (accessToken !== "") {
+      const updateCart = async () => {
+        await apiAddToCart({
+          content: listCartRedux, // Use the updated cart here
+          token: accessToken,
+        });
+        // console.log("add to card", response);
+      };
+      updateCart();
+    }
+  }, [accessToken, listCartRedux]);
 
   return (
     <div
@@ -40,19 +88,31 @@ const ProductCard = (props) => {
             } position-relative`}
           >
             <div className="wishlist-icon position-absolute">
-              <Link to={"#"}>
+              <Link
+                onClick={(e) => handleWishlist(e)}
+                title="Add to wishlist"
+                to={"#"}
+              >
                 <img src="images/wish.svg" alt="wishlist" />
               </Link>
             </div>
             <div className="action-bar position-absolute">
               <div className="d-flex flex-column gap-15">
-                <Link to="#">
+                {/* <Link title="" to="#">
                   <img src="images/view.svg" alt="view" />
-                </Link>
-                <Link to="#">
+                </Link> */}
+                <Link
+                  onClick={(e) => handleComapre(e)}
+                  title="Add to compare"
+                  to="#"
+                >
                   <img src="images/prodcompare.svg" alt="compare" />
                 </Link>
-                <Link to="#">
+                <Link
+                  onClick={(e) => handleAddToCart(e)}
+                  title="Add to cart"
+                  to="#"
+                >
                   <img src="images/add-cart.svg" alt="add-card" />
                 </Link>
               </div>
@@ -84,7 +144,26 @@ const ProductCard = (props) => {
               edit={false}
             />
             {show ? <p className="product-desc">{item?.description}</p> : <></>}
-            <p className="product-price">${item?.price}</p>
+            <div className="d-flex gap-2 align-items-center">
+              {!item?.coupon ? (
+                <p className="product-price">
+                  ${item?.price.toLocaleString("en-US")}
+                </p>
+              ) : (
+                <>
+                  <p className="product-price product-price-through">
+                    ${item?.price.toLocaleString("en-US")}
+                  </p>
+                  <p className="product-price product-price-discount">
+                    $
+                    {(
+                      item?.price *
+                      (1 - item?.coupon?.value / 100)
+                    ).toLocaleString("en-US")}
+                  </p>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

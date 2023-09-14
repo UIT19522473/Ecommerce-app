@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import OurStore from "./pages/OurStore";
 import PageNotFound from "./pages/PageNotFound";
 import ProductDetail from "./pages/ProductDetail";
+import SuccessPayment from "./pages/SuccessPayment";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="contact" element={<Contact />} />
             <Route path="our-store" element={<OurStore />} />
             <Route path="product/:pid" element={<ProductDetail />} />
+            <Route path="success-payment" element={<SuccessPayment />} />
 
             <Route path="account">
               <Route path="register" element={<SignUp />} />

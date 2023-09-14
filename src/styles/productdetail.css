@@ -73,6 +73,12 @@
   line-height: 28px;
   font-weight: 600;
 }
+.product-detail-content-price-number--through {
+  text-decoration: line-through;
+}
+.product-detail-content-price-number--discount {
+  color: red;
+}
 
 .product-detail-content-quantity {
   display: flex;

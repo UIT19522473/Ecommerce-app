@@ -1,0 +1,55 @@
+/* App.css */
+
+/* Cài đặt một hình nền và font chung cho trang */
+/* body {
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+} */
+
+/* Định dạng trang thanh toán thành công */
+.payment-success {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 400px;
+  height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+/* Định dạng tiêu đề */
+.payment-success h2 {
+  color: #27ae60;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Định dạng các thông điệp */
+.payment-success p {
+  font-size: 16px;
+  color: #333;
+  /* margin: 10px 0; */
+}
+
+/* Định dạng liên kết quay lại */
+.payment-success a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #27ae60;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.payment-success a:hover {
+  background-color: #218c52;
+}

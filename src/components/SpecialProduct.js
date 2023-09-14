@@ -5,8 +5,14 @@ import Slider from "react-slick";
 import "../styles/spProduct.css";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { addToCart, chooseItemCart } from "../features/cart/cartSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const SpecialProduct = (props) => {
+  const dispatch = useDispatch();
   const sliderRef = useRef(null);
   const navigate = useNavigate();
 
@@ -22,11 +28,13 @@ const SpecialProduct = (props) => {
     arrows: false,
   };
 
-  const next = () => {
+  const next = (event) => {
+    event.stopPropagation();
     sliderRef.current.slickNext();
   };
 
-  const previous = () => {
+  const previous = (event) => {
+    event.stopPropagation();
     sliderRef.current.slickPrev();
   };
 
@@ -39,13 +47,35 @@ const SpecialProduct = (props) => {
     setMainImg(item?.images[0]);
   }, [item]);
 
-  const changeMainImg = (url) => {
+  const changeMainImg = (event, url) => {
+    event.stopPropagation();
     setMainImg(url);
   };
 
   const handleShowProduct = () => {
     // console.log("test here");
     navigate(`/product/${item._id}`); // Chuyển hướng đến trang /product/:idproduct
+    dispatch(chooseItemCart({ item: item, type: "NEW" }));
+  };
+
+  //wish list
+  const handleWishlist = (e) => {
+    e.stopPropagation();
+  };
+
+  //comapre
+  const handleComapre = (e) => {
+    e.stopPropagation();
+  };
+  //cart
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+
+    toast.success("Added a product to your cart !", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 700,
+    });
+    dispatch(addToCart({ ...item, quantity: 1 }));
   };
   return (
     <div onClick={handleShowProduct} className="wrap-special-product">
@@ -57,7 +87,7 @@ const SpecialProduct = (props) => {
                 -{item?.coupon?.value}%
               </div>
               <div className="wishlist-icon position-absolute">
-                <Link to={"#"}>
+                <Link onClick={(e) => handleWishlist(e)} to={"#"}>
                   <img src="images/wish.svg" alt="wishlist" />
                 </Link>
               </div>
@@ -74,13 +104,13 @@ const SpecialProduct = (props) => {
 
               <div className="action-bar position-absolute">
                 <div className="d-flex flex-column gap-15">
-                  <Link to="#">
+                  {/* <Link to="#">
                     <img src="images/view.svg" alt="view" />
-                  </Link>
-                  <Link to="#">
+                  </Link> */}
+                  <Link onClick={(e) => handleComapre(e)} to="#">
                     <img src="images/prodcompare.svg" alt="compare" />
                   </Link>
-                  <Link to="#">
+                  <Link onClick={(e) => handleAddToCart(e)} to="#">
                     <img src="images/add-cart.svg" alt="add-card" />
                   </Link>
                 </div>
@@ -102,8 +132,9 @@ const SpecialProduct = (props) => {
 
             <Slider ref={sliderRef} {...settingSubImages}>
               <div
-                onClick={() =>
+                onClick={(e) =>
                   changeMainImg(
+                    e,
                     // "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
                     item?.images[0]
                   )
@@ -117,13 +148,13 @@ const SpecialProduct = (props) => {
                 />
               </div>
               <div
-                onClick={() => changeMainImg(item?.images[1])}
+                onClick={(e) => changeMainImg(e, item?.images[1])}
                 className="img-small d-flex"
               >
                 <img src={item?.images[1]} alt="logo" />
               </div>
               <div
-                onClick={() => changeMainImg(item?.images[0])}
+                onClick={(e) => changeMainImg(e, item?.images[0])}
                 className="img-small d-flex"
               >
                 <img src={item?.images[0]} alt="logo" />
@@ -143,9 +174,14 @@ const SpecialProduct = (props) => {
             edit={false}
           />
           <div className="content-cost d-flex gap-10">
-            <span className="content-cost-past">${item?.price}</span>
+            <span className="content-cost-past">
+              ${item?.price.toLocaleString("en-US")}
+            </span>
             <span className="content-cost-current">
-              ${item?.price * (1 - item?.coupon?.value / 100)}
+              $
+              {(item?.price * (1 - item?.coupon?.value / 100)).toLocaleString(
+                "en-US"
+              )}
             </span>
           </div>
           <div className="content-date-sale d-sm-flex">

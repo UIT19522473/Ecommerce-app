@@ -8,6 +8,8 @@ import { logOut } from "../features/user/userSlice";
 
 import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
 import { updateTitleOurStore } from "../features/filterOurStore/filterOurStore";
+import { loadCartFromDB, openCart } from "../features/cart/cartSlice";
+import { apiGetCart, apiRemoveCart } from "../apis/apiCart";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -91,11 +93,41 @@ const Header = () => {
       document.removeEventListener("click", handleDocumentClick);
     };
   }, []);
+  const handleOpenModalCart = () => {
+    dispatch(openCart());
+  };
+
+  //handle load data for cart
+  const cartRedux = useSelector((state) => state.cart.listCart);
+
+  const total = cartRedux?.reduce(
+    function (result, item) {
+      result.price += item?.coupon
+        ? item?.quantity * item?.price * (1 - item?.coupon?.value / 100)
+        : item?.quantity * item?.price;
+      result.quantity += item?.quantity;
+      return result;
+    },
+    { quantity: 0, price: 0 }
+  );
 
   const user = useSelector((state) => state.user);
+  //load data for cart from db
+  useEffect(() => {
+    const fetchCart = async () => {
+      const response = await apiGetCart({ token: user?.accessToken });
+      dispatch(loadCartFromDB(response.data));
+    };
+    fetchCart();
+  }, [dispatch, user?.accessToken]);
+
+  // const handleTest = async () => {
+  //   await apiRemoveCart({ token: user?.accessToken });
+  // };
   return (
     <>
       <header className="header-top-strip py-3">
+        {/* <button onClick={handleTest}>Test</button> */}
         <div className="container-xxl">
           <div className="row">
             <div className="col-lg-6 d-lg-block d-none">
@@ -202,7 +234,23 @@ const Header = () => {
                           </div>
                           <div className="item-search-detail">
                             <p className="item-search-title">{item?.title}</p>
-                            <p className="item-search-price">{item?.price}</p>
+                            <div className="d-flex gap-2">
+                              {!item?.coupon ? (
+                                <p className="item-search-price">
+                                  {item?.price}
+                                </p>
+                              ) : (
+                                <>
+                                  <p className="item-search-price item-search-price-through">
+                                    {item?.price}
+                                  </p>
+                                  <p className="item-search-price item-search-price-discount">
+                                    {item?.price *
+                                      (1 - item?.coupon?.value / 100)}
+                                  </p>
+                                </>
+                              )}
+                            </div>
                           </div>
                         </Link>
                       ))}
@@ -325,7 +373,7 @@ const Header = () => {
                   </Link>
                 </div>
 
-                <div className="wrap-cart">
+                <div onClick={handleOpenModalCart} className="wrap-cart">
                   <Link className="d-flex align-items-center gap-10 text-white">
                     <img
                       className="img-item"
@@ -333,10 +381,12 @@ const Header = () => {
                       alt="cart"
                     />
                     <div className="d-flex flex-column box-cost">
-                      <span className="icon-badge badge bg-white text-dark">
-                        0
+                      <span className="icon-badge-quantity badge bg-white text-dark">
+                        {total.quantity}
                       </span>
-                      <p className="text-cost mb-0">$ 5000</p>
+                      <p className="text-cost mb-0">
+                        $ {total.price.toLocaleString("en-US")}
+                      </p>
                     </div>
                   </Link>
                 </div>

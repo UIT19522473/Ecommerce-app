@@ -9,6 +9,7 @@ import {
 
 export const ItemColor = (props) => {
   const { color, type } = props;
+  // console.log(color);
   const dispatch = useDispatch();
   // const colorsRedux = useSelector((state) => state.filterOurStore.data.colors);
   const [choose, setChoose] = useState(false);

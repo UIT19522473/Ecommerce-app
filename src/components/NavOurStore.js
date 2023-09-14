@@ -139,11 +139,11 @@ const NavOurStore = () => {
           </div>
         </div>
         <div className="wrap-filter-properties">
-          <p className="nav-title">Availability</p>
+          {/* <p className="nav-title">Availability</p>
           <div className="filter-available d-lg-block d-flex gap-lg-0 gap-30">
             <CheckBoxAvailable type={"In"} stock={21} />
             <CheckBoxAvailable type={"Out"} stock={2} />
-          </div>
+          </div> */}
 
           <InputPrice />
 
@@ -157,7 +157,7 @@ const NavOurStore = () => {
             </div>
           </div>
 
-          <div className="filter-size">
+          {/* <div className="filter-size">
             <p className="nav-title">Size</p>
             <div className="d-lg-block d-flex gap-lg-0 gap-30 flex-wrap">
               <CheckBoxSize size={"S"} stock={10} />
@@ -166,7 +166,7 @@ const NavOurStore = () => {
               <CheckBoxSize size={"XL"} stock={1} />
               <CheckBoxSize size={"XXL"} stock={3} />
             </div>
-          </div>
+          </div> */}
         </div>
       </animated.div>
     </div>

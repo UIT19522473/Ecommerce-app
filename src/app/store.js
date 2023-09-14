@@ -6,6 +6,7 @@ import searchProductsReducer from "../features/searchProducts/searchProductsSlic
 import getOneProductReducer from "../features/oneproduct/oneProductSlice";
 import brandReducer from "../features/brands/brandSlice";
 import filterOurStoreReducer from "../features/filterOurStore/filterOurStore";
+import cardReducer from "../features/cart/cartSlice";
 
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Chọn storage engine (local storage, AsyncStorage, ...)
@@ -20,6 +21,7 @@ export const store = configureStore({
     user: persistedReducer,
     products: productsReducer,
     categories: categoriesReducer,
+    cart: cardReducer,
     searchProducts: searchProductsReducer,
     getProduct: getOneProductReducer,
     brands: brandReducer,

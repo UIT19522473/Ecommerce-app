@@ -114,7 +114,15 @@
 }
 
 .product-price {
-  font-weight: 400;
+  font-weight: 500;
+  font-size: 18px;
+}
+.product-price-through {
+  text-decoration: line-through;
+}
+.product-price-discount {
+  color: red;
+  font-size: 20px;
 }
 
 .product-card .product-details p.price {

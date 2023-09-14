@@ -173,7 +173,7 @@ const OurStore = () => {
               </div>
 
               <div className="ms-xl-auto d-flex align-items-center justify-content-between my-2">
-                <p className="mt-1 text-secondary">10 of 21 products</p>
+                {/* <p className="mt-1 text-secondary">10 of 21 products</p> */}
                 <div className="d-flex justify-content-center align-items-center gap-10 ms-4">
                   <BtnView
                     col={col}
