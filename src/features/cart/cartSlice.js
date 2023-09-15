@@ -93,16 +93,12 @@ export const cartSlice = createSlice({
       state.itemChoose = null;
     },
 
-    // newAccessToken: (state, action) => {
-    //   state.accessToken = action.payload;
-    // },
-    // logOut: (state, action) => {
-    //   state.isLoading = false;
-    //   state.success = false;
-    //   state.currentUser = null;
-    //   state.accessToken = "";
-    //   state.mes = "";
-    // },
+    setDefaultCart: (state) => {
+      state.open = false;
+      state.listCart = [];
+      state.itemChoose = null;
+      state.type = "NEW";
+    },
   },
 
   // Code logic xử lý async action
@@ -143,6 +139,7 @@ export const {
   removeOneCart,
   chooseItemCart,
   removeItemCart,
+  setDefaultCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

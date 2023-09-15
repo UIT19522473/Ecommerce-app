@@ -8,14 +8,19 @@ import { logOut } from "../features/user/userSlice";
 
 import { getSearchProducts } from "../features/searchProducts/searchProductsAsyncThunk";
 import { updateTitleOurStore } from "../features/filterOurStore/filterOurStore";
-import { loadCartFromDB, openCart } from "../features/cart/cartSlice";
-import { apiGetCart, apiRemoveCart } from "../apis/apiCart";
+import {
+  loadCartFromDB,
+  openCart,
+  setDefaultCart,
+} from "../features/cart/cartSlice";
+import { apiGetCart } from "../apis/apiCart";
 
 const Header = () => {
   const dispatch = useDispatch();
   const handleLogOut = () => {
     console.log("logout");
     dispatch(logOut());
+    dispatch(setDefaultCart());
   };
 
   // menu
@@ -115,8 +120,10 @@ const Header = () => {
   //load data for cart from db
   useEffect(() => {
     const fetchCart = async () => {
-      const response = await apiGetCart({ token: user?.accessToken });
-      dispatch(loadCartFromDB(response.data));
+      if (user?.accessToken !== "") {
+        const response = await apiGetCart({ token: user?.accessToken });
+        dispatch(loadCartFromDB(response.data));
+      }
     };
     fetchCart();
   }, [dispatch, user?.accessToken]);
@@ -402,7 +409,9 @@ const Header = () => {
             <div className="col-8 d-lg-none">
               <div className="input-group">
                 <input
+                  onClick={() => setShowResults(true)}
                   onChange={handleSearch}
+                  // onChange={handleSearch}
                   value={inputSearch}
                   type="text"
                   className="form-control py-2"
@@ -413,6 +422,59 @@ const Header = () => {
                 <span className="input-group-text px-3" id="basic-addon2">
                   <BsSearch className="fs-10" />
                 </span>
+                {showResults && (
+                  <div ref={searchResultsRef} className="tb-result-search">
+                    <ul className="row p-0">
+                      {listSearchProducts?.map((item, index) => (
+                        <Link
+                          // onClick={handleClickItem}
+                          to={`/product/${item?._id}`}
+                          key={index}
+                          className="text-black col-6 d-flex justify-content-center align-items-center my-2 result-search-item"
+                        >
+                          <div className="item-search-img">
+                            <img src={item?.images[0]} alt="img" />
+                          </div>
+                          <div className="item-search-detail">
+                            <p className="item-search-title">{item?.title}</p>
+                            <div className="d-flex gap-2">
+                              {!item?.coupon ? (
+                                <p className="item-search-price">
+                                  {item?.price}
+                                </p>
+                              ) : (
+                                <>
+                                  <p className="item-search-price item-search-price-through">
+                                    {item?.price}
+                                  </p>
+                                  <p className="item-search-price item-search-price-discount">
+                                    {item?.price *
+                                      (1 - item?.coupon?.value / 100)}
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </ul>
+
+                    {inputSearch !== "" ? (
+                      <NavLink
+                        onClick={handleClickSearchFor}
+                        to="/our-store"
+                        className="col-12 tb-result-search-btn d-flex justify-content-around align-items-center px-5 py-2"
+                      >
+                        <p>Search For "{inputSearch}"</p>
+                        <span className="material-symbols-outlined fw-bold ">
+                          arrow_right_alt
+                        </span>
+                      </NavLink>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <div className="d-none d-lg-block col-12">

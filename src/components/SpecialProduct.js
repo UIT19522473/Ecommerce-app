@@ -77,6 +77,56 @@ const SpecialProduct = (props) => {
     });
     dispatch(addToCart({ ...item, quantity: 1 }));
   };
+
+  //down time  function CountdownClock() {
+  const [countdown, setCountdown] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  // Thời gian bạn muốn đếm ngược đến
+  // const targetDateString = "15/11/2023 23:59:59";
+  const [datePart, timePart] = item?.coupon?.timeEnd.split(" ");
+  // const [Date, Time] = item?.coupon?.timeEnd.split(" ");
+  // console.log({ Date, Time });
+  const [day, month, year] = datePart.toString().split("/");
+  const [hour, minute, second] = timePart.split(":");
+  const targetDate = new Date(
+    year,
+    month - 1,
+    day,
+    hour,
+    minute,
+    second
+  ).getTime();
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const currentDate = new Date().getTime();
+      const timeLeft = targetDate - currentDate;
+
+      if (timeLeft <= 0) {
+        // Thời gian đã hết, bạn có thể thực hiện hành động tương ứng ở đây
+        clearInterval(intervalId);
+      } else {
+        const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        setCountdown({ days, hours, minutes, seconds });
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId); // Dọn dẹp bất kỳ hẹn giờ nào khi component bị hủy
+    };
+  }, [targetDate]);
+
   return (
     <div onClick={handleShowProduct} className="wrap-special-product">
       <div className="row special-product d-flex">
@@ -87,7 +137,11 @@ const SpecialProduct = (props) => {
                 -{item?.coupon?.value}%
               </div>
               <div className="wishlist-icon position-absolute">
-                <Link onClick={(e) => handleWishlist(e)} to={"#"}>
+                <Link
+                  title="Add to wishlist"
+                  onClick={(e) => handleWishlist(e)}
+                  to={"#"}
+                >
                   <img src="images/wish.svg" alt="wishlist" />
                 </Link>
               </div>
@@ -107,10 +161,18 @@ const SpecialProduct = (props) => {
                   {/* <Link to="#">
                     <img src="images/view.svg" alt="view" />
                   </Link> */}
-                  <Link onClick={(e) => handleComapre(e)} to="#">
+                  <Link
+                    title="Add to compare"
+                    onClick={(e) => handleComapre(e)}
+                    to="#"
+                  >
                     <img src="images/prodcompare.svg" alt="compare" />
                   </Link>
-                  <Link onClick={(e) => handleAddToCart(e)} to="#">
+                  <Link
+                    title="Add to cart"
+                    onClick={(e) => handleAddToCart(e)}
+                    to="#"
+                  >
                     <img src="images/add-cart.svg" alt="add-card" />
                   </Link>
                 </div>
@@ -186,20 +248,20 @@ const SpecialProduct = (props) => {
           </div>
           <div className="content-date-sale d-sm-flex">
             <div className="d-flex">
-              <p className="date-days">37</p>
+              <p className="date-days">{countdown.days}</p>
               <p className="mx-2">Days</p>
             </div>
             <div className="d-flex">
               <div className="date-time">
-                <p>04</p>
+                <p>{countdown.hours}</p>
               </div>
               <p className="">:</p>
               <div className="date-time">
-                <p>29</p>
+                <p>{countdown.minutes}</p>
               </div>
               <p>:</p>
               <div className="date-time">
-                <p>20</p>
+                <p>{countdown.seconds}</p>
               </div>
             </div>
           </div>

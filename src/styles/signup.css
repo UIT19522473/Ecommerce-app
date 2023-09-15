@@ -29,13 +29,18 @@
 }
 
 .btn-form {
-  padding: 4px 18px;
+  padding: 4px 32px;
   border-radius: 16px;
   min-width: 80px;
   margin-top: 12px;
   font-weight: 500;
   color: black;
   border: 3px solid #3b4149;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+.btn-form:hover {
+  transform: translateY(-2px);
 }
 
 .btn-form--create {
