@@ -339,17 +339,17 @@ const Header = () => {
                     >
                       {!user.currentUser ? (
                         <>
-                          <li className="border-b-[1px] w-full pb-2">
+                          <li className="pb-2 dropdown-item">
                             <Link
-                              className="dropdown-item text-white text-start"
+                              className="text-white text-start"
                               to="/account/login"
                             >
                               Login
                             </Link>
                           </li>
-                          <li className="mt-1">
+                          <li className="mt-1 dropdown-item ">
                             <Link
-                              className="dropdown-item text-white text-start"
+                              className=" text-white text-start "
                               to="/account/register"
                             >
                               Register
@@ -358,19 +358,16 @@ const Header = () => {
                         </>
                       ) : (
                         <>
-                          <li className="border-b-[1px] w-full pb-2">
-                            <Link
-                              className="dropdown-item text-white text-start"
-                              to="#"
-                            >
+                          <li className="dropdown-item pb-2">
+                            <Link className=" text-white text-start" to="#">
                               My account
                             </Link>
                           </li>
-                          <li onClick={handleLogOut} className="mt-1">
-                            <Link
-                              className="dropdown-item text-white text-start"
-                              to="#"
-                            >
+                          <li
+                            onClick={handleLogOut}
+                            className="mt-1 dropdown-item"
+                          >
+                            <Link className=" text-white text-start" to="#">
                               Logout
                             </Link>
                           </li>
