@@ -15,6 +15,34 @@ import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
+const convertVariant = (inputArray) => {
+  const outputArray = [];
+
+  const colorMap = {};
+
+  // Lặp qua mỗi phần tử trong mảng ban đầu
+  inputArray.forEach((item) => {
+    const { color, size, price } = item;
+
+    // Nếu màu đã tồn tại trong colorMap, thì thêm size và price vào sizePrice tương ứng
+    if (colorMap[color]) {
+      colorMap[color].sizePrice.push({ size, price });
+    } else {
+      // Nếu màu chưa tồn tại, thêm màu vào colorMap và tạo sizePrice mới
+      colorMap[color] = {
+        color,
+        sizePrice: [{ size, price }],
+      };
+    }
+  });
+
+  // Chuyển colorMap thành mảng đầu ra
+  for (const color in colorMap) {
+    outputArray.push(colorMap[color]);
+  }
+  return outputArray;
+};
+
 const ColorRadio = (props) => {
   const { color, index, chooseColor, setChooseColor } = props;
 
@@ -34,32 +62,56 @@ const ColorRadio = (props) => {
   );
 };
 
-const ProductDetailContent = (props) => {
-  // const location = useLocation();
+const discountPrice = (item) => {
+  if (item.type === "UPDATE") {
+    if (item?.product?.coupon) {
+      return item?.variant?.price * (1 - item?.product?.coupon?.value);
+    } else {
+      return item?.variant?.price;
+    }
+  } else {
+    if (item?.product?.coupon) {
+      return (
+        item?.product?.variants[0]?.price *
+        (1 - item?.product?.coupon?.value / 100)
+      );
+    } else {
+      return item?.product?.variants[0]?.price;
+    }
+  }
+};
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const queryParams = new URLSearchParams(location.search);
+const firstPrice = (item) => {
+  if (item.type === "UPDATE") {
+    return item?.variant?.price;
+  }
+
+  return item?.product?.variants[0]?.price;
+};
+
+const ProductDetailContent = (props) => {
   const dispatch = useDispatch();
   const { product } = props;
-  //  console.log(product);
+
+  const [priceFirst, setPriceFirst] = useState(0);
+  const [priceDiscount, setPriceDiscount] = useState(0);
+  const [arrColorSize, setArrColorSize] = useState([]);
+  const [currentVariant, setCurrentVariant] = useState(null);
+
+  useEffect(() => {
+    const convertColorAndSize = convertVariant(product?.product?.variants);
+    setPriceFirst(firstPrice(product));
+    setPriceDiscount(discountPrice(product));
+    setArrColorSize(convertColorAndSize);
+    setCurrentVariant(product?.variant || product?.product?.variants[0]);
+  }, [product]);
+  // console.log("sss", currentVariant);
 
   const chooseItemRedux = useSelector((state) => state.cart.itemChoose);
   const typeItemRedux = useSelector((state) => state.cart.type);
-  //get index color
-  const indexColor = product?.color.findIndex(
-    (item) => chooseItemRedux?.color[0] === item
-  );
-  // console.log("color", indexColor);
-  const [chooseColor, setChooseColor] = useState(
-    indexColor !== -1 ? indexColor : 0
-  );
 
-  // const initialQuantity = queryParams.get("quantity")
-  //   ? parseInt(queryParams.get("quantity"), 10)
-  //   : 1;
-  const [inQuantity, setInQuantity] = useState(
-    chooseItemRedux?.quantity * 1 || 1
-  );
+  const [chooseColor, setChooseColor] = useState(0);
+  const [inQuantity, setInQuantity] = useState(1);
 
   // Handler khi giá trị InputNumber thay đổi
   const handleQuantityChange = (value) => {
@@ -69,17 +121,7 @@ const ProductDetailContent = (props) => {
     setInQuantity(value);
   };
 
-  useEffect(() => {
-    const indexColor = product?.color.findIndex(
-      (item) => chooseItemRedux?.color[0] === item
-    );
-    setInQuantity(chooseItemRedux?.quantity * 1);
-    setChooseColor(indexColor);
-  }, [chooseItemRedux?.color, chooseItemRedux?.quantity, product?.color]);
-
-  const realPrice = product?.coupon
-    ? product?.price * (1 - product?.coupon?.value / 100)
-    : product?.price;
+  // const realPrice = currentPrice(product);
 
   const accessToken = useSelector((state) => state.user?.accessToken);
 
@@ -136,24 +178,7 @@ const ProductDetailContent = (props) => {
         autoClose: 700,
       });
     }
-
-    // TODO: Thực hiện các hành động khác, ví dụ như thêm sản phẩm vào giỏ hàng
-    // console.log("Product changed", productChanged);
   };
-
-  //call api when cart update
-  useEffect(() => {
-    if (accessToken !== "") {
-      const updateCart = async () => {
-        await apiAddToCart({
-          content: listCartRedux, // Use the updated cart here
-          token: accessToken,
-        });
-        // console.log("add to card", response);
-      };
-      updateCart();
-    }
-  }, [accessToken, listCartRedux]);
 
   return (
     <div className="col-6 product-detail-content">
@@ -179,18 +204,18 @@ const ProductDetailContent = (props) => {
       <div className="product-detail-content-price mt-2">
         <p className="product-detail-content-text">Price:</p>
 
-        {product?.coupon ? (
+        {product?.product?.coupon ? (
           <div className="d-flex gap-2">
             <span className="product-detail-content-price-number product-detail-content-price-number--through">
-              {product?.price.toLocaleString("en-US")}
+              {priceFirst.toLocaleString("en-US")}
             </span>
             <span className="product-detail-content-price-number product-detail-content-price-number--discount">
-              {realPrice.toLocaleString("en-US")}
+              {priceDiscount.toLocaleString("en-US")}
             </span>
           </div>
         ) : (
           <span className="product-detail-content-price-number">
-            {product?.price.toLocaleString("en-US")}
+            {priceFirst.toLocaleString("en-US")}
           </span>
         )}
       </div>
@@ -272,14 +297,14 @@ const ProductDetailContent = (props) => {
       <div className="product-detail-content- mt-2">
         <p className="product-detail-content-text">Color:</p>
         <ul className="product-detail-group-color d-flex gap-2 mt-1 p-0">
-          {product?.color?.map((item, index) => (
+          {arrColorSize?.map((item, index) => (
             <li key={index}>
               {/* <ItemColor color={item} /> */}
               <ColorRadio
                 chooseColor={chooseColor}
                 setChooseColor={setChooseColor}
                 index={index}
-                color={item}
+                color={item.color}
               />
             </li>
           ))}

@@ -16,13 +16,35 @@ import { CheckBoxCategory } from "./OurStore/CheckBoxCategory";
 import InputPrice from "./OurStore/InputPrice";
 
 import { useNavigate } from "react-router-dom";
+import { apiGetColorSize, apiStockStatus } from "../apis/apiProduct";
 
 const NavOurStore = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const location = useLocation();
+  const [stock, setStock] = useState({
+    productsInStock: 0,
+    productsOutOfStock: 0,
+  });
+
+  const [colorSize, setColorSize] = useState({
+    uniqueColors: [],
+    uniqueSizesWithQuantity: [],
+  });
 
   const filterQueryRedux = useSelector((state) => state.filterOurStore.data);
+
+  //fetch stock
+  useEffect(() => {
+    const fetchStock = async () => {
+      const responseStock = await apiStockStatus();
+      const responseColorSize = await apiGetColorSize();
+      // console.log(response);
+      setStock(responseStock?.data);
+      setColorSize(responseColorSize?.data);
+    };
+    fetchStock();
+  }, []);
 
   useEffect(() => {
     const newQueryParams = new URLSearchParams();
@@ -50,7 +72,7 @@ const NavOurStore = () => {
   const categories = useSelector((state) => state?.categories?.data);
   useEffect(() => {
     dispatch(getAllBrands());
-    if (categories && categories.length < 1) {
+    if (!categories) {
       dispatch(getAllCategories());
     }
   }, [dispatch, categories]);
@@ -139,34 +161,35 @@ const NavOurStore = () => {
           </div>
         </div>
         <div className="wrap-filter-properties">
-          {/* <p className="nav-title">Availability</p>
+          <p className="nav-title">Availability</p>
           <div className="filter-available d-lg-block d-flex gap-lg-0 gap-30">
-            <CheckBoxAvailable type={"In"} stock={21} />
-            <CheckBoxAvailable type={"Out"} stock={2} />
-          </div> */}
+            <CheckBoxAvailable type={"In"} stock={stock?.productsInStock} />
+            <CheckBoxAvailable type={"Out"} stock={stock?.productsOutOfStock} />
+          </div>
 
           <InputPrice />
 
           <div className="wrap-filter-color">
             <p className="nav-title">Color</p>
             <div className="filter-color d-flex gap-15 flex-wrap custom-scroll">
-              <ItemColor type="our-store" color="red" />
-              <ItemColor type="our-store" color="green" />
-              <ItemColor type="our-store" color="yellow" />
-              <ItemColor type="our-store" color="orange" />
+              {colorSize?.uniqueColors?.map((item, index) => (
+                <ItemColor key={index} type="our-store" color={item?.color} />
+              ))}
             </div>
           </div>
 
-          {/* <div className="filter-size">
+          <div className="filter-size">
             <p className="nav-title">Size</p>
             <div className="d-lg-block d-flex gap-lg-0 gap-30 flex-wrap">
-              <CheckBoxSize size={"S"} stock={10} />
-              <CheckBoxSize size={"M"} stock={7} />
-              <CheckBoxSize size={"L"} stock={12} />
-              <CheckBoxSize size={"XL"} stock={1} />
-              <CheckBoxSize size={"XXL"} stock={3} />
+              {colorSize?.uniqueSizesWithQuantity?.map((item, index) => (
+                <CheckBoxSize
+                  key={index}
+                  size={item?.size}
+                  stock={item?.totalQuantity}
+                />
+              ))}
             </div>
-          </div> */}
+          </div>
         </div>
       </animated.div>
     </div>

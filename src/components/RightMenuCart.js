@@ -13,9 +13,11 @@ const RightMenuCart = () => {
 
   const total = listCart.reduce(
     function (result, item) {
-      result.price += item?.coupon
-        ? item?.quantity * item?.price * (1 - item?.coupon?.value / 100)
-        : item?.quantity * item?.price;
+      result.price += item?.product?.coupon
+        ? item?.quantity *
+          item?.variant?.price *
+          (1 - item?.product?.coupon?.value / 100)
+        : item?.quantity * item?.variant?.price;
       result.quantity += item?.quantity;
       return result;
     },
@@ -35,8 +37,9 @@ const RightMenuCart = () => {
   //handle when check out
   const accessToken = useSelector((state) => state.user?.accessToken);
 
-  const handleCheckOut = async () => {
-    // console.log("check out");
+  const handleCheckOut = async (e) => {
+    console.log("check out");
+    e.stopPropagation();
     if (accessToken === "") {
       alert("ban phai dang nhap");
     } else {

@@ -2,10 +2,12 @@ import axios from "../axios";
 
 const apiAddToCart = async (data) => {
   const { content, token } = data;
+  console.log("api", content);
   const response = await axios.post(
-    `${process.env.REACT_APP_URL_SERVER_API}/user/addcart`,
+    // `${process.env.REACT_APP_URL_SERVER_API}/cart/add-to-cart`,
+    "http://localhost:5000/api/cart/add-to-cart",
     {
-      listProduct: content,
+      ...content,
     },
     { withCredentials: true, headers: { Authorization: `Bear ${token}` } }
   );
@@ -15,8 +17,18 @@ const apiAddToCart = async (data) => {
 const apiGetCart = async (data) => {
   const { token } = data;
   const response = await axios.get(
-    `${process.env.REACT_APP_URL_SERVER_API}/user/getcart`,
+    `${process.env.REACT_APP_URL_SERVER_API}/cart/get-cart`,
 
+    { withCredentials: true, headers: { Authorization: `Bear ${token}` } }
+  );
+  return response.data;
+};
+
+const apiDeleteOneCart = async (data) => {
+  const { content, token } = data;
+  const response = await axios.put(
+    `${process.env.REACT_APP_URL_SERVER_API}/cart/delete-one-cart`,
+    { ...content },
     { withCredentials: true, headers: { Authorization: `Bear ${token}` } }
   );
   return response.data;
@@ -32,4 +44,4 @@ const apiRemoveCart = async (data) => {
   return response.data;
 };
 
-export { apiAddToCart, apiGetCart, apiRemoveCart };
+export { apiAddToCart, apiGetCart, apiDeleteOneCart, apiRemoveCart };

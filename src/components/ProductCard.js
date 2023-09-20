@@ -15,7 +15,7 @@ const ProductCard = (props) => {
   const dispatch = useDispatch();
   const item = props.item;
 
-  const listCartRedux = useSelector((state) => state.cart.listCart);
+  // const listCartRedux = useSelector((state) => state.cart.listCart);
   // console.log(item);
   // console.log("product", props.item);
   const navigate = useNavigate();
@@ -44,29 +44,40 @@ const ProductCard = (props) => {
   const accessToken = useSelector((state) => state.user?.accessToken);
   const handleAddToCart = async (e) => {
     e.stopPropagation();
-    const newItem = { ...item, quantity: 1 };
+    // const newItem = { ...item, quantity: 1 };
+
+    const newItem = {
+      product: item,
+      variant: {
+        color: item?.variants[0]?.color,
+        size: item?.variants[0]?.size,
+        price: item?.variants[0]?.price,
+      },
+      quantity: 1,
+    };
 
     // Dispatch action to update cart in Redux
+    // dispatch(addToCart(newItem));
     dispatch(addToCart(newItem));
 
     toast.success("Added a product to your cart !", {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 700,
     });
-  };
 
-  useEffect(() => {
     if (accessToken !== "") {
-      const updateCart = async () => {
-        await apiAddToCart({
-          content: listCartRedux, // Use the updated cart here
-          token: accessToken,
-        });
-        // console.log("add to card", response);
+      const content = {
+        productId: item?._id,
+        quantity: 1,
+        variant: item?.variants[0],
       };
-      updateCart();
+      await apiAddToCart({
+        content: content, // Use the updated cart here
+        token: accessToken,
+      });
     }
-  }, [accessToken, listCartRedux]);
+    // updateCart();
+  };
 
   return (
     <div
@@ -147,17 +158,17 @@ const ProductCard = (props) => {
             <div className="d-flex gap-2 align-items-center">
               {!item?.coupon ? (
                 <p className="product-price">
-                  ${item?.price.toLocaleString("en-US")}
+                  ${item?.variants[0]?.price.toLocaleString("en-US")}
                 </p>
               ) : (
                 <>
                   <p className="product-price product-price-through">
-                    ${item?.price.toLocaleString("en-US")}
+                    ${item?.variants[0]?.price.toLocaleString("en-US")}
                   </p>
                   <p className="product-price product-price-discount">
                     $
                     {(
-                      item?.price *
+                      item?.variants[0]?.price *
                       (1 - item?.coupon?.value / 100)
                     ).toLocaleString("en-US")}
                   </p>

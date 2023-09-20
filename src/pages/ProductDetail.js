@@ -12,16 +12,22 @@ import { getOneProduct } from "../features/oneproduct/oneProductAsyncThunk";
 const ProductDetail = () => {
   const dispatch = useDispatch();
   const { pid } = useParams();
-  const product = useSelector((state) => state.getProduct?.data?.productData);
+  // const product = useSelector((state) => state.getProduct?.data?.productData);
+  const product = useSelector((state) => state.cart.itemChoose);
+
+  // useEffect(() => {
+  //   if (pid) {
+  //     dispatch(getOneProduct(pid));
+
+  //     // Đưa trình duyệt về đầu trang
+  //     window.scrollTo(0, 0);
+  //   }
+  // }, [dispatch, pid]);
 
   useEffect(() => {
-    if (pid) {
-      dispatch(getOneProduct(pid));
-
-      // Đưa trình duyệt về đầu trang
-      window.scrollTo(0, 0);
-    }
-  }, [dispatch, pid]);
+    // Đưa trình duyệt về đầu trang
+    window.scrollTo(0, 0);
+  }, [pid]);
 
   return (
     <div className="wrap-product-detail">

@@ -107,9 +107,11 @@ const Header = () => {
 
   const total = cartRedux?.reduce(
     function (result, item) {
-      result.price += item?.coupon
-        ? item?.quantity * item?.price * (1 - item?.coupon?.value / 100)
-        : item?.quantity * item?.price;
+      result.price += item?.product?.coupon
+        ? item?.quantity *
+          item?.variant?.price *
+          (1 - item?.product?.coupon?.value / 100)
+        : item?.quantity * item?.variant?.price;
       result.quantity += item?.quantity;
       return result;
     },
@@ -122,15 +124,12 @@ const Header = () => {
     const fetchCart = async () => {
       if (user?.accessToken !== "") {
         const response = await apiGetCart({ token: user?.accessToken });
-        dispatch(loadCartFromDB(response.data));
+        dispatch(loadCartFromDB(response?.data?.items));
       }
     };
     fetchCart();
   }, [dispatch, user?.accessToken]);
 
-  // const handleTest = async () => {
-  //   await apiRemoveCart({ token: user?.accessToken });
-  // };
   return (
     <>
       <header className="header-top-strip py-3">

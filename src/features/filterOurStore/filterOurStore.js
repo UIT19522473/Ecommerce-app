@@ -43,17 +43,17 @@ export const filterOurStoreSlice = createSlice({
         maxPrice,
         size,
       } = action.payload;
-      console.log({
-        title,
-        category,
-        brand,
-        color,
-        availIn,
-        availOut,
-        minPrice,
-        maxPrice,
-        size,
-      });
+      // console.log({
+      //   title,
+      //   category,
+      //   brand,
+      //   color,
+      //   availIn,
+      //   availOut,
+      //   minPrice,
+      //   maxPrice,
+      //   size,
+      // });
       state.data = {
         title: title ? title : "",
         categories: category ? category.split(",") : [],

@@ -31,8 +31,9 @@ export const cartSlice = createSlice({
         action.payload.quantity === 0 ? 1 : action.payload.quantity;
       const findItemIndex = state.listCart.findIndex(
         (item) =>
-          item._id === action.payload._id &&
-          item.color[0] === action.payload.color[0]
+          item.product?._id === action.payload.product?._id &&
+          item.variant.color === action.payload.variant?.color &&
+          item?.variant.size === action.payload.variant?.size
       );
 
       if (findItemIndex === -1) {
@@ -69,8 +70,9 @@ export const cartSlice = createSlice({
     removeOneCart: (state, action) => {
       const findItemIndex = state.listCart.findIndex(
         (item) =>
-          item._id === action.payload._id &&
-          item.color[0] === action.payload.color[0]
+          item.product._id === action.payload.product._id &&
+          item.variant.color === action.payload.variant.color &&
+          item.variant.size === action.payload.variant.size
       );
 
       if (findItemIndex !== -1) {
@@ -83,7 +85,11 @@ export const cartSlice = createSlice({
 
     chooseItemCart: (state, action) => {
       if (action.payload.type === "NEW") {
-        state.itemChoose = { ...action.payload.item, quantity: 1 };
+        state.itemChoose = {
+          variant: null,
+          product: action.payload.item,
+          quantity: 1,
+        };
       } else {
         state.itemChoose = action.payload.item;
       }

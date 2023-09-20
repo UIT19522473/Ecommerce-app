@@ -25,4 +25,28 @@ const apiFilterProducts = async (data) => {
   return response;
 };
 
-export { apiGetAllProducts, apiGetOneProducts, apiFilterProducts };
+const apiStockStatus = async (data) => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_URL_SERVER_API}/product/stock-status`,
+    // { params: data },
+    { withCredentials: true }
+  );
+  return response;
+};
+
+const apiGetColorSize = async (data) => {
+  const response = await axios.get(
+    `${process.env.REACT_APP_URL_SERVER_API}/product/color-size`,
+    // { params: data },
+    { withCredentials: true }
+  );
+  return response;
+};
+
+export {
+  apiGetAllProducts,
+  apiGetOneProducts,
+  apiFilterProducts,
+  apiStockStatus,
+  apiGetColorSize,
+};

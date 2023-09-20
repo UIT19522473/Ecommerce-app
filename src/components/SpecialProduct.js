@@ -6,10 +6,11 @@ import "../styles/spProduct.css";
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { addToCart, chooseItemCart } from "../features/cart/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { apiAddToCart } from "../apis/apiCart";
 
 const SpecialProduct = (props) => {
   const dispatch = useDispatch();
@@ -68,14 +69,40 @@ const SpecialProduct = (props) => {
     e.stopPropagation();
   };
   //cart
-  const handleAddToCart = (e) => {
+  const accessToken = useSelector((state) => state.user?.accessToken);
+  const handleAddToCart = async (e) => {
     e.stopPropagation();
 
     toast.success("Added a product to your cart !", {
       position: toast.POSITION.TOP_RIGHT,
       autoClose: 700,
     });
-    dispatch(addToCart({ ...item, quantity: 1 }));
+    // dispatch(addToCart({ ...item, quantity: 1 }));
+    const newItem = {
+      product: item,
+      variant: {
+        color: item?.variants[0]?.color,
+        size: item?.variants[0]?.size,
+        price: item?.variants[0]?.price,
+      },
+      quantity: 1,
+    };
+
+    // Dispatch action to update cart in Redux
+    // dispatch(addToCart(newItem));
+    dispatch(addToCart(newItem));
+
+    if (accessToken !== "") {
+      const content = {
+        productId: item?._id,
+        quantity: 1,
+        variant: item?.variants[0],
+      };
+      await apiAddToCart({
+        content: content, // Use the updated cart here
+        token: accessToken,
+      });
+    }
   };
 
   //down time  function CountdownClock() {
@@ -237,13 +264,14 @@ const SpecialProduct = (props) => {
           />
           <div className="content-cost d-flex gap-10">
             <span className="content-cost-past">
-              ${item?.price.toLocaleString("en-US")}
+              ${item?.variants[0]?.price.toLocaleString("en-US")}
             </span>
             <span className="content-cost-current">
               $
-              {(item?.price * (1 - item?.coupon?.value / 100)).toLocaleString(
-                "en-US"
-              )}
+              {(
+                item?.variants[0]?.price *
+                (1 - item?.coupon?.value / 100)
+              ).toLocaleString("en-US")}
             </span>
           </div>
           <div className="content-date-sale d-sm-flex">

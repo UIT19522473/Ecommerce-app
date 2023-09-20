@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productAsyncThunk";
 import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 import Category from "../components/Category";
+import { apiGetAllProducts } from "../apis/apiProduct";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -73,6 +74,14 @@ const Home = () => {
     sliderRefSpecial.current.slickPrev();
     sliderRefSpecial2.current.slickPrev();
   };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await apiGetAllProducts();
+  //     console.log(response);
+  //   };
+  //   fetchData();
+  // }, []);
 
   return (
     <>
