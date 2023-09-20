@@ -6,11 +6,11 @@ import ProductDetailContent from "../components/ProductDetail/ProductDetailConte
 import ProductDetailReviews from "../components/ProductDetail/ProductDetailReviews";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getOneProduct } from "../features/oneproduct/oneProductAsyncThunk";
+import { useSelector } from "react-redux";
+// import { getOneProduct } from "../features/oneproduct/oneProductAsyncThunk";
 
 const ProductDetail = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { pid } = useParams();
   // const product = useSelector((state) => state.getProduct?.data?.productData);
   const product = useSelector((state) => state.cart.itemChoose);

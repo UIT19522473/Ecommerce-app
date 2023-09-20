@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addToCart, updateToCart } from "../../features/cart/cartSlice";
 // import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { apiAddToCart } from "../../apis/apiCart";
+// import { apiAddToCart } from "../../apis/apiCart";
 
 import { toast } from "react-toastify";
 
@@ -96,14 +96,14 @@ const ProductDetailContent = (props) => {
   const [priceFirst, setPriceFirst] = useState(0);
   const [priceDiscount, setPriceDiscount] = useState(0);
   const [arrColorSize, setArrColorSize] = useState([]);
-  const [currentVariant, setCurrentVariant] = useState(null);
+  // const [currentVariant, setCurrentVariant] = useState(null);
 
   useEffect(() => {
     const convertColorAndSize = convertVariant(product?.product?.variants);
     setPriceFirst(firstPrice(product));
     setPriceDiscount(discountPrice(product));
     setArrColorSize(convertColorAndSize);
-    setCurrentVariant(product?.variant || product?.product?.variants[0]);
+    // setCurrentVariant(product?.variant || product?.product?.variants[0]);
   }, [product]);
   // console.log("sss", currentVariant);
 
@@ -152,7 +152,7 @@ const ProductDetailContent = (props) => {
     }
   };
 
-  const listCartRedux = useSelector((state) => state.cart.listCart);
+  // const listCartRedux = useSelector((state) => state.cart.listCart);
 
   const handleAddToCart = () => {
     // Tạo một bản sao của đối tượng product để không ảnh hưởng đến sản phẩm gốc

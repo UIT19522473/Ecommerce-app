@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productAsyncThunk";
 import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 import Category from "../components/Category";
-import { apiGetAllProducts } from "../apis/apiProduct";
+// import { apiGetAllProducts } from "../apis/apiProduct";
 
 const Home = () => {
   const dispatch = useDispatch();
