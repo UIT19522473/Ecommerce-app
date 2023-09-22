@@ -44,12 +44,20 @@ const convertVariant = (inputArray) => {
 };
 
 const ColorRadio = (props) => {
-  const { color, index, chooseColor, setChooseColor } = props;
+  const {
+    color,
+    index,
+    chooseColor,
+    setChooseColor,
+    setArrColorChoose,
+    convertColorAndSize,
+  } = props;
 
   // const choose = true;
   // const location = useLocation();
   const handleChooseColor = () => {
     setChooseColor(index);
+    setArrColorChoose(convertColorAndSize[index].sizePrice);
   };
   return (
     <div
@@ -60,6 +68,30 @@ const ColorRadio = (props) => {
       }`}
     ></div>
   );
+};
+
+const SizeRadio = (props) => {
+  const { sizePrice } = props;
+  // console.log(sizePrice);
+  return (
+    <li className="product-detail-box-size">
+      <input
+        className="cursor-pointer"
+        type="radio"
+        value={sizePrice?.size}
+        id={sizePrice?.size}
+        name="size"
+      />
+      <label className="text-secondary" htmlFor={sizePrice?.size}>
+        {sizePrice?.size}
+      </label>
+    </li>
+  );
+};
+
+const findFirstIndexColor = (variant, arrConvertVariant) => {
+  if (!variant) return 0;
+  return arrConvertVariant.findIndex((item) => item.color === variant.color);
 };
 
 const discountPrice = (item) => {
@@ -92,27 +124,44 @@ const firstPrice = (item) => {
 const ProductDetailContent = (props) => {
   const dispatch = useDispatch();
   const { product } = props;
-
-  const [priceFirst, setPriceFirst] = useState(0);
-  const [priceDiscount, setPriceDiscount] = useState(0);
-  const [arrColorSize, setArrColorSize] = useState([]);
-  // const [currentVariant, setCurrentVariant] = useState(null);
-
-  useEffect(() => {
-    const convertColorAndSize = convertVariant(product?.product?.variants);
-    setPriceFirst(firstPrice(product));
-    setPriceDiscount(discountPrice(product));
-    setArrColorSize(convertColorAndSize);
-    // setCurrentVariant(product?.variant || product?.product?.variants[0]);
-  }, [product]);
-  // console.log("sss", currentVariant);
-
   const chooseItemRedux = useSelector((state) => state.cart.itemChoose);
   const typeItemRedux = useSelector((state) => state.cart.type);
 
-  const [chooseColor, setChooseColor] = useState(0);
   const [inQuantity, setInQuantity] = useState(1);
+  const [priceFirst, setPriceFirst] = useState(0);
+  const [priceDiscount, setPriceDiscount] = useState(0);
+  const [arrColorSize, setArrColorSize] = useState([]);
+  const [arrColorChoose, setArrColorChoose] = useState([]);
 
+  // const [currentVariant, setCurrentVariant] = useState(null);
+
+  const convertColorAndSize = convertVariant(product?.product?.variants);
+  const [chooseColor, setChooseColor] = useState(
+    findFirstIndexColor(product?.variant, convertColorAndSize)
+  );
+
+  const [variantDefault, setVariantDefault] = useState(
+    product?.variant || product?.product?.variants[0]
+  );
+
+  useEffect(() => {
+    const indexColor = findFirstIndexColor(
+      product?.variant,
+      convertColorAndSize
+    );
+    setInQuantity(chooseItemRedux?.quantity);
+    setPriceFirst(firstPrice(product));
+    setPriceDiscount(discountPrice(product));
+    setArrColorSize(convertColorAndSize);
+    setChooseColor(indexColor);
+    setArrColorChoose(convertColorAndSize[indexColor]?.sizePrice);
+    setVariantDefault(product?.variant || product?.product?.variants[0]);
+    // setCurrentVariant(product?.variant || product?.product?.variants[0]);
+  }, [chooseItemRedux, product]);
+  // console.log("sss", currentVariant);
+  // console.log("custom size", arrColorChoose);
+
+  console.log("variant default", variantDefault);
   // Handler khi giá trị InputNumber thay đổi
   const handleQuantityChange = (value) => {
     // Cập nhật giá trị inQuantity
@@ -196,7 +245,7 @@ const ProductDetailContent = (props) => {
           }
         >
           <div className="mx-4 text-justify">
-            <span>{product?.description}</span>
+            <span>{product?.product?.description}</span>
           </div>
         </Collapsible>
       </div>
@@ -235,74 +284,28 @@ const ProductDetailContent = (props) => {
       <Link className="mt-2 text-secondary" to={"#"}>
         Write a review
       </Link>
-      <div className="product-detail-content-brand d-flex gap-1 mt-2">
+      <div className="product-detail-content-brand d-flex gap-2 mt-3">
         <p className="product-detail-content-text">Brand:</p>
-        <p className="text-gray-500">{product?.brand?.title}</p>
+        <p className="text-secondary">{product?.product?.brand?.title}</p>
       </div>
-      <div className="product-detail-content-tags d-flex gap-2 mt-2">
+      <div className="product-detail-content-tags d-flex gap-2 mt-3">
         <p className="product-detail-content-text">Category:</p>
         <Link className="text-secondary" to={"#"}>
-          {product?.category?.title}
+          {product?.product?.category?.title}
         </Link>
-        {/* <Link className="text-gray-500" to={"#"}>
-          laptop
-        </Link>
-        <Link className="text-gray-500" to={"#"}>
-          mobile
-        </Link> */}
       </div>
 
-      {/* <div className="product-detail-content-size mt-2 d-flex gap-2">
-        <p className="product-detail-content-text">Size:</p>
-        <ul className="product-detail-group-size d-flex gap-4 p-0">
-          <li className="product-detail-box-size">
-            <input
-              className="cursor-pointer"
-              type="radio"
-              value="S"
-              id="S"
-              name="size"
-            />
-            <label className="text-secondary" htmlFor="S">
-              S
-            </label>
-          </li>
-          <li className="product-detail-box-size">
-            <input
-              className="cursor-pointer"
-              type="radio"
-              value="L"
-              id="L"
-              name="size"
-            />
-            <label className="text-secondary " htmlFor="L">
-              L
-            </label>
-          </li>
-          <li className="product-detail-box-size">
-            <input
-              className="cursor-pointer"
-              type="radio"
-              value="M"
-              id="M"
-              name="size"
-            />
-            <label className="text-secondary " htmlFor="M">
-              M
-            </label>
-          </li>
-        </ul>
-      </div> */}
-
-      <div className="product-detail-content- mt-2">
+      <div className="product-detail-content d-flex gap-2 align-items-center mt-3">
         <p className="product-detail-content-text">Color:</p>
-        <ul className="product-detail-group-color d-flex gap-2 mt-1 p-0">
+        <ul className="product-detail-group-color d-flex gap-2 p-0 m-0">
           {arrColorSize?.map((item, index) => (
             <li key={index}>
               {/* <ItemColor color={item} /> */}
               <ColorRadio
                 chooseColor={chooseColor}
                 setChooseColor={setChooseColor}
+                setArrColorChoose={setArrColorChoose}
+                convertColorAndSize={convertColorAndSize}
                 index={index}
                 color={item.color}
               />
@@ -315,7 +318,16 @@ const ProductDetailContent = (props) => {
         </ul>
       </div>
 
-      <div className="product-detail-content-quantity d-flex gap-2 mt-4">
+      <div className="product-detail-content-size mt-3 d-flex gap-2">
+        <p className="product-detail-content-text">Size:</p>
+        <ul className="product-detail-group-size d-flex gap-4 p-0 m-0">
+          {arrColorChoose?.map((item, index) => (
+            <SizeRadio key={index} sizePrice={item} />
+          ))}
+        </ul>
+      </div>
+
+      <div className="product-detail-content-quantity d-flex gap-2 mt-3">
         <p className="product-detail-content-text">Quantity:</p>
         <InputNumber
           min={1}
