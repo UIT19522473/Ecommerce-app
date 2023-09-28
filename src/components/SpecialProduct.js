@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
-import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import "../styles/spProduct.css";
 import { useRef } from "react";
