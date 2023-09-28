@@ -14,8 +14,11 @@ import {
   setDefaultCart,
 } from "../features/cart/cartSlice";
 import { apiGetCart } from "../apis/apiCart";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
 
   const categories = useSelector((state) => state?.categories?.data);
@@ -244,7 +247,7 @@ const Header = () => {
                       {listSearchProducts?.map((item, index) => (
                         <Link
                           // onClick={handleClickItem}
-                          to={`/product/${item?._id}?color=${item?.variants[0].color}&size=${item?.variants[0].size}&quantity=1`}
+                          to={`/product/${item?._id}?color=${item?.variants[0]}&size=${item?.variants[0].size}&quantity=1`}
                           key={index}
                           className="text-black col-6 d-flex justify-content-center align-items-center my-2 result-search-item"
                         >
@@ -351,21 +354,27 @@ const Header = () => {
                     >
                       {!user.currentUser ? (
                         <>
-                          <li className="pb-2 dropdown-item">
-                            <Link
+                          <li
+                            onClick={() => navigate("/account/login")}
+                            className="pb-2 dropdown-item"
+                          >
+                            <p
                               className="text-white text-start"
-                              to="/account/login"
+                              // to="/account/login"
                             >
                               Login
-                            </Link>
+                            </p>
                           </li>
-                          <li className="mt-1 dropdown-item ">
-                            <Link
+                          <li
+                            onClick={() => navigate("/account/register")}
+                            className="mt-1 dropdown-item "
+                          >
+                            <p
                               className=" text-white text-start "
-                              to="/account/register"
+                              // to="/account/register"
                             >
                               Register
-                            </Link>
+                            </p>
                           </li>
                         </>
                       ) : (
