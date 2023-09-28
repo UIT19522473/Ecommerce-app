@@ -13,14 +13,23 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { checkRegister } from "../services/auth";
 
+import ReactLoading from "react-loading";
+import { useState } from "react";
+
 const SignUp = () => {
+  const [waitLogin, setWaitLogin] = useState(false);
   const navigate = useNavigate();
   const navigateLogin = async (success) => {
+    setWaitLogin(true);
     if (await success) {
       toast.success("Register Successfully !", {
         position: toast.POSITION.TOP_RIGHT,
       });
       navigate("/account/login");
+    }
+
+    if (!(await success)) {
+      setWaitLogin(false);
     }
   };
 
@@ -109,9 +118,26 @@ const SignUp = () => {
             <NavLink to={"/account/login"} className="btn-form btn-form--login">
               Login
             </NavLink>
-            <button type="submit" className="btn-form btn-form--create">
-              Create
+
+            <button
+              type="submit"
+              className={`btn-form btn-form--create d-flex align-items-center gap-2 ${
+                waitLogin ? "bg-secondary" : ""
+              }`}
+            >
+              <p>Create</p>
+              {waitLogin && (
+                <ReactLoading
+                  type={"spin"}
+                  color={"white"}
+                  height={25}
+                  width={25}
+                />
+              )}
             </button>
+            {/* <button type="submit" className="btn-form btn-form--create">
+              Create
+            </button> */}
           </div>
         </form>
       </div>

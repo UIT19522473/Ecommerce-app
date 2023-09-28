@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import "../styles/signup.css";
 import { NavLink, Link, useNavigate } from "react-router-dom";
@@ -10,13 +10,20 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { login } from "../features/user/userAsyncThunk";
 import { checkLogin } from "../services/auth";
+import ReactLoading from "react-loading";
 
 const Login = () => {
+  const [waitLogin, setWaitLogin] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const navigateHome = async (success) => {
+    setWaitLogin(true);
     if (await success) {
       navigate("/");
+    }
+    if (!(await success)) {
+      setWaitLogin(false);
     }
   };
 
@@ -88,8 +95,21 @@ const Login = () => {
             >
               Sign Up
             </NavLink>
-            <button type="submit" className="btn-form btn-form--create">
-              Login
+            <button
+              type="submit"
+              className={`btn-form btn-form--create d-flex align-items-center gap-2 ${
+                waitLogin ? "bg-secondary" : ""
+              }`}
+            >
+              <p>Login</p>
+              {waitLogin && (
+                <ReactLoading
+                  type={"spin"}
+                  color={"white"}
+                  height={25}
+                  width={25}
+                />
+              )}
             </button>
           </div>
         </form>
