@@ -17,12 +17,14 @@ const ItemCart = (props) => {
   const handleRemoveCart = async (e) => {
     e.stopPropagation();
     dispatch(removeOneCart(item));
-    await apiDeleteOneCart({ content: item, token: accessToken });
+    if (accessToken !== "") {
+      await apiDeleteOneCart({ content: item, token: accessToken });
+    }
   };
 
   const handleClickItem = () => {
     navigate(
-      `/product/${item.product._id}?quantity=${item?.quantity}&color=${item?.variant.color}`
+      `/product/${item.product._id}?color=${item?.variant.color}&size=${item?.variant.size}&quantity=${item?.quantity}`
     ); // Chuyển hướng đến trang /product/:idproduct
     dispatch(chooseItemCart({ item: item, type: "UPDATE" }));
   };
@@ -71,6 +73,10 @@ const ItemCart = (props) => {
         <p className="item-cart-info-color d-flex gap-1 align-items-center">
           Color:
           <p className="item-cart-info-total-text"> {item?.variant?.color}</p>
+        </p>
+        <p className="item-cart-info-color d-flex gap-1 align-items-center">
+          Size:
+          <p className="item-cart-info-total-text"> {item?.variant?.size}</p>
         </p>
         <span className="item-cart-info-total d-flex gap-1 align-items-center">
           <p>Total: </p>

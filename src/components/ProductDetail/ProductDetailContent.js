@@ -4,83 +4,88 @@ import Collapsible from "react-collapsible";
 import { InputNumber } from "antd";
 // import { ItemColor } from "../OurStore/ItemColor";
 import ReactStars from "react-rating-stars-component";
-import { apiCreatePayment } from "../../apis/apiPayment";
+
 import { useSelector, useDispatch } from "react-redux";
-import { addToCart, updateToCart } from "../../features/cart/cartSlice";
+import { addToCart } from "../../features/cart/cartSlice";
 // import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { apiAddToCart } from "../../apis/apiCart";
 
 import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { apiAddToCart, apiRemoveCart } from "../../apis/apiCart";
+import { apiCreatePayment } from "../../apis/apiPayment";
 
-const convertVariant = (inputArray) => {
-  const outputArray = [];
+//fix here
+const getColorUnique = (variants) => {
+  // Tạo một mảng chứa các màu duy nhất
+  var uniqueColors = [...new Set(variants.map((variant) => variant.color))];
+  return uniqueColors;
+};
 
-  const colorMap = {};
+const getSizeByColor = (color, variants) => {
+  const result = [];
 
-  // Lặp qua mỗi phần tử trong mảng ban đầu
-  inputArray.forEach((item) => {
-    const { color, size, price } = item;
-
-    // Nếu màu đã tồn tại trong colorMap, thì thêm size và price vào sizePrice tương ứng
-    if (colorMap[color]) {
-      colorMap[color].sizePrice.push({ size, price });
-    } else {
-      // Nếu màu chưa tồn tại, thêm màu vào colorMap và tạo sizePrice mới
-      colorMap[color] = {
-        color,
-        sizePrice: [{ size, price }],
-      };
+  for (const variant of variants) {
+    if (variant.color === color) {
+      result.push({
+        size: variant.size,
+        price: variant.price,
+      });
     }
-  });
-
-  // Chuyển colorMap thành mảng đầu ra
-  for (const color in colorMap) {
-    outputArray.push(colorMap[color]);
   }
-  return outputArray;
+
+  return result;
 };
 
 const ColorRadio = (props) => {
-  const {
-    color,
-    index,
-    chooseColor,
-    setChooseColor,
-    setArrColorChoose,
-    convertColorAndSize,
-  } = props;
+  const { color, colorChoose, productId, variants } = props;
 
-  // const choose = true;
-  // const location = useLocation();
-  const handleChooseColor = () => {
-    setChooseColor(index);
-    setArrColorChoose(convertColorAndSize[index].sizePrice);
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(useLocation().search);
+
+  const handleChangeColor = (newColor) => {
+    const sizeNew = getSizeByColor(newColor, variants);
+
+    // Hàm để thay đổi kích thước trên URL
+    searchParams.set("color", newColor);
+    searchParams.set("size", sizeNew[0].size);
+    navigate(`/product/${productId}?${searchParams.toString()}`);
   };
+
   return (
     <div
-      onClick={handleChooseColor}
+      onClick={() => handleChangeColor(color)}
       style={{ backgroundColor: color }}
       className={`item-color ${
-        chooseColor === index ? "item-color--choose" : ""
+        color === colorChoose ? "item-color--choose" : ""
       }`}
     ></div>
   );
 };
 
 const SizeRadio = (props) => {
-  const { sizePrice } = props;
+  const { sizePrice, sizeChoose, productId } = props;
   // console.log(sizePrice);
+  const searchParams = new URLSearchParams(useLocation().search);
+  const navigate = useNavigate();
+  const handleChangeSize = (newSize) => {
+    // Hàm để thay đổi kích thước trên URL
+    searchParams.set("size", newSize);
+    navigate(`/product/${productId}?${searchParams.toString()}`);
+  };
   return (
     <li className="product-detail-box-size">
       <input
+        checked={sizeChoose === sizePrice?.size}
         className="cursor-pointer"
         type="radio"
         value={sizePrice?.size}
         id={sizePrice?.size}
         name="size"
+        onChange={() => handleChangeSize(sizePrice?.size)}
       />
       <label className="text-secondary" htmlFor={sizePrice?.size}>
         {sizePrice?.size}
@@ -89,146 +94,111 @@ const SizeRadio = (props) => {
   );
 };
 
-const findFirstIndexColor = (variant, arrConvertVariant) => {
-  if (!variant) return 0;
-  return arrConvertVariant.findIndex((item) => item.color === variant.color);
-};
-
-const discountPrice = (item) => {
-  if (item.type === "UPDATE") {
-    if (item?.product?.coupon) {
-      return item?.variant?.price * (1 - item?.product?.coupon?.value);
-    } else {
-      return item?.variant?.price;
-    }
-  } else {
-    if (item?.product?.coupon) {
-      return (
-        item?.product?.variants[0]?.price *
-        (1 - item?.product?.coupon?.value / 100)
-      );
-    } else {
-      return item?.product?.variants[0]?.price;
-    }
-  }
-};
-
-const firstPrice = (item) => {
-  if (item.type === "UPDATE") {
-    return item?.variant?.price;
-  }
-
-  return item?.product?.variants[0]?.price;
-};
-
 const ProductDetailContent = (props) => {
   const dispatch = useDispatch();
   const { product } = props;
-  const chooseItemRedux = useSelector((state) => state.cart.itemChoose);
-  const typeItemRedux = useSelector((state) => state.cart.type);
+  const navigate = useNavigate();
 
-  const [inQuantity, setInQuantity] = useState(1);
-  const [priceFirst, setPriceFirst] = useState(0);
-  const [priceDiscount, setPriceDiscount] = useState(0);
-  const [arrColorSize, setArrColorSize] = useState([]);
-  const [arrColorChoose, setArrColorChoose] = useState([]);
+  // Lấy tham số từ URL
+  const search = window.location.search; // Lấy query string từ URL
+  const searchParams = new URLSearchParams(search);
+  const color = searchParams.get("color");
+  const size = searchParams.get("size");
+  const quantity = searchParams.get("quantity");
 
-  // const [currentVariant, setCurrentVariant] = useState(null);
+  // const price = searchParams.get("price");
+  const [firstPrice, setFirstPrice] = useState(0);
+  const [price, setPrice] = useState(0);
 
-  const convertColorAndSize = convertVariant(product?.product?.variants);
-  const [chooseColor, setChooseColor] = useState(
-    findFirstIndexColor(product?.variant, convertColorAndSize)
-  );
-
-  const [variantDefault, setVariantDefault] = useState(
-    product?.variant || product?.product?.variants[0]
-  );
-
+  const [arrColorUnique, setArrColorUnique] = useState([]);
+  // console.log(arrColorUnique);
+  const [arrSize, setArrSize] = useState([]);
   useEffect(() => {
-    const indexColor = findFirstIndexColor(
-      product?.variant,
-      convertColorAndSize
-    );
-    setInQuantity(chooseItemRedux?.quantity);
-    setPriceFirst(firstPrice(product));
-    setPriceDiscount(discountPrice(product));
-    setArrColorSize(convertColorAndSize);
-    setChooseColor(indexColor);
-    setArrColorChoose(convertColorAndSize[indexColor]?.sizePrice);
-    setVariantDefault(product?.variant || product?.product?.variants[0]);
-    // setCurrentVariant(product?.variant || product?.product?.variants[0]);
-  }, [chooseItemRedux, product]);
-  // console.log("sss", currentVariant);
-  // console.log("custom size", arrColorChoose);
+    // const { productId } = useParams();
+    if (!color || !size || !quantity) {
+      // Nếu không có color hoặc size trong query, điều hướng đến trang NotFound
+      navigate("/notFound");
+    }
+    if (product) {
+      const arrColor = getColorUnique(product?.variants);
+      const sizePriceByColor = getSizeByColor(color, product?.variants);
+      setArrColorUnique(arrColor);
+      setArrSize(sizePriceByColor);
 
-  console.log("variant default", variantDefault);
-  // Handler khi giá trị InputNumber thay đổi
+      const pr = sizePriceByColor.find((item) => item.size === size);
+      setFirstPrice(pr.price);
+      if (product.coupon) {
+        const priceWithDiscount = pr.price * (1 - product?.coupon?.value / 100);
+        setPrice(priceWithDiscount);
+      } else {
+        setPrice(pr.price);
+      }
+    }
+  }, [color, navigate, product, quantity, size]);
+
   const handleQuantityChange = (value) => {
-    // Cập nhật giá trị inQuantity
-    value = value || 1;
-    // console.log(value);
-    setInQuantity(value);
+    searchParams.set("quantity", value);
+    navigate(`/product/${product?._id}?${searchParams.toString()}`);
   };
-
-  // const realPrice = currentPrice(product);
 
   const accessToken = useSelector((state) => state.user?.accessToken);
 
-  const handleCheckOut = async () => {
-    // console.log("check out");
-    const productChanged = { ...product };
+  const handleAddToCart = async () => {
+    const newItemCart = {
+      variant: {
+        color: color,
+        size: size,
+        price: firstPrice,
+      },
+      product: { ...product },
+      quantity: quantity * 1,
+    };
 
-    // Cập nhật màu sắc theo lựa chọn của người dùng
-    // productChanged.color[0] = product?.color[chooseColor];
-    productChanged.color = [...productChanged.color]; // Tạo một bản sao của mảng color
-    productChanged.color[0] = product?.color[chooseColor]; // Cập nhật phần tử đầu tiên của mảng
-    // Cập nhật số lượng sản phẩm theo giá trị đã chọn
-    productChanged.quantity = inQuantity;
+    // console.log("new item cart", newItemCart);
+    dispatch(addToCart(newItemCart));
 
+    toast.success("Added a product to your cart !", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 700,
+    });
+
+    if (accessToken !== "") {
+      await apiAddToCart({
+        content: { ...newItemCart }, // Use the updated cart here
+        token: accessToken,
+      });
+    }
+  };
+
+  //handle when check out
+
+  const handleCheckOut = async (e) => {
+    console.log("check out");
+    e.stopPropagation();
     if (accessToken === "") {
       alert("ban phai dang nhap");
     } else {
+      const newItemCart = {
+        variant: {
+          color: color,
+          size: size,
+          price: firstPrice,
+        },
+        product: { ...product },
+        quantity: quantity * 1,
+      };
       try {
-        const response = await apiCreatePayment([productChanged], accessToken);
+        const response = await apiCreatePayment([newItemCart], accessToken);
         // console.log(response);
-
         if (response?.data?.success) {
           window.location.href = response.data.url;
+          await apiRemoveCart({ token: accessToken });
         }
       } catch (err) {
         console.log(err);
       }
     }
   };
-
-  // const listCartRedux = useSelector((state) => state.cart.listCart);
-
-  const handleAddToCart = () => {
-    // Tạo một bản sao của đối tượng product để không ảnh hưởng đến sản phẩm gốc
-    const productChanged = { ...product };
-
-    // Cập nhật màu sắc theo lựa chọn của người dùng
-    // productChanged.color[0] = product?.color[chooseColor];
-    productChanged.color = [...productChanged.color]; // Tạo một bản sao của mảng color
-    productChanged.color[0] = product?.color[chooseColor]; // Cập nhật phần tử đầu tiên của mảng
-
-    // Cập nhật số lượng sản phẩm theo giá trị đã chọn
-    productChanged.quantity = inQuantity;
-    if (typeItemRedux === "NEW") {
-      dispatch(addToCart(productChanged));
-      toast.success("Added a product to your cart !", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 700,
-      });
-    } else {
-      dispatch(updateToCart(productChanged));
-      toast.success("Updated a product to your cart !", {
-        position: toast.POSITION.TOP_RIGHT,
-        autoClose: 700,
-      });
-    }
-  };
-
   return (
     <div className="col-6 product-detail-content">
       <h2 className="product-detail-content-name">{product?.title}</h2>
@@ -245,7 +215,12 @@ const ProductDetailContent = (props) => {
           }
         >
           <div className="mx-4 text-justify">
-            <span>{product?.product?.description}</span>
+            <span>
+              {
+                // product?.product?.description
+                product?.description
+              }
+            </span>
           </div>
         </Collapsible>
       </div>
@@ -253,18 +228,20 @@ const ProductDetailContent = (props) => {
       <div className="product-detail-content-price mt-2">
         <p className="product-detail-content-text">Price:</p>
 
-        {product?.product?.coupon ? (
+        {product?.coupon ? (
           <div className="d-flex gap-2">
             <span className="product-detail-content-price-number product-detail-content-price-number--through">
-              {priceFirst.toLocaleString("en-US")}
+              {/* {priceFirst.toLocaleString("en-US")} */}
+              {firstPrice.toLocaleString("en-US")}
             </span>
             <span className="product-detail-content-price-number product-detail-content-price-number--discount">
-              {priceDiscount.toLocaleString("en-US")}
+              {price.toLocaleString("en-US")}
             </span>
           </div>
         ) : (
           <span className="product-detail-content-price-number">
-            {priceFirst.toLocaleString("en-US")}
+            {/* {priceFirst.toLocaleString("en-US")} */}
+            {price.toLocaleString("en-US")}
           </span>
         )}
       </div>
@@ -286,43 +263,46 @@ const ProductDetailContent = (props) => {
       </Link>
       <div className="product-detail-content-brand d-flex gap-2 mt-3">
         <p className="product-detail-content-text">Brand:</p>
-        <p className="text-secondary">{product?.product?.brand?.title}</p>
+        <p className="text-secondary">{product?.brand?.title}</p>
       </div>
       <div className="product-detail-content-tags d-flex gap-2 mt-3">
         <p className="product-detail-content-text">Category:</p>
         <Link className="text-secondary" to={"#"}>
-          {product?.product?.category?.title}
+          {product?.category?.title}
         </Link>
       </div>
 
       <div className="product-detail-content d-flex gap-2 align-items-center mt-3">
         <p className="product-detail-content-text">Color:</p>
         <ul className="product-detail-group-color d-flex gap-2 p-0 m-0">
-          {arrColorSize?.map((item, index) => (
+          {arrColorUnique?.map((item, index) => (
             <li key={index}>
-              {/* <ItemColor color={item} /> */}
               <ColorRadio
-                chooseColor={chooseColor}
-                setChooseColor={setChooseColor}
-                setArrColorChoose={setArrColorChoose}
-                convertColorAndSize={convertColorAndSize}
+                // chooseColor={chooseColor}
+                // setChooseColor={setChooseColor}
+                // setArrColorChoose={setArrColorChoose}
+                // convertColorAndSize={convertColorAndSize}
                 index={index}
-                color={item.color}
+                color={item}
+                colorChoose={color}
+                productId={product?._id}
+                variants={product?.variants}
               />
             </li>
           ))}
-
-          {/* <li>
-            <ItemColor color={"blue"} />
-          </li> */}
         </ul>
       </div>
 
       <div className="product-detail-content-size mt-3 d-flex gap-2">
         <p className="product-detail-content-text">Size:</p>
         <ul className="product-detail-group-size d-flex gap-4 p-0 m-0">
-          {arrColorChoose?.map((item, index) => (
-            <SizeRadio key={index} sizePrice={item} />
+          {arrSize?.map((item, index) => (
+            <SizeRadio
+              key={index}
+              sizePrice={item}
+              sizeChoose={size}
+              productId={product?._id}
+            />
           ))}
         </ul>
       </div>
@@ -330,11 +310,15 @@ const ProductDetailContent = (props) => {
       <div className="product-detail-content-quantity d-flex gap-2 mt-3">
         <p className="product-detail-content-text">Quantity:</p>
         <InputNumber
+          // min={1}
+          // max={100000}
+          // // defaultValue={inQuantity}
+          // defaultValue={chooseItemRedux?.quantity * 1}
+          // value={inQuantity}
+          // onChange={handleQuantityChange}
           min={1}
-          max={100000}
-          // defaultValue={inQuantity}
-          defaultValue={chooseItemRedux?.quantity * 1}
-          value={inQuantity}
+          defaultValue={quantity}
+          value={quantity}
           onChange={handleQuantityChange}
         />
       </div>
@@ -344,8 +328,9 @@ const ProductDetailContent = (props) => {
           onClick={handleAddToCart}
           className="btn-checkout btn-checkout--cart"
         >
-          {typeItemRedux === "NEW" ? "ADD TO CART" : "UPDATE TO CART"}
-          {/* {typeItemRedux} */}
+          {/* {typeItemRedux === "NEW" ? "ADD TO CART" : "UPDATE TO CART"}
+           */}
+          ADD TO CART
         </button>
         <button onClick={handleCheckOut} className="btn-checkout">
           CHECK OUT

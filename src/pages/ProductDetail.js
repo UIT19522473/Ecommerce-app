@@ -6,28 +6,29 @@ import ProductDetailContent from "../components/ProductDetail/ProductDetailConte
 import ProductDetailReviews from "../components/ProductDetail/ProductDetailReviews";
 import { NavLink } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getOneProduct } from "../features/oneproduct/oneProductAsyncThunk";
 // import { getOneProduct } from "../features/oneproduct/oneProductAsyncThunk";
 
 const ProductDetail = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { pid } = useParams();
-  // const product = useSelector((state) => state.getProduct?.data?.productData);
-  const product = useSelector((state) => state.cart.itemChoose);
-
-  // useEffect(() => {
-  //   if (pid) {
-  //     dispatch(getOneProduct(pid));
-
-  //     // Đưa trình duyệt về đầu trang
-  //     window.scrollTo(0, 0);
-  //   }
-  // }, [dispatch, pid]);
+  const product = useSelector((state) => state.getProduct?.data?.productData);
+  // const product = useSelector((state) => state.cart.itemChoose);
 
   useEffect(() => {
-    // Đưa trình duyệt về đầu trang
-    window.scrollTo(0, 0);
-  }, [pid]);
+    if (pid) {
+      dispatch(getOneProduct(pid));
+
+      // Đưa trình duyệt về đầu trang
+      window.scrollTo(0, 0);
+    }
+  }, [dispatch, pid]);
+
+  // useEffect(() => {
+  //   // Đưa trình duyệt về đầu trang
+  //   window.scrollTo(0, 0);
+  // }, [pid]);
 
   return (
     <div className="wrap-product-detail">
@@ -46,7 +47,7 @@ const ProductDetail = () => {
         </div>
 
         <div className="row product-review-wrap ">
-          <ProductDetailReviews />
+          <ProductDetailReviews product={product} />
         </div>
       </div>
     </div>

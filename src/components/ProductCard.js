@@ -27,7 +27,9 @@ const ProductCard = (props) => {
 
   const handleShowProduct = () => {
     // console.log("test here");
-    navigate(`/product/${item._id}`); // Chuyển hướng đến trang /product/:idproduct
+    navigate(
+      `/product/${item._id}?color=${item?.variants[0].color}&size=${item?.variants[0].size}&quantity=1`
+    ); // Chuyển hướng đến trang /product/:idproduct
     dispatch(chooseItemCart({ item: item, type: "NEW" }));
   };
   //wish list
@@ -66,17 +68,11 @@ const ProductCard = (props) => {
     });
 
     if (accessToken !== "") {
-      const content = {
-        productId: item?._id,
-        quantity: 1,
-        variant: item?.variants[0],
-      };
       await apiAddToCart({
-        content: content, // Use the updated cart here
+        content: { ...newItem }, // Use the updated cart here
         token: accessToken,
       });
     }
-    // updateCart();
   };
 
   return (

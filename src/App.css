@@ -103,6 +103,9 @@ a {
   color: var(--color-131921);
 }
 /* Header Part */
+.item-right-header {
+  cursor: pointer;
+}
 
 .header-top-strip {
   border-bottom: 1px solid var(--color-3b4149);

@@ -5,24 +5,27 @@ import { closeCart } from "../features/cart/cartSlice";
 import ItemCart from "./MenuCart/ItemCart";
 import { apiCreatePayment } from "../apis/apiPayment";
 import { apiRemoveCart } from "../apis/apiCart";
+import { useNavigate } from "react-router-dom";
 
 const RightMenuCart = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const listCart = useSelector((state) => state.cart.listCart);
+  const listCart = useSelector((state) => state.cart.listCart || null);
   // console.log(listCart);
 
-  const total = listCart.reduce(
-    function (result, item) {
-      result.price += item?.product?.coupon
-        ? item?.quantity *
-          item?.variant?.price *
-          (1 - item?.product?.coupon?.value / 100)
-        : item?.quantity * item?.variant?.price;
-      result.quantity += item?.quantity;
-      return result;
-    },
-    { quantity: 0, price: 0 }
-  );
+  const total =
+    listCart?.reduce(
+      function (result, item) {
+        result.price += item?.product?.coupon
+          ? item?.quantity *
+            item?.variant?.price *
+            (1 - item?.product?.coupon?.value / 100)
+          : item?.quantity * item?.variant?.price;
+        result.quantity += item?.quantity * 1;
+        return result;
+      },
+      { quantity: 0, price: 0 }
+    ) || null;
   console.log(total);
 
   const handleCloseModalCart = () => {
@@ -56,10 +59,14 @@ const RightMenuCart = () => {
     }
   };
 
+  const handleViewCart = () => {
+    navigate("view-cart");
+  };
+
   return (
     <div onClick={handleCloseModalCart} className="wrap-right-menu-cart d-flex">
       <div onClick={handleClickMenu} className="right-menu-cart ms-auto">
-        {listCart?.length === 0 ? (
+        {listCart.length === 0 ? (
           <div className="wrap-text-cart-empty p-2 text-center">
             <p>Your cart is currently empty.</p>
             <p>Continue shopping</p>
@@ -69,7 +76,6 @@ const RightMenuCart = () => {
             <div className="wrap-cart-item">
               {listCart?.map((item, index) => (
                 <ItemCart key={index} item={item} />
-                // <p>1</p>
               ))}
             </div>
             <div className="wrap-cart-controller">
@@ -81,12 +87,17 @@ const RightMenuCart = () => {
                 <div className="cart-controller-total-price">
                   <p className="fw-semibold">Subtotal</p>
                   <p className="fw-semibold fs-5">
-                    ${total?.price.toLocaleString("en-US")}
+                    ${total?.price.toLocaleString("en-US") || 0}
                   </p>
                 </div>
               </div>
               <div className="wrap-cart-controller-btn">
-                <button className="cart-controller-btn">View Cart</button>
+                <button
+                  onClick={handleViewCart}
+                  className="cart-controller-btn"
+                >
+                  View Cart
+                </button>
                 <button
                   onClick={handleCheckOut}
                   className="cart-controller-btn cart-controller-btn--checkout"

@@ -4,8 +4,22 @@ const apiAddToCart = async (data) => {
   const { content, token } = data;
   console.log("api", content);
   const response = await axios.post(
-    // `${process.env.REACT_APP_URL_SERVER_API}/cart/add-to-cart`,
-    "http://localhost:5000/api/cart/add-to-cart",
+    `${process.env.REACT_APP_URL_SERVER_API}/cart/add-to-cart`,
+    // "http://localhost:5000/api/cart/add-to-cart",
+    {
+      ...content,
+    },
+    { withCredentials: true, headers: { Authorization: `Bear ${token}` } }
+  );
+  return response;
+};
+
+const apiUpdateQuantityToCart = async (data) => {
+  const { content, token } = data;
+  console.log("api", content);
+  const response = await axios.put(
+    `${process.env.REACT_APP_URL_SERVER_API}/cart/update-quantity-to-cart`,
+    // "http://localhost:5000/api/cart/update-quantity-to-cart",
     {
       ...content,
     },
@@ -44,4 +58,10 @@ const apiRemoveCart = async (data) => {
   return response.data;
 };
 
-export { apiAddToCart, apiGetCart, apiDeleteOneCart, apiRemoveCart };
+export {
+  apiAddToCart,
+  apiGetCart,
+  apiDeleteOneCart,
+  apiRemoveCart,
+  apiUpdateQuantityToCart,
+};

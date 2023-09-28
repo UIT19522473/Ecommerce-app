@@ -17,6 +17,9 @@ import { apiGetCart } from "../apis/apiCart";
 
 const Header = () => {
   const dispatch = useDispatch();
+
+  const categories = useSelector((state) => state?.categories?.data);
+
   const handleLogOut = () => {
     console.log("logout");
     dispatch(logOut());
@@ -26,7 +29,7 @@ const Header = () => {
   // menu
   const [expanded, setExpanded] = useState(false);
   const expandAnimation = useSpring({
-    height: expanded ? "350px" : "0px",
+    height: expanded ? "300px" : "0px",
   });
 
   const handleToggle = () => {
@@ -98,7 +101,8 @@ const Header = () => {
       document.removeEventListener("click", handleDocumentClick);
     };
   }, []);
-  const handleOpenModalCart = () => {
+  const handleOpenModalCart = (e) => {
+    e.stopPropagation();
     dispatch(openCart());
   };
 
@@ -112,7 +116,7 @@ const Header = () => {
           item?.variant?.price *
           (1 - item?.product?.coupon?.value / 100)
         : item?.quantity * item?.variant?.price;
-      result.quantity += item?.quantity;
+      result.quantity += item?.quantity * 1;
       return result;
     },
     { quantity: 0, price: 0 }
@@ -124,7 +128,11 @@ const Header = () => {
     const fetchCart = async () => {
       if (user?.accessToken !== "") {
         const response = await apiGetCart({ token: user?.accessToken });
-        dispatch(loadCartFromDB(response?.data?.items));
+        if (response.data) {
+          dispatch(loadCartFromDB(response?.data?.items));
+        } else {
+          dispatch(loadCartFromDB([]));
+        }
       }
     };
     fetchCart();
@@ -160,29 +168,34 @@ const Header = () => {
               className={`menu-responsive ${isOpenSm ? "opensm" : "closesm"}`}
             >
               <ul className="text-white">
+                {categories?.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      className="text-white"
+                      to={`/our-store?category=${item?._id}`}
+                    >
+                      {item?.title}
+                    </Link>
+                  </li>
+                ))}
                 <li>
-                  <Link className=" text-white" to="#">
-                    Action
+                  <Link className=" text-white" to="/">
+                    HOME
+                  </Link>
+                </li>
+                <li>
+                  <Link className="text-white" to="/our-store">
+                    OUR STORE
                   </Link>
                 </li>
                 <li>
                   <Link className=" text-white" to="#">
-                    Another action
-                  </Link>
-                </li>
-                <li>
-                  <Link className="text-white" to="#">
-                    Something else here
+                    BLOGS
                   </Link>
                 </li>
                 <li>
                   <Link className=" text-white" to="#">
-                    Something else here
-                  </Link>
-                </li>
-                <li>
-                  <Link className=" text-white" to="#">
-                    Something else here
+                    CONTACT
                   </Link>
                 </li>
               </ul>
@@ -283,7 +296,7 @@ const Header = () => {
             <div className="col-xl-5 col-lg-3 col-sm-4 col-5">
               <div className="header-upper-link d-flex align-items-center justify-content-between">
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white">
+                  <div className="d-flex align-items-center gap-10 text-white item-right-header">
                     <img
                       className="img-item"
                       src="/images/compare.svg"
@@ -293,11 +306,11 @@ const Header = () => {
                       Compare <br />
                       Products
                     </p>
-                  </Link>
+                  </div>
                 </div>
 
                 <div>
-                  <Link className="d-flex align-items-center gap-10 text-white">
+                  <div className="d-flex align-items-center gap-10 text-white item-right-header">
                     <img
                       className="img-item"
                       src="/images/wishlist.svg"
@@ -307,14 +320,14 @@ const Header = () => {
                       Favorite <br />
                       Wishlists
                     </p>
-                  </Link>
+                  </div>
                 </div>
 
                 <div>
-                  <Link
+                  <div
                     // to={"/account/login"}
                     onClick={handleToggleAccount}
-                    className="d-flex align-items-center gap-10 text-white position-relative"
+                    className="d-flex align-items-center gap-10 text-white position-relative item-right-header"
                   >
                     <img
                       className="img-item"
@@ -373,11 +386,14 @@ const Header = () => {
                         </>
                       )}
                     </animated.ul>
-                  </Link>
+                  </div>
                 </div>
 
-                <div onClick={handleOpenModalCart} className="wrap-cart">
-                  <Link className="d-flex align-items-center gap-10 text-white">
+                <div
+                  onClick={(e) => handleOpenModalCart(e)}
+                  className="wrap-cart item-right-header"
+                >
+                  <div className="d-flex align-items-center gap-10 text-white">
                     <img
                       className="img-item"
                       src="/images/cart.svg"
@@ -385,13 +401,13 @@ const Header = () => {
                     />
                     <div className="d-flex flex-column box-cost">
                       <span className="icon-badge-quantity badge bg-white text-dark">
-                        {total.quantity}
+                        {total?.quantity || 0}
                       </span>
                       <p className="text-cost mb-0">
-                        $ {total.price.toLocaleString("en-US")}
+                        $ {total?.price.toLocaleString("en-US") || 0}
                       </p>
                     </div>
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -487,7 +503,18 @@ const Header = () => {
                     <span>Shop Categories</span>
                   </button>
                   <animated.ul style={expandAnimation} className="menu">
-                    <li>
+                    {categories?.map((item, index) => (
+                      <li key={index}>
+                        <Link
+                          className="dropdown-item text-white"
+                          to={`/our-store?category=${item?._id}`}
+                        >
+                          {item?.title}
+                        </Link>
+                      </li>
+                    ))}
+
+                    {/* <li>
                       <Link className="dropdown-item text-white" to="#">
                         Action
                       </Link>
@@ -511,7 +538,7 @@ const Header = () => {
                       <Link className="dropdown-item text-white" to="#">
                         Something else here
                       </Link>
-                    </li>
+                    </li> */}
                   </animated.ul>
                 </div>
                 <div className="menu-links">

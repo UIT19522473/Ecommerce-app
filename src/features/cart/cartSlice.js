@@ -7,9 +7,9 @@ const initialState = {
   //   data: null,
   //   mes: "",
   open: false,
-  listCart: [],
   itemChoose: null,
   type: "NEW",
+  listCart: [],
 };
 
 export const cartSlice = createSlice({
@@ -29,12 +29,16 @@ export const cartSlice = createSlice({
     addToCart: (state, action) => {
       const addQuantity =
         action.payload.quantity === 0 ? 1 : action.payload.quantity;
-      const findItemIndex = state.listCart.findIndex(
-        (item) =>
-          item.product?._id === action.payload.product?._id &&
-          item.variant.color === action.payload.variant?.color &&
-          item?.variant.size === action.payload.variant?.size
-      );
+      let findItemIndex = -1;
+
+      if (state.listCart.length > 0) {
+        findItemIndex = state.listCart.findIndex(
+          (item) =>
+            item.product?._id === action.payload.product?._id &&
+            item.variant.color === action.payload.variant?.color &&
+            item?.variant.size === action.payload.variant?.size
+        );
+      }
 
       if (findItemIndex === -1) {
         // Nếu không tìm thấy, thêm mới vào mảng
@@ -48,22 +52,26 @@ export const cartSlice = createSlice({
       }
     },
 
-    updateToCart: (state, action) => {
-      // const addQuantity =
-      //   action.payload.quantity === 0 ? 1 : action.payload.quantity;
-      const findItemIndex = state.listCart.findIndex(
-        (item) =>
-          item._id === action.payload._id &&
-          item.color[0] === action.payload.color[0]
-      );
+    updateQuantityToCart: (state, action) => {
+      let findItemIndex = -1;
+
+      if (state.listCart.length > 0) {
+        findItemIndex = state.listCart.findIndex(
+          (item) =>
+            item.product?._id === action.payload.product?._id &&
+            item.variant.color === action.payload.variant?.color &&
+            item?.variant.size === action.payload.variant?.size
+        );
+      }
 
       if (findItemIndex === -1) {
         // Nếu không tìm thấy, thêm mới vào mảng
         state.listCart = [...state.listCart, action.payload];
       } else {
         // Nếu tìm thấy, cập nhật phần tử tại vị trí đó
-
-        state.listCart[findItemIndex] = action.payload;
+        state.listCart[findItemIndex].quantity = action.payload.quantityChange
+          ? action.payload.quantityChange
+          : 1;
       }
     },
 
@@ -141,7 +149,7 @@ export const {
   closeCart,
   loadCartFromDB,
   addToCart,
-  updateToCart,
+  updateQuantityToCart,
   removeOneCart,
   chooseItemCart,
   removeItemCart,

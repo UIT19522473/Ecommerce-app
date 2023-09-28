@@ -53,9 +53,12 @@ const SpecialProduct = (props) => {
     setMainImg(url);
   };
 
-  const handleShowProduct = () => {
+  const handleShowProduct = (e) => {
     // console.log("test here");
-    navigate(`/product/${item._id}`); // Chuyển hướng đến trang /product/:idproduct
+    e.stopPropagation();
+    navigate(
+      `/product/${item._id}?color=${item?.variants[0].color}&size=${item?.variants[0].size}&quantity=1`
+    ); // Chuyển hướng đến trang /product/:idproduct
     dispatch(chooseItemCart({ item: item, type: "NEW" }));
   };
 
@@ -93,13 +96,8 @@ const SpecialProduct = (props) => {
     dispatch(addToCart(newItem));
 
     if (accessToken !== "") {
-      const content = {
-        productId: item?._id,
-        quantity: 1,
-        variant: item?.variants[0],
-      };
       await apiAddToCart({
-        content: content, // Use the updated cart here
+        content: { ...newItem }, // Use the updated cart here
         token: accessToken,
       });
     }
@@ -155,7 +153,7 @@ const SpecialProduct = (props) => {
   }, [targetDate]);
 
   return (
-    <div onClick={handleShowProduct} className="wrap-special-product">
+    <div onClick={(e) => handleShowProduct(e)} className="wrap-special-product">
       <div className="row special-product d-flex">
         <div className="special-product-img col-6">
           <div className="sp-img-main">
@@ -164,13 +162,13 @@ const SpecialProduct = (props) => {
                 -{item?.coupon?.value}%
               </div>
               <div className="wishlist-icon position-absolute">
-                <Link
+                <div
                   title="Add to wishlist"
                   onClick={(e) => handleWishlist(e)}
                   to={"#"}
                 >
                   <img src="images/wish.svg" alt="wishlist" />
-                </Link>
+                </div>
               </div>
               <div className="product-image">
                 <img
@@ -188,20 +186,20 @@ const SpecialProduct = (props) => {
                   {/* <Link to="#">
                     <img src="images/view.svg" alt="view" />
                   </Link> */}
-                  <Link
+                  <div
                     title="Add to compare"
                     onClick={(e) => handleComapre(e)}
                     to="#"
                   >
                     <img src="images/prodcompare.svg" alt="compare" />
-                  </Link>
-                  <Link
+                  </div>
+                  <div
                     title="Add to cart"
                     onClick={(e) => handleAddToCart(e)}
                     to="#"
                   >
                     <img src="images/add-cart.svg" alt="add-card" />
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -293,7 +291,7 @@ const SpecialProduct = (props) => {
               </div>
             </div>
           </div>
-          <Link className="button btn-option mt-3">Option</Link>
+          {/* <div className="button btn-option mt-3">Option</div> */}
         </div>
       </div>
     </div>

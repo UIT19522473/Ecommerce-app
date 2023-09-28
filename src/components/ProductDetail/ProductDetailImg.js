@@ -4,14 +4,15 @@ import { settingSubProductImg } from "../../pages/settingSlick";
 
 const ProductDetailImg = (props) => {
   const { product } = props;
-  console.log(product);
+  // console.log(product);
   const sliderRef = useRef(null);
 
   const [mainImg, setMainImg] = useState(null);
   useEffect(() => {
     setMainImg(
       // "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
-      product?.product?.images[0]
+      // product?.product?.images[0]
+      product?.images[0]
     );
   }, [product]);
 
@@ -57,14 +58,18 @@ const ProductDetailImg = (props) => {
               onClick={() =>
                 changeMainImg(
                   // "https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
-                  product?.product?.images[0]
+                  // product?.product?.images[0]
+                  product?.images[0]
                 )
               }
               className="img-small d-flex"
             >
               <img
                 // src="https://cdn.shopify.com/s/files/1/0620/5082/8457/products/09_00_260x.jpg?v=1655095991"
-                src={product?.product?.images[0]}
+                src={
+                  // product?.product?.images[0]
+                  product?.images[0]
+                }
                 alt="logo"
               />
             </div>
@@ -72,23 +77,37 @@ const ProductDetailImg = (props) => {
               onClick={() =>
                 changeMainImg(
                   // "/images/watch.jpg"
-                  product?.product?.images[1]
+                  // product?.product?.images[1]
+                  product?.images[1]
                 )
               }
               className="img-small d-flex"
             >
-              <img src={product?.product?.images[1]} alt="logo" />
+              <img
+                src={
+                  // product?.product?.images[1]
+                  product?.images[1]
+                }
+                alt="logo"
+              />
             </div>
             <div
               onClick={() =>
                 changeMainImg(
                   // "/images/watch.jpg"
-                  product?.product?.images[0]
+                  // product?.product?.images[0]
+                  product?.images[0]
                 )
               }
               className="img-small d-flex"
             >
-              <img src={product?.product?.images[0]} alt="logo" />
+              <img
+                src={
+                  // product?.product?.images[0]
+                  product?.images[0]
+                }
+                alt="logo"
+              />
             </div>
           </Slider>
         </div>

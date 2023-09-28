@@ -43,10 +43,31 @@ const apiGetColorSize = async (data) => {
   return response;
 };
 
+const apiRating = async (data) => {
+  const { token, content } = data;
+  const response = await axios.put(
+    `${process.env.REACT_APP_URL_SERVER_API}/product/ratings`,
+    { ...content },
+    { withCredentials: true, headers: { Authorization: `Bear ${token}` } }
+  );
+  return response;
+};
+
+const apiGetRatings = async (data) => {
+  const { pid } = data;
+  const response = await axios.get(
+    `${process.env.REACT_APP_URL_SERVER_API}/product/ratings/${pid}`,
+    { withCredentials: true }
+  );
+  return response;
+};
+
 export {
   apiGetAllProducts,
   apiGetOneProducts,
   apiFilterProducts,
   apiStockStatus,
   apiGetColorSize,
+  apiRating,
+  apiGetRatings,
 };

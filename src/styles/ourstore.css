@@ -128,10 +128,11 @@
   width: 25px;
   height: 25px;
   border-radius: 100%;
+  cursor: pointer;
 }
 
 .item-color--choose {
-  border: 2px solid gray;
+  border: 2px solid rgb(95, 95, 95);
   box-shadow: 0 0 10px #0000002a;
 }
 /* navbar ends here */
@@ -219,6 +220,7 @@
 }
 
 .number-page {
+  cursor: pointer;
   width: 30px;
   height: 30px;
   justify-content: center;
