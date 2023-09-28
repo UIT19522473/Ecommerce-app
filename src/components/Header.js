@@ -244,7 +244,7 @@ const Header = () => {
                       {listSearchProducts?.map((item, index) => (
                         <Link
                           // onClick={handleClickItem}
-                          to={`/product/${item?._id}`}
+                          to={`/product/${item?._id}?color=${item?.variants[0].color}&size=${item?.variants[0].size}&quantity=1`}
                           key={index}
                           className="text-black col-6 d-flex justify-content-center align-items-center my-2 result-search-item"
                         >
