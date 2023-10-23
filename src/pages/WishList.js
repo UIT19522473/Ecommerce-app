@@ -23,6 +23,7 @@ const WishList = () => {
 
   useEffect(() => {
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wishListRedux]);
 
   const handleResize = () => {
