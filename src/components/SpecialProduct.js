@@ -10,8 +10,11 @@ import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { apiAddToCart } from "../apis/apiCart";
+import { addWishlist, removeWishlist } from "../features/user/userSlice";
+import { apiAddToWishlist, apiDeleteWishlist } from "../apis/apiWishlist";
 
 const SpecialProduct = (props) => {
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const sliderRef = useRef(null);
   const navigate = useNavigate();
@@ -61,15 +64,10 @@ const SpecialProduct = (props) => {
     dispatch(chooseItemCart({ item: item, type: "NEW" }));
   };
 
-  //wish list
-  const handleWishlist = (e) => {
-    e.stopPropagation();
-  };
-
   //comapre
-  const handleComapre = (e) => {
-    e.stopPropagation();
-  };
+  // const handleComapre = (e) => {
+  //   e.stopPropagation();
+  // };
   //cart
   const accessToken = useSelector((state) => state.user?.accessToken);
   const handleAddToCart = async (e) => {
@@ -151,6 +149,37 @@ const SpecialProduct = (props) => {
     };
   }, [targetDate]);
 
+  const findIndex = user?.currentUser?.wishlist.findIndex(
+    (p) => p === item?._id
+  );
+
+  const handleWishlist = async (e) => {
+    e.stopPropagation();
+
+    if (user?.accessToken !== "") {
+      if (findIndex === -1) {
+        dispatch(addWishlist(item?._id));
+        await apiAddToWishlist({
+          content: { idProduct: item?._id },
+          token: accessToken,
+        });
+
+        toast.success("Added a product to your wishlist !", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 700,
+        });
+      } else {
+        dispatch(removeWishlist(item?._id));
+        await apiDeleteWishlist({
+          pid: item?._id,
+          token: accessToken,
+        });
+      }
+    } else {
+      alert("You must be logged in to add to your favorites list");
+    }
+  };
+
   return (
     <div onClick={(e) => handleShowProduct(e)} className="wrap-special-product">
       <div className="row special-product d-flex">
@@ -161,12 +190,16 @@ const SpecialProduct = (props) => {
                 -{item?.coupon?.value}%
               </div>
               <div className="wishlist-icon position-absolute">
-                <div
-                  title="Add to wishlist"
-                  onClick={(e) => handleWishlist(e)}
-                  to={"#"}
-                >
-                  <img src="images/wish.svg" alt="wishlist" />
+                <div title="Add to wishlist" onClick={(e) => handleWishlist(e)}>
+                  <img
+                    className="img-heart"
+                    src={
+                      findIndex !== -1
+                        ? "images/wishfill.svg"
+                        : "images/wish.svg"
+                    }
+                    alt="wishlist"
+                  />
                 </div>
               </div>
               <div className="product-image">
@@ -185,13 +218,13 @@ const SpecialProduct = (props) => {
                   {/* <Link to="#">
                     <img src="images/view.svg" alt="view" />
                   </Link> */}
-                  <div
+                  {/* <div
                     title="Add to compare"
                     onClick={(e) => handleComapre(e)}
                     to="#"
                   >
                     <img src="images/prodcompare.svg" alt="compare" />
-                  </div>
+                  </div> */}
                   <div
                     title="Add to cart"
                     onClick={(e) => handleAddToCart(e)}

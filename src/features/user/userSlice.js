@@ -25,6 +25,19 @@ export const userSlice = createSlice({
       state.accessToken = "";
       state.mes = "";
     },
+
+    removeWishlist: (state, action) => {
+      state.currentUser.wishlist = state.currentUser.wishlist.filter(
+        (item) => item !== action.payload
+      );
+    },
+
+    addWishlist: (state, action) => {
+      state.currentUser.wishlist = [
+        ...state.currentUser.wishlist,
+        action.payload,
+      ];
+    },
   },
 
   // Code logic xử lý async action
@@ -58,6 +71,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { logOut, newAccessToken } = userSlice.actions;
+export const { logOut, newAccessToken, addWishlist, removeWishlist } =
+  userSlice.actions;
 
 export default userSlice.reducer;

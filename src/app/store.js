@@ -8,6 +8,8 @@ import brandReducer from "../features/brands/brandSlice";
 import filterOurStoreReducer from "../features/filterOurStore/filterOurStore";
 import cardReducer from "../features/cart/cartSlice";
 
+import viewedProductsReducer from "../features/viewedProducts/viewedProductsSlice";
+
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Chọn storage engine (local storage, AsyncStorage, ...)
 const persistConfig = {
@@ -26,6 +28,7 @@ export const store = configureStore({
     getProduct: getOneProductReducer,
     brands: brandReducer,
     filterOurStore: filterOurStoreReducer,
+    viewedProducts: viewedProductsReducer,
   },
 });
 

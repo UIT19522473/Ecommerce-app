@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { apiAddToCart } from "../apis/apiCart";
+import { apiAddToWishlist, apiDeleteWishlist } from "../apis/apiWishlist";
+import { addWishlist, removeWishlist } from "../features/user/userSlice";
+import { addViewed } from "../features/viewedProducts/viewedProductsSlice";
 
 const ProductCard = (props) => {
   const dispatch = useDispatch();
@@ -31,16 +34,15 @@ const ProductCard = (props) => {
       `/product/${item._id}?color=${item?.variants[0].color}&size=${item?.variants[0].size}&quantity=1`
     ); // Chuyển hướng đến trang /product/:idproduct
     dispatch(chooseItemCart({ item: item, type: "NEW" }));
+    dispatch(addViewed(item));
   };
   //wish list
-  const handleWishlist = (e) => {
-    e.stopPropagation();
-  };
+  const user = useSelector((state) => state.user);
 
   //comapre
-  const handleComapre = (e) => {
-    e.stopPropagation();
-  };
+  // const handleComapre = (e) => {
+  //   e.stopPropagation();
+  // };
   //handle add to cart
 
   const accessToken = useSelector((state) => state.user?.accessToken);
@@ -75,6 +77,37 @@ const ProductCard = (props) => {
     }
   };
 
+  const findIndex = user?.currentUser?.wishlist.findIndex(
+    (p) => p === item?._id
+  );
+
+  const handleWishlist = async (e) => {
+    e.stopPropagation();
+
+    if (user?.accessToken !== "") {
+      if (findIndex === -1) {
+        dispatch(addWishlist(item?._id));
+        await apiAddToWishlist({
+          content: { idProduct: item?._id },
+          token: accessToken,
+        });
+
+        toast.success("Added a product to your wishlist !", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 700,
+        });
+      } else {
+        dispatch(removeWishlist(item?._id));
+        await apiDeleteWishlist({
+          pid: item?._id,
+          token: accessToken,
+        });
+      }
+    } else {
+      alert("You must be logged in to add to your favorites list");
+    }
+  };
+
   return (
     <div
       onClick={handleShowProduct}
@@ -95,26 +128,36 @@ const ProductCard = (props) => {
             } position-relative`}
           >
             <div className="wishlist-icon position-absolute">
-              <Link
-                onClick={(e) => handleWishlist(e)}
+              <button
+                style={{
+                  border: "none",
+                  backgroundColor: "white",
+                }}
+                onClick={handleWishlist}
                 title="Add to wishlist"
-                to={"#"}
+                // to={"#"}
               >
-                <img src="images/wish.svg" alt="wishlist" />
-              </Link>
+                <img
+                  className="img-heart"
+                  src={
+                    findIndex !== -1 ? "images/wishfill.svg" : "images/wish.svg"
+                  }
+                  alt="wishlist"
+                />
+              </button>
             </div>
             <div className="action-bar position-absolute">
               <div className="d-flex flex-column gap-15">
                 {/* <Link title="" to="#">
                   <img src="images/view.svg" alt="view" />
                 </Link> */}
-                <Link
+                {/* <Link
                   onClick={(e) => handleComapre(e)}
                   title="Add to compare"
                   to="#"
                 >
                   <img src="images/prodcompare.svg" alt="compare" />
-                </Link>
+                </Link> */}
                 <Link
                   onClick={(e) => handleAddToCart(e)}
                   title="Add to cart"

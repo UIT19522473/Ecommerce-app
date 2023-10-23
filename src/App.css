@@ -19,6 +19,11 @@ p {
   --color-1c1c1b: #1c1c1b;
 }
 
+.img-heart {
+  width: 16px;
+  height: 16px;
+}
+
 .section-heading {
   font-size: 26px;
   line-height: 32px;

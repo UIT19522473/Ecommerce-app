@@ -16,7 +16,7 @@ const BlogCard = () => {
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis,
             asperiores.
           </p>
-          <Link className="button" to="/">
+          <Link className="button mt-2" to="/">
             Read More
           </Link>
         </div>

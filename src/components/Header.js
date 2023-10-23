@@ -141,6 +141,14 @@ const Header = () => {
     fetchCart();
   }, [dispatch, user?.accessToken]);
 
+  const handleWishlist = () => {
+    navigate("/wishlist");
+  };
+
+  const handleViewed = () => {
+    navigate("/viewed-products");
+  };
+
   return (
     <>
       <header className="header-top-strip py-3">
@@ -299,21 +307,31 @@ const Header = () => {
             <div className="col-xl-5 col-lg-3 col-sm-4 col-5">
               <div className="header-upper-link d-flex align-items-center justify-content-between">
                 <div>
-                  <div className="d-flex align-items-center gap-10 text-white item-right-header">
-                    <img
+                  <div
+                    onClick={handleViewed}
+                    className="d-flex align-items-center gap-10 text-white item-right-header"
+                  >
+                    {/* <img
                       className="img-item"
-                      src="/images/compare.svg"
-                      alt="compare"
-                    />
+                      // src="/images/compare.svg"
+                      src="/images/view.svg"
+                      alt="viewed"
+                    /> */}
+                    <span className="material-symbols-outlined img-item fs-1">
+                      visibility
+                    </span>
                     <p className="text-item mb-0">
-                      Compare <br />
+                      Viewed <br />
                       Products
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <div className="d-flex align-items-center gap-10 text-white item-right-header">
+                  <div
+                    onClick={handleWishlist}
+                    className="d-flex align-items-center gap-10 text-white item-right-header"
+                  >
                     <img
                       className="img-item"
                       src="/images/wishlist.svg"
@@ -380,9 +398,7 @@ const Header = () => {
                       ) : (
                         <>
                           <li className="dropdown-item pb-2">
-                            <Link className=" text-white text-start" to="#">
-                              My account
-                            </Link>
+                            <p className=" text-white text-start">My account</p>
                           </li>
                           <li
                             onClick={handleLogOut}

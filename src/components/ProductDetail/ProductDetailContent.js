@@ -17,6 +17,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { apiAddToCart, apiRemoveCart } from "../../apis/apiCart";
 import { apiCreatePayment } from "../../apis/apiPayment";
+import { addWishlist, removeWishlist } from "../../features/user/userSlice";
+import { apiAddToWishlist, apiDeleteWishlist } from "../../apis/apiWishlist";
 
 //fix here
 const getColorUnique = (variants) => {
@@ -199,6 +201,40 @@ const ProductDetailContent = (props) => {
       }
     }
   };
+
+  const user = useSelector((state) => state.user);
+
+  const findIndex = user?.currentUser?.wishlist.findIndex(
+    (p) => p === product?._id
+  );
+
+  const handleWishlist = async (e) => {
+    e.stopPropagation();
+    const item = product;
+
+    if (user?.accessToken !== "") {
+      if (findIndex === -1) {
+        dispatch(addWishlist(item?._id));
+        await apiAddToWishlist({
+          content: { idProduct: item?._id },
+          token: accessToken,
+        });
+
+        toast.success("Added a product to your wishlist !", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 700,
+        });
+      } else {
+        dispatch(removeWishlist(item?._id));
+        await apiDeleteWishlist({
+          pid: item?._id,
+          token: accessToken,
+        });
+      }
+    } else {
+      alert("You must be logged in to add to your favorites list");
+    }
+  };
   return (
     <div className="col-6 product-detail-content">
       <h2 className="product-detail-content-name">{product?.title}</h2>
@@ -338,15 +374,24 @@ const ProductDetailContent = (props) => {
       </div>
 
       <div className="product-detail-content-wishcompare d-flex gap-4 mt-4">
-        <dir className="d-flex items-center gap-1 cursor-pointer">
-          <img src="/images/wish.svg" alt="wishlist" />
+        <button
+          onClick={handleWishlist}
+          style={{ backgroundColor: "white" }}
+          className="d-flex align-items-center border-0 gap-1 "
+        >
+          {/* <img src="/images/wish.svg" alt="wishlist" /> */}
+          <img
+            className="img-heart"
+            src={findIndex !== -1 ? "/images/wishfill.svg" : "/images/wish.svg"}
+            alt="wishlist"
+          />
           <p>Add to wishlist</p>
-        </dir>
+        </button>
 
-        <div className="d-flex items-center gap-1 cursor-pointer">
+        {/* <div className="d-flex items-center gap-1 cursor-pointer">
           <img src="/images/prodcompare.svg" alt="compare" />
           <p>Add to compare</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
