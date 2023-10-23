@@ -77,9 +77,12 @@ const ProductCard = (props) => {
     }
   };
 
-  const findIndex = user?.currentUser?.wishlist.findIndex(
-    (p) => p === item?._id
-  );
+  let findIndex = -1;
+
+  const wishlist = user?.currentUser?.wishlist;
+  if (wishlist) {
+    findIndex = user?.currentUser?.wishlist.findIndex((p) => p === item?._id);
+  }
 
   const handleWishlist = async (e) => {
     e.stopPropagation();
