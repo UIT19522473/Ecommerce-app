@@ -15,6 +15,7 @@ import SuccessPayment from "./pages/SuccessPayment";
 import ViewCart from "./pages/ViewCart";
 import WishList from "./pages/WishList";
 import ViewedProducts from "./pages/ViewedProducts";
+import Blogs from "./pages/Blogs";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
+            <Route path="blogs" element={<Blogs />} />
             <Route path="contact" element={<Contact />} />
             <Route path="our-store" element={<OurStore />} />
             <Route path="product/:pid" element={<ProductDetail />} />

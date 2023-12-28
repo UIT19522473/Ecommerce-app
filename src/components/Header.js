@@ -78,12 +78,6 @@ const Header = () => {
     dispatch(updateTitleOurStore(inputSearch));
   };
 
-  // useEffect(() => {
-  //   if (showResults) {
-  //     searchContainerRef.current.focus(); // Tập trung vào container khi hiển thị kết quả tìm kiếm
-  //   }
-  // }, [showResults]);
-
   // xu li khi click ra ngoai search input
   const handleDocumentClick = (event) => {
     if (
@@ -200,7 +194,7 @@ const Header = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className=" text-white" to="#">
+                  <Link className=" text-white" to="/blogs">
                     BLOGS
                   </Link>
                 </li>
@@ -538,39 +532,13 @@ const Header = () => {
                         </Link>
                       </li>
                     ))}
-
-                    {/* <li>
-                      <Link className="dropdown-item text-white" to="#">
-                        Action
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item text-white" to="#">
-                        Another action
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item text-white" to="#">
-                        Something else here
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item text-white" to="#">
-                        Something else here
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item text-white" to="#">
-                        Something else here
-                      </Link>
-                    </li> */}
                   </animated.ul>
                 </div>
                 <div className="menu-links">
                   <div className="d-flex align-items-center gap-15">
                     <NavLink to="/">Home</NavLink>
                     <NavLink to="/our-store">Our Store</NavLink>
-                    <NavLink to="/">Blogs</NavLink>
+                    <NavLink to="/blogs">Blogs</NavLink>
                     <NavLink to="/contact">Contact</NavLink>
                   </div>
                 </div>

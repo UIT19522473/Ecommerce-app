@@ -1,0 +1,29 @@
+.wrap-contact {
+  box-shadow: 0 0 10px #0000002a;
+  border-radius: 12px;
+}
+
+.contact-with-us-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.contact-with-us-row a {
+  color: gray;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.btn-contact-submit {
+  background-color: var(--color-131921);
+  border: none;
+  border-radius: 16px;
+  padding: 8px 24px;
+  transition: all 0.3s ease;
+}
+
+.btn-contact-submit:hover {
+  background-color: var(--color-3b4149);
+}
