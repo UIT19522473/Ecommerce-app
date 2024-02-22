@@ -13,6 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../features/products/productAsyncThunk";
 import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 import Category from "../components/Category";
+import ProductLoader from "../components/ContentLoader/ProductLoader";
+import CategoryLoader from "../components/ContentLoader/CategoryLoader";
+import ContentLoader from "react-content-loader";
 // import { apiGetAllProducts } from "../apis/apiProduct";
 
 const Home = () => {
@@ -244,15 +247,23 @@ const Home = () => {
                       <Category item={item} key={index} />
                     ))}
                 </Slider>
-
-                {/* <Slider {...SettingSlick.settingCategories}>
-                  {categories.reverse()?.map((item, index) => (
-                    <Category item={item} index={index} />
-                  ))}
-                </Slider> */}
               </>
             ) : (
-              <></>
+              <>
+                <Slider {...SettingSlick.settingCategories}>
+                  <CategoryLoader />
+                  <CategoryLoader />
+                  <CategoryLoader />
+                  <CategoryLoader />
+                </Slider>
+
+                <Slider {...SettingSlick.settingCategories}>
+                  <CategoryLoader />
+                  <CategoryLoader />
+                  <CategoryLoader />
+                  <CategoryLoader />
+                </Slider>
+              </>
             )}
           </div>
         </div>
@@ -278,14 +289,28 @@ const Home = () => {
                 </button>
               </div>
             </div>
-
-            <Slider ref={sliderRef} {...SettingSlick.settingProductCards}>
-              {products
-                ?.filter((item) => item?.tags?.includes("feature"))
-                ?.map((item, index) => (
-                  <ProductCard item={item} key={index} />
-                ))}
-            </Slider>
+            {products ? (
+              <>
+                <Slider ref={sliderRef} {...SettingSlick.settingProductCards}>
+                  {products
+                    ?.filter((item) => item?.tags?.includes("feature"))
+                    ?.map((item, index) => (
+                      <ProductCard item={item} key={index} />
+                    ))}
+                </Slider>
+              </>
+            ) : (
+              <>
+                <Slider ref={sliderRef} {...SettingSlick.settingProductCards}>
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                </Slider>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -370,18 +395,28 @@ const Home = () => {
                 </Slider>
               </>
             ) : (
-              <></>
-            )}
+              <>
+                <Slider
+                  ref={sliderRefSpecial}
+                  {...SettingSlick.settingSpecialProducts}
+                >
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                </Slider>
 
-            {/* <Slider
-              ref={sliderRefSpecial2}
-              {...SettingSlick.settingSpecialProducts}
-            >
-              <SpecialProduct />
-              <SpecialProduct />
-              <SpecialProduct />
-              <SpecialProduct />
-            </Slider> */}
+                <Slider
+                  ref={sliderRefSpecial2}
+                  {...SettingSlick.settingSpecialProducts}
+                >
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                  <ProductLoader />
+                </Slider>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -445,20 +480,32 @@ const Home = () => {
                   />
                 </div>
                 <div className="col-lg-6 col-md-8 col-sm-6 col-7">
-                  <Slider
-                    ref={sliderRefPopular}
-                    {...SettingSlick.settingPopular}
-                  >
-                    {products
-                      ?.filter((item) => item?.tags?.includes("popular"))
-                      ?.map((item, index) => (
-                        <ProductCard item={item} key={index} />
-                      ))}
-                    {/* <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard /> */}
-                  </Slider>
+                  {products ? (
+                    <>
+                      <Slider
+                        ref={sliderRefPopular}
+                        {...SettingSlick.settingPopular}
+                      >
+                        {products
+                          ?.filter((item) => item?.tags?.includes("popular"))
+                          ?.map((item, index) => (
+                            <ProductCard item={item} key={index} />
+                          ))}
+                      </Slider>
+                    </>
+                  ) : (
+                    <>
+                      <Slider
+                        ref={sliderRefPopular}
+                        {...SettingSlick.settingPopular}
+                      >
+                        <ProductLoader />
+                        <ProductLoader />
+                        <ProductLoader />
+                        <ProductLoader />
+                      </Slider>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

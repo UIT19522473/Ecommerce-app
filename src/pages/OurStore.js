@@ -13,6 +13,7 @@ import {
 } from "../features/filterOurStore/filterOurStore";
 import { useLocation } from "react-router-dom";
 import { getFilterProducts } from "../features/filterOurStore/filterAsyncThunk";
+import ProductLoader from "../components/ContentLoader/ProductLoader";
 
 const BtnView = ({ colType, col, setCol, children }) => {
   const fcs = colType === col ? true : false;
@@ -217,7 +218,20 @@ const OurStore = () => {
                   ))}
                 </>
               ) : (
-                <></>
+                <>
+                  <div className="col-12 col-sm-6 col-lg-3 mt-3 mb-5">
+                    <ProductLoader />
+                  </div>
+                  <div className="col-12 col-sm-6 col-lg-3 mt-3 mb-5">
+                    <ProductLoader />
+                  </div>
+                  <div className="col-12 col-sm-6 col-lg-3 mt-3 mb-5">
+                    <ProductLoader />
+                  </div>
+                  <div className="col-12 col-sm-6 col-lg-3 mt-3 mb-5">
+                    <ProductLoader />
+                  </div>
+                </>
               )}
             </div>
             <Pagination />
