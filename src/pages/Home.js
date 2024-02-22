@@ -15,8 +15,6 @@ import { getAllCategories } from "../features/categories/categoryAsyncThunk";
 import Category from "../components/Category";
 import ProductLoader from "../components/ContentLoader/ProductLoader";
 import CategoryLoader from "../components/ContentLoader/CategoryLoader";
-import ContentLoader from "react-content-loader";
-// import { apiGetAllProducts } from "../apis/apiProduct";
 
 const Home = () => {
   const dispatch = useDispatch();
